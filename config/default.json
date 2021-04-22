@@ -1,3 +1,4 @@
 {
-  "mongoURI": "mongodb+srv://demo123:demo123@letsgetit.kjoon.mongodb.net/letsgetIT?retryWrites=true&w=majority"
+  "mongoURI": "mongodb+srv://demo123:demo123@letsgetit.kjoon.mongodb.net/letsgetIT?retryWrites=true&w=majority",
+  "jwtSecret": "verysecrettoken"
 }
