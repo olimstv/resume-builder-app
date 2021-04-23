@@ -103,7 +103,7 @@ router.post(
 );
 
 // @route   PUT api/profile/experience/
-// @desc    Update an experience data of a profile
+// @desc    Add an experience data of a profile
 // @access  Private
 router.put(
   '/experience',
@@ -158,6 +158,67 @@ router.put(
     }
   }
 );
+
+// @route   DELETE api/profile/experience/:id
+// @desc    Delete an experience data from a profile
+// @access  Private
+router.delete('/experience/:id', auth, async (req, res) => {
+  try {
+    let profile = await Profile.findOne({ user: req.user.id });
+
+    // Get remove index
+    const removeIndex = profile.experience
+      .map(exp => exp.id)
+      .indexOf(req.params.id);
+
+    profile.experience.splice(removeIndex, 1);
+
+    await profile.save();
+
+    res.json(profile);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
+
+// @route   PUT api/profile/education/
+// @desc    Add an education data of a profile
+// @access  Private
+router.put('/education', auth, async (req, res) => {
+  // Destructuring request data
+  const {
+    school,
+    degree,
+    fieldofstudy,
+    from,
+    to,
+    current,
+    description
+  } = req.body;
+  const newEducation = {
+    school,
+    degree,
+    fieldofstudy,
+    from,
+    to,
+    current,
+    description
+  };
+
+  try {
+    const profile = await Profile.findOne({ user: req.user.id });
+
+    profile.education.unshift(newEducation);
+
+    await profile.save();
+
+    res.json(profile);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
 
 // @route   DELETE api/profile/experience/:id
 // @desc    Delete an experience data from a profile
