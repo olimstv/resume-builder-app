@@ -25,6 +25,20 @@ const ProfileSchema = new mongoose.Schema({
   githubusername: {
     type: String
   },
+  website: {
+    type: String
+  },
+  contacts: [
+    {
+      phone: {
+        type: String
+      },
+      email: {
+        type: String,
+        required: true
+      }
+    }
+  ],
   experience: [
     {
       title: {
@@ -84,35 +98,6 @@ const ProfileSchema = new mongoose.Schema({
       }
     }
   ],
-  social: {
-    youtube: {
-      type: String
-    },
-    twitter: {
-      type: String
-    },
-    facebook: {
-      type: String
-    },
-    linkedin: {
-      type: String
-    },
-    instagram: {
-      type: String
-    },
-    codepen: {
-      type: String
-    },
-    codesandbox: {
-      type: String
-    },
-    blog: {
-      type: String
-    },
-    website: {
-      type: String
-    }
-  },
   date: {
     type: Date,
     default: Date.now

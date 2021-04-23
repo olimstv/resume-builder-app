@@ -8,15 +8,17 @@ const app = express();
 connectDB();
 
 // Init Middleware
-app.use(express.json());
+app.use(express.json({ extended: false }));
 
 app.get('/', (req, res) => res.send('API Running'));
 
 // Define Routes
 app.use('/api/users', require('./routes/api/users'));
-app.use('/api/profiles', require('./routes/api/profiles'));
+app.use('/api/profile', require('./routes/api/profile'));
 app.use('/api/auth', require('./routes/api/auth'));
 app.use('/api/resumes', require('./routes/api/resumes'));
+app.use('/api/objectives', require('./routes/api/objectives'));
+app.use('/api/objectives/:id', require('./routes/api/objectives'));
 const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {
