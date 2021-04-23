@@ -164,7 +164,7 @@ router.put(
 // @access  Private
 router.delete('/experience/:id', auth, async (req, res) => {
   try {
-    let profile = await Profile.findOne({ user: req.user.id });
+    const profile = await Profile.findOne({ user: req.user.id });
 
     // Get remove index
     const removeIndex = profile.experience
@@ -220,26 +220,23 @@ router.put('/education', auth, async (req, res) => {
   }
 });
 
-// @route   DELETE api/profile/experience/:id
-// @desc    Delete an experience data from a profile
+// @route   DELETE api/profile/education/:id
+// @desc    Delete an education data from a profile
 // @access  Private
-router.delete('/experience/:id', auth, async (req, res) => {
+router.delete('/education/:id', auth, async (req, res) => {
   try {
-    let profile = await Profile.findOne({ user: req.user.id });
-
+    const profile = await Profile.findOne({ user: req.user.id });
     // Get remove index
-    const removeIndex = profile.experience
-      .map(exp => exp.id)
+    const removeIndex = profile.education
+      .map(instance => instance.id)
       .indexOf(req.params.id);
 
-    profile.experience.splice(removeIndex, 1);
-
+    profile.education.splice(removeIndex, 1);
     await profile.save();
-
     res.json(profile);
   } catch (err) {
     console.error(err.message);
-    res.status(500).send('Server Error');
+    res.status(500).json('Server Error');
   }
 });
 
