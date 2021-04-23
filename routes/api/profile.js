@@ -102,18 +102,20 @@ router.post(
   }
 );
 
-// @route   PUT api/profile/experience
-// @desc    Update experience data of a profile
+// @route   PUT api/profile/experience/
+// @desc    Update an experience data of a profile
 // @access  Private
 router.put(
   '/experience',
   [
     auth,
     [
-      check('title', 'Title is required').not().isEmpty(),
-      check('company', 'Company is required').not().isEmpty(),
-      check('from', 'From date is required').not().isEmpty(),
-      check('description', 'Description is required').not().isEmpty()
+      check('title', 'Title is required').notEmpty(),
+      check('company', 'Company is required').notEmpty(),
+      check(
+        'from',
+        'From date is required and needs to be from the past'
+      ).notEmpty()
     ]
   ],
   async (req, res) => {
@@ -156,6 +158,29 @@ router.put(
     }
   }
 );
+
+// @route   DELETE api/profile/experience/:id
+// @desc    Delete an experience data from a profile
+// @access  Private
+router.delete('/experience/:id', auth, async (req, res) => {
+  try {
+    let profile = await Profile.findOne({ user: req.user.id });
+
+    // Get remove index
+    const removeIndex = profile.experience
+      .map(exp => exp.id)
+      .indexOf(req.params.id);
+
+    profile.experience.splice(removeIndex, 1);
+
+    await profile.save();
+
+    res.json(profile);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
 
 // @route   DELETE api/profile
 // @desc    Delete Profile, User and Resumes
