@@ -13,6 +13,9 @@
   "author": "Oleksii Mostovyi",
   "license": "MIT",
   "dependencies": {
+    "@material-ui/core": "^4.11.3",
+    "@material-ui/icons": "^4.11.2",
+    "axios": "^0.21.1",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
     "config": "^3.3.6",
@@ -20,8 +23,15 @@
     "express-validator": "^6.10.0",
     "gravatar": "^1.8.1",
     "jsonwebtoken": "^8.5.1",
+    "moment": "^2.29.1",
     "mongoose": "^5.12.5",
-    "multer": "^1.4.2"
+    "multer": "^1.4.2",
+    "react-moment": "^1.1.1",
+    "react-redux": "^7.2.3",
+    "react-router-dom": "^5.2.0",
+    "redux": "^4.0.5",
+    "redux-devtools-extension": "^2.13.9",
+    "redux-thunk": "^2.3.0"
   },
   "devDependencies": {
     "concurrently": "^6.0.2",
