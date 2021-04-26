@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -30,7 +30,7 @@ export default function ButtonAppBar() {
   const classes = useStyles();
 
   return (
-    <div className={classes.root}>
+    <Fragment className={classes.root}>
       <AppBar position="static">
         <Toolbar>
           <IconButton
@@ -54,6 +54,6 @@ export default function ButtonAppBar() {
           </Go>
         </Toolbar>
       </AppBar>
-    </div>
+    </Fragment>
   );
 }

@@ -1,19 +1,21 @@
-import React from 'react';
+import React, { Fragment, useState } from 'react';
 
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
+
 import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
+import {
+  makeStyles,
+  ThemeProvider,
+  withStyles,
+} from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import Header from '../layout/Header';
 
 function Copyright() {
   return (
@@ -46,8 +48,8 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
     borderRadius: 5,
     padding: '40px 20px',
-    // backgroundColor: 'rgba(255, 255, 255, .7)',
-    backgroundColor: 'rgba(0, 0, 0, .7)',
+    backgroundColor: 'rgba(255, 255, 255, .7)',
+    // backgroundColor: 'rgba(0, 0, 0, .7)',
   },
   avatar: {
     margin: theme.spacing(1),
@@ -65,8 +67,23 @@ const useStyles = makeStyles((theme) => ({
 export default function Login() {
   const classes = useStyles();
 
+  const [formData, setFormData] = useState({
+    email: '',
+    password: '',
+  });
+
+  const { email, password } = formData;
+
+  const onChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+  const onSubmit = async (e) => {
+    e.preventDefault();
+    console.log('SUCCESS');
+  };
+
   return (
-    <div>
+    <Fragment>
       <CssBaseline />
       {/* <Header /> */}
       <Container className={classes.root} component="main" maxWidth="sm">
@@ -79,6 +96,7 @@ export default function Login() {
           </Typography>
           <form className={classes.form} noValidate>
             <TextField
+              classNam={classes.inputLabel}
               variant="outlined"
               margin="normal"
               required
@@ -131,6 +149,6 @@ export default function Login() {
           <Copyright />
         </Box>
       </Container>
-    </div>
+    </Fragment>
   );
 }

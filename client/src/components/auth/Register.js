@@ -1,11 +1,9 @@
-import React from 'react';
+import React, { Fragment, useState } from 'react';
 
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
 import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
@@ -13,7 +11,7 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import Header from '../layout/Header';
+import axios from 'axios';
 
 function Copyright() {
   return (
@@ -64,8 +62,45 @@ const useStyles = makeStyles((theme) => ({
 export default function Register() {
   const classes = useStyles();
 
+  const [formData, setFormData] = useState({
+    firstName: '',
+    lastName: '',
+    email: '',
+    password: '',
+    password2: '',
+  });
+
+  const { firstName, lastName, email, password, password2 } = formData;
+
+  const onChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+  const onSubmit = async (e) => {
+    e.preventDefault();
+
+    if (password !== password2) {
+      console.log('Passwords do not match');
+    } else {
+      const newUser = {
+        firstName,
+        lastName,
+        email,
+        password,
+      };
+      try {
+        const config = {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        };
+        const body = JSON.stringify(newUser);
+      } catch (err) {
+        console.error(err.response.data);
+      }
+    }
+  };
   return (
-    <div>
+    <Fragment>
       <Container className={classes.root} component="main" maxWidth="sm">
         <CssBaseline />
         <div className={classes.paper}>
@@ -75,13 +110,19 @@ export default function Register() {
           <Typography component="h1" variant="h5">
             Sign up
           </Typography>
-          <form className={classes.form} noValidate>
+          <form
+            className={classes.form}
+            noValidate
+            onSubmit={(e) => onSubmit(e)}
+          >
             <Grid container spacing={2}>
               <Grid item xs={12} sm={6}>
                 <TextField
-                  autoComplete="fname"
+                  // autoComplete="fname"
                   name="firstName"
                   variant="outlined"
+                  value={firstName}
+                  onChange={(e) => onChange(e)}
                   required
                   fullWidth
                   id="firstName"
@@ -92,23 +133,27 @@ export default function Register() {
               <Grid item xs={12} sm={6}>
                 <TextField
                   variant="outlined"
+                  value={lastName}
+                  onChange={(e) => onChange(e)}
                   required
                   fullWidth
                   id="lastName"
                   label="Last Name"
                   name="lastName"
-                  autoComplete="lname"
+                  // autoComplete="lname"
                 />
               </Grid>
               <Grid item xs={12}>
                 <TextField
                   variant="outlined"
+                  value={email}
+                  onChange={(e) => onChange(e)}
                   required
                   fullWidth
                   id="email"
                   label="Email Address"
                   name="email"
-                  autoComplete="email"
+                  // autoComplete="email"
                 />
               </Grid>
               <Grid item xs={12}>
@@ -116,11 +161,27 @@ export default function Register() {
                   variant="outlined"
                   required
                   fullWidth
+                  value={password}
+                  onChange={(e) => onChange(e)}
                   name="password"
                   label="Password"
                   type="password"
                   id="password"
-                  autoComplete="current-password"
+                  // autoComplete="current-password"
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  variant="outlined"
+                  required
+                  fullWidth
+                  value={password2}
+                  onChange={(e) => onChange(e)}
+                  name="password2"
+                  label="Confirm Password"
+                  type="password"
+                  id="password2"
+                  // autoComplete="current-password"
                 />
               </Grid>
               {/* <Grid item xs={12}>
@@ -152,6 +213,6 @@ export default function Register() {
           <Copyright />
         </Box>
       </Container>
-    </div>
+    </Fragment>
   );
 }

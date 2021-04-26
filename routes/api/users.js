@@ -15,14 +15,15 @@ const User = require('../../models/User');
 router.post(
   '/',
   [
-    check('name', 'Name is required').not().isEmpty(),
+    check('firstName', 'First Name is required').not().isEmpty(),
+    check('lastName', 'Last Name is required').not().isEmpty(),
     check('email', 'Please include a valid email').isEmail(),
     check(
       'password',
-      'Please enter a password with 6 or more characters'
+      'Please enter a password with 6 or more characters',
     ).isLength({
-      min: 6
-    })
+      min: 6,
+    }),
   ],
   async (req, res) => {
     const errors = validationResult(req);
@@ -30,7 +31,7 @@ router.post(
       return res.status(400).json({ errors: errors.array() });
     }
 
-    const { name, email, password } = req.body;
+    const { firstName, lastName, email, password } = req.body;
 
     try {
       // Check if user exists
@@ -44,14 +45,15 @@ router.post(
       const avatar = gravatar.url(email, {
         s: '200',
         r: 'pg',
-        d: 'mm'
+        d: 'mm',
       });
       // Create new user
       user = new User({
-        name,
+        firstName,
+        lastName,
         email,
         avatar,
-        password
+        password,
       });
       // Encrypt password (using bcrypt):
       // - generate salt
@@ -64,8 +66,8 @@ router.post(
       // Return jwt
       const payload = {
         user: {
-          id: user.id
-        }
+          id: user.id,
+        },
       };
       // TODO: after deployment change 'expiresIn' to 3600
       jwt.sign(
@@ -75,13 +77,13 @@ router.post(
         (err, token) => {
           if (err) throw err;
           res.json({ token });
-        }
+        },
       );
     } catch (err) {
       console.error(err.message);
       res.status(500).send('Server error');
     }
-  }
+  },
 );
 
 module.exports = router;

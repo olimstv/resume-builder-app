@@ -1,17 +1,8 @@
 import React from 'react';
-import {
-  Card,
-  CardActionArea,
-  CardActions,
-  CardContent,
-  Container,
-  styled,
-} from '@material-ui/core';
-import { Link as Go, NavLink } from 'react-router-dom';
+import { Card, CardActions, CardContent, Container } from '@material-ui/core';
+import { Link as Go } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import { CssBaseline, Typography, Button } from '@material-ui/core';
-import Header from './Header';
-import theme from '../../themes/theme';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -36,9 +27,9 @@ const useStyles = makeStyles((theme) => ({
     textDecoration: 'none',
   },
 }));
-const StyledLink = styled(Go)`
-  text-decoration: none;
-`;
+// const StyledLink = styled(Go)`
+//   text-decoration: none;
+// `;
 
 const Landing = () => {
   const classes = useStyles();

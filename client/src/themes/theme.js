@@ -19,11 +19,6 @@ const theme = createMuiTheme({
       primary: '#fff',
       secondary: 'rgba(0, 0, 0, 0.54)',
     },
-    background: {
-      default: '#fafafa',
-      paper: '#fff',
-      Divider: 'rgba(0, 0, 0, 0.12)',
-    },
     contrastThreshold: 3,
     tonalOffset: 0.2,
   },
