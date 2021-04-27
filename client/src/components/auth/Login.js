@@ -1,5 +1,8 @@
 import React, { Fragment, useState } from 'react';
-
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { setAlert } from '../../actions/alert';
+import { login } from '../../actions/auth';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -16,6 +19,7 @@ import {
   withStyles,
 } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import { Redirect } from 'react-router';
 
 function Copyright() {
   return (
@@ -64,7 +68,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Login() {
+const Login = ({ login, isAuthenticated }) => {
   const classes = useStyles();
 
   const [formData, setFormData] = useState({
@@ -79,8 +83,14 @@ export default function Login() {
   };
   const onSubmit = async (e) => {
     e.preventDefault();
-    console.log('SUCCESS');
+
+    login(email, password);
   };
+
+  // Redirect if loged in
+  if (isAuthenticated) {
+    return <Redirect to="/dashboard" />;
+  }
 
   return (
     <Fragment>
@@ -92,14 +102,18 @@ export default function Login() {
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Sign in
+            Log In
           </Typography>
-          <form className={classes.form} noValidate>
+          <form
+            className={classes.form}
+            noValidate
+            onSubmit={(e) => onSubmit(e)}
+          >
             <TextField
-              classNam={classes.inputLabel}
+              onChange={(e) => onChange(e)}
               variant="outlined"
               margin="normal"
-              required
+              // required
               fullWidth
               id="email"
               label="Email Address"
@@ -108,6 +122,7 @@ export default function Login() {
               autoFocus
             />
             <TextField
+              onChange={(e) => onChange(e)}
               variant="outlined"
               margin="normal"
               required
@@ -129,7 +144,7 @@ export default function Login() {
               color="primary"
               className={classes.submit}
             >
-              Sign In
+              Log In
             </Button>
             <Grid container>
               {/* <Grid item xs>
@@ -151,4 +166,16 @@ export default function Login() {
       </Container>
     </Fragment>
   );
-}
+};
+
+Login.propTypes = {
+  setAlert: PropTypes.func.isRequired,
+  login: PropTypes.func.isRequired,
+  isAuthenticated: PropTypes.bool,
+};
+
+const mapStateToProps = (state) => ({
+  isAuthenticated: state.auth.isAuthenticated,
+});
+
+export default connect(mapStateToProps, { login })(Login);

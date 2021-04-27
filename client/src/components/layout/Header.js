@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
     // justifyContent: 'center',
   },
   appbar: {
-    marginTop: theme.spacing(1),
+    //marginTop: theme.spacing(1),
     background: 'none',
   },
   appbarWrapper: {
@@ -51,7 +51,7 @@ export default function Header() {
     <Fragment>
       <CssBaseline />
 
-      <AppBar className={classes.appbar} elevation={0}>
+      <AppBar position="relative" className={classes.appbar} elevation={0}>
         <Toolbar className={classes.appbarWrapper}>
           <Link href="/welcome">
             {' '}
@@ -59,9 +59,9 @@ export default function Header() {
               Let's Get <span className={classes.colorText}>It</span>
             </Typography>
           </Link>
-          <IconButton>
+          {/* <IconButton>
             <SortIcon className={classes.icon} />
-          </IconButton>
+          </IconButton> */}
         </Toolbar>
       </AppBar>
     </Fragment>

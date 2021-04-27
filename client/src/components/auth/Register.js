@@ -1,5 +1,8 @@
 import React, { Fragment, useState } from 'react';
-
+import { connect } from 'react-redux';
+import { setAlert } from '../../actions/alert';
+import { register } from '../../actions/auth';
+import PropTypes from 'prop-types';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -12,6 +15,8 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import axios from 'axios';
+import Alert from '../layout/Alert';
+import { Redirect } from 'react-router';
 
 function Copyright() {
   return (
@@ -50,6 +55,7 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(1),
     backgroundColor: theme.palette.secondary.main,
   },
+
   form: {
     width: '100%', // Fix IE 11 issue.
     marginTop: theme.spacing(3),
@@ -59,7 +65,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Register() {
+const Register = ({ setAlert, register, isAuthenticated }) => {
   const classes = useStyles();
 
   const [formData, setFormData] = useState({
@@ -75,34 +81,26 @@ export default function Register() {
   const onChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
+
   const onSubmit = async (e) => {
     e.preventDefault();
 
     if (password !== password2) {
-      console.log('Passwords do not match');
+      setAlert('Passwords do not match', 'error');
     } else {
-      const newUser = {
-        firstName,
-        lastName,
-        email,
-        password,
-      };
-      try {
-        const config = {
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        };
-        const body = JSON.stringify(newUser);
-      } catch (err) {
-        console.error(err.response.data);
-      }
+      register({ firstName, lastName, email, password });
     }
   };
+
+  if (isAuthenticated) {
+    return <Redirect to="/dashboard" />;
+  }
+
   return (
     <Fragment>
       <Container className={classes.root} component="main" maxWidth="sm">
         <CssBaseline />
+        <Alert />
         <div className={classes.paper}>
           <Avatar className={classes.avatar}>
             <LockOutlinedIcon />
@@ -123,7 +121,7 @@ export default function Register() {
                   variant="outlined"
                   value={firstName}
                   onChange={(e) => onChange(e)}
-                  required
+                  // required
                   fullWidth
                   id="firstName"
                   label="First Name"
@@ -135,7 +133,7 @@ export default function Register() {
                   variant="outlined"
                   value={lastName}
                   onChange={(e) => onChange(e)}
-                  required
+                  // required
                   fullWidth
                   id="lastName"
                   label="Last Name"
@@ -148,7 +146,7 @@ export default function Register() {
                   variant="outlined"
                   value={email}
                   onChange={(e) => onChange(e)}
-                  required
+                  // required
                   fullWidth
                   id="email"
                   label="Email Address"
@@ -159,7 +157,7 @@ export default function Register() {
               <Grid item xs={12}>
                 <TextField
                   variant="outlined"
-                  required
+                  // required
                   fullWidth
                   value={password}
                   onChange={(e) => onChange(e)}
@@ -173,7 +171,7 @@ export default function Register() {
               <Grid item xs={12}>
                 <TextField
                   variant="outlined"
-                  required
+                  // required
                   fullWidth
                   value={password2}
                   onChange={(e) => onChange(e)}
@@ -215,4 +213,16 @@ export default function Register() {
       </Container>
     </Fragment>
   );
-}
+};
+
+Register.propTypes = {
+  setAlert: PropTypes.func.isRequired,
+  register: PropTypes.func.isRequired,
+  isAuthenticated: PropTypes.bool,
+};
+
+const mapStateToProps = (state) => ({
+  isAuthenticated: state.auth.isAuthenticated,
+});
+
+export default connect(mapStateToProps, { setAlert, register })(Register);

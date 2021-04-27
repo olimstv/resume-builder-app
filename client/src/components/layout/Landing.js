@@ -1,4 +1,5 @@
 import React from 'react';
+
 import { Card, CardActions, CardContent, Container } from '@material-ui/core';
 import { Link as Go } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
@@ -38,7 +39,7 @@ const Landing = () => {
     <div>
       <CssBaseline />
       {/* <Header /> */}
-      <Container className={classes.root} maxWidth="lg">
+      <Container className={classes.root} maxWidth="md">
         <Card elevation={0} className={classes.welcome}>
           <CardContent>
             <Typography
