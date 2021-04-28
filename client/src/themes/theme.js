@@ -15,10 +15,10 @@ const theme = createMuiTheme({
       paper: '#fff',
       Divider: 'rgba(0, 0, 0, 0.12)',
     },
-    text: {
-      primary: '#fff',
-      secondary: 'rgba(0, 0, 0, 0.54)',
-    },
+    // text: {
+    //   primary: '#fff',
+    //   secondary: 'rgba(0, 0, 0, 0.54)',
+    // },
     contrastThreshold: 3,
     tonalOffset: 0.2,
   },
