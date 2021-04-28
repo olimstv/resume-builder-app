@@ -46,11 +46,11 @@ export default function ButtonAppBar() {
               Resume Builder
             </Typography>
           </Go>
-          <Go to="/register" className={classes.links}>
+          {/* <Go to="/register" className={classes.links}>
             <Button color="inherit">Register </Button>
-          </Go>
+          </Go> */}
           <Go to="/login" className={classes.links}>
-            <Button color="inherit">Login</Button>
+            <Button color="inherit">Log Out</Button>
           </Go>
         </Toolbar>
       </AppBar>

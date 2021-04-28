@@ -1,5 +1,8 @@
 import React from 'react';
-
+import PropTypes from 'prop-types';
+import { Redirect } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { login } from '../../actions/auth';
 import { Card, CardActions, CardContent, Container } from '@material-ui/core';
 import { Link as Go } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
@@ -28,12 +31,14 @@ const useStyles = makeStyles((theme) => ({
     textDecoration: 'none',
   },
 }));
-// const StyledLink = styled(Go)`
-//   text-decoration: none;
-// `;
 
-const Landing = () => {
+const Landing = ({ login, isAuthenticated }) => {
   const classes = useStyles();
+
+  // Redirect if loged in
+  if (isAuthenticated) {
+    return <Redirect to="/home" />;
+  }
 
   return (
     <div>
@@ -80,4 +85,13 @@ const Landing = () => {
   );
 };
 
-export default Landing;
+Landing.propTypes = {
+  login: PropTypes.func.isRequired,
+  isAuthenticated: PropTypes.bool,
+};
+
+const mapStateToProps = (state) => ({
+  isAuthenticated: state.auth.isAuthenticated,
+});
+
+export default connect(mapStateToProps, { login })(Landing);
