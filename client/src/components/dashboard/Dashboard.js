@@ -1,5 +1,8 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
+import { getCurrentProfile } from '../../actions/prifile';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
@@ -23,9 +26,13 @@ const useStyles = makeStyles({
   },
 });
 
-export default function Dashboard() {
+const Dashboard = ({ getCurrentProfile, auth, profile }) => {
   const classes = useStyles();
   const bull = <span className={classes.bullet}>•</span>;
+
+  useEffect(() => {
+    getCurrentProfile();
+  }, []);
 
   return (
     <Card className={classes.root}>
@@ -54,4 +61,17 @@ export default function Dashboard() {
       </CardActions>
     </Card>
   );
-}
+};
+
+Dashboard.propTypes = {
+  getCurrentProfile: PropTypes.func.isRequired,
+  auth: PropTypes.object.isRequired,
+  profile: PropTypes.object.isRequired,
+};
+
+const mapStateToProps = (state) => ({
+  auth: state.auth,
+  profile: state.profile,
+});
+
+export default connect(mapStateToProps, { getCurrentProfile })(Dashboard);

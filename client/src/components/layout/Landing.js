@@ -32,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Landing = ({ login, isAuthenticated }) => {
+const Landing = ({ isAuthenticated }) => {
   const classes = useStyles();
 
   // Redirect if loged in
@@ -86,7 +86,6 @@ const Landing = ({ login, isAuthenticated }) => {
 };
 
 Landing.propTypes = {
-  login: PropTypes.func.isRequired,
   isAuthenticated: PropTypes.bool,
 };
 
@@ -94,4 +93,4 @@ const mapStateToProps = (state) => ({
   isAuthenticated: state.auth.isAuthenticated,
 });
 
-export default connect(mapStateToProps, { login })(Landing);
+export default connect(mapStateToProps)(Landing);
