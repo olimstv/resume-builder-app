@@ -16,6 +16,8 @@ import theme from './themes/theme';
 // Redux
 import { Provider } from 'react-redux';
 import store from './store';
+import Profile from './components/profile/Profile';
+import Builder from './components/builder/Builder';
 
 if (localStorage.token) {
   setAuthToken(localStorage.token);
@@ -30,12 +32,14 @@ const App = () => {
       <ThemeProvider theme={theme}>
         <Router store={store}>
           <Layout>
-            {/* <Alert /> */}
             <Switch>
               <Route exact path="/welcome" component={Landing} />
               <Route exact path="/register" component={Register} />
               <Route exact path="/login" component={Login} />
+              {/* <PrivateRoute path="/dashboard" component={Dashboard} /> */}
               <PrivateRoute path="/dashboard" component={Dashboard} />
+              <PrivateRoute path="/profile" component={Profile} />
+              <PrivateRoute path="/builder" component={Builder} />
             </Switch>
           </Layout>
         </Router>

@@ -55,8 +55,8 @@ export default function Header() {
         <Toolbar className={classes.appbarWrapper}>
           <Link href="/welcome">
             {' '}
-            <Typography variant="h4" className={classes.appbarTitle}>
-              Let's Get <span className={classes.colorText}>It</span>
+            <Typography variant="h3" className={classes.appbarTitle}>
+              Let's Get <span className={classes.colorText}>IT</span>
             </Typography>
           </Link>
           {/* <IconButton>

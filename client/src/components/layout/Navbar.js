@@ -87,15 +87,21 @@ const useStyles = makeStyles((theme) => ({
     textDecoration: 'none',
     color: 'inherit',
   },
+  titleText: {
+    fontWeight: 600,
+  },
   links: {
     textDecoration: 'none',
     color: 'inherit',
+  },
+  titleIt: {
+    color: theme.palette.secondary.main,
   },
 }));
 
 const drawerWidth = 240;
 
-const Navbar = ({ auth: { isAuthenticated }, logout }) => {
+const Navbar = ({ children, auth: { isAuthenticated }, logout }) => {
   const classes = useStyles();
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
@@ -131,8 +137,13 @@ const Navbar = ({ auth: { isAuthenticated }, logout }) => {
             <MenuIcon />
           </IconButton>
           <Go to="/home" className={classes.title}>
-            <Typography variant="h4" align="center">
-              Lets Get IT
+            <Typography
+              className={classes.titleText}
+              variant="h4"
+              content="h1"
+              align="center"
+            >
+              Lets Get <span className={classes.titleIt}>IT</span>
             </Typography>
           </Go>
           <Go onClick={logout} to="/welcome" className={classes.links}>
@@ -175,6 +186,13 @@ const Navbar = ({ auth: { isAuthenticated }, logout }) => {
         </List>
         <Divider />
       </Drawer>
+      <main
+        className={clsx(classes.content, {
+          [classes.contentShift]: open,
+        })}
+      >
+        {children}
+      </main>
     </Fragment>
   );
 };

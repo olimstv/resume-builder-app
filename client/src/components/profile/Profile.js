@@ -23,24 +23,20 @@ const useStyles = makeStyles({
   },
 });
 
-export default function Dashboard() {
+export default function Profile() {
   const classes = useStyles();
   const bull = <span className={classes.bullet}>•</span>;
 
   return (
     <Card className={classes.root}>
       <CardContent>
-        <Typography
-          className={classes.title}
-          color="textSecondary"
-          gutterBottom
-        >
+        <Typography className={classes.title} color="secondary" gutterBottom>
           Word of the Day
         </Typography>
         <Typography variant="h1" component="h2">
-          Dashboard
+          Profile
         </Typography>
-        <Typography className={classes.pos} color="textSecondary">
+        <Typography className={classes.pos} color="textPrimary">
           adjective
         </Typography>
         <Typography variant="body2" component="p">
