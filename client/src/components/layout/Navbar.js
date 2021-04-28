@@ -6,8 +6,12 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
+import ExitToAppOutlinedIcon from '@material-ui/icons/ExitToAppOutlined';
 import { Link as Go } from 'react-router-dom';
-
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import { logout } from '../../actions/auth';
+import { Link } from '@material-ui/core';
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
@@ -26,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function ButtonAppBar() {
+const Navbar = ({ auth: { isAuthenticated }, logout }) => {
   const classes = useStyles();
 
   return (
@@ -41,19 +45,29 @@ export default function ButtonAppBar() {
           >
             <MenuIcon />
           </IconButton>
-          <Go to="/" className={classes.title}>
+          <Go to="/home" className={classes.title}>
             <Typography variant="h6" align="center">
               Resume Builder
             </Typography>
           </Go>
-          {/* <Go to="/register" className={classes.links}>
-            <Button color="inherit">Register </Button>
-          </Go> */}
-          <Go to="/login" className={classes.links}>
-            <Button color="inherit">Log Out</Button>
+          <Go onClick={logout} to="/welcome" className={classes.links}>
+            <Button startIcon={<ExitToAppOutlinedIcon />} color="inherit">
+              Log Out
+            </Button>
           </Go>
         </Toolbar>
       </AppBar>
     </Fragment>
   );
-}
+};
+
+Navbar.propTypes = {
+  logout: PropTypes.func.isRequired,
+  auth: PropTypes.object.isRequired,
+};
+
+const mapStateToProps = (state) => ({
+  auth: state.auth,
+});
+
+export default connect(mapStateToProps, { logout })(Navbar);

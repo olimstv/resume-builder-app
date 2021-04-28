@@ -1,6 +1,9 @@
-import { makeStyles } from '@material-ui/core';
 import React from 'react';
-import { useLocation } from 'react-router';
+import { connect } from 'react-redux';
+import { login } from '../actions/auth';
+import PropTypes from 'prop-types';
+import { makeStyles } from '@material-ui/core';
+// import { useLocation } from 'react-router';
 import Header from './layout/Header';
 import Navbar from './layout/Navbar';
 import { CssBaseline, Link } from '@material-ui/core';
@@ -22,11 +25,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Layout = ({ children }) => {
+const Layout = ({ isAuthenticated, children }) => {
   const classes = useStyles();
-  const location = useLocation();
-  const browserUrl = location.pathname;
-  const notAuth = ['/welcome', '/register', '/login'];
+  // const location = useLocation();
+  // const browserUrl = location.pathname;
+  // const notAuth = ['/welcome', '/register', '/login'];
 
   const authLayout = (
     <div className={classes.auth}>
@@ -43,7 +46,16 @@ const Layout = ({ children }) => {
       {children}
     </div>
   );
-  return notAuth.includes(browserUrl) ? guestLayout : authLayout;
+  return isAuthenticated ? authLayout : guestLayout;
 };
 
-export default Layout;
+Layout.propTypes = {
+  login: PropTypes.func.isRequired,
+  isAuthenticated: PropTypes.bool,
+};
+
+const mapStateToProps = (state) => ({
+  isAuthenticated: state.auth.isAuthenticated,
+});
+
+export default connect(mapStateToProps, { login })(Layout);

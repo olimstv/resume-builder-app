@@ -68,7 +68,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Login = ({ login, isAuthenticated }) => {
+const Login = ({ setAlert, login, isAuthenticated }) => {
   const classes = useStyles();
 
   const [formData, setFormData] = useState({
@@ -87,7 +87,7 @@ const Login = ({ login, isAuthenticated }) => {
     login(email, password);
   };
 
-  // Redirect if loged in
+  // Redirect if logged in
   if (isAuthenticated) {
     return <Redirect to="/home" />;
   }
@@ -178,4 +178,4 @@ const mapStateToProps = (state) => ({
   isAuthenticated: state.auth.isAuthenticated,
 });
 
-export default connect(mapStateToProps, { login })(Login);
+export default connect(mapStateToProps, { setAlert, login })(Login);

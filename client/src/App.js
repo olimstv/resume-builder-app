@@ -6,6 +6,8 @@ import Layout from './components/Layout';
 import Landing from './components/layout/Landing';
 import Register from './components/auth/Register';
 import Login from './components/auth/Login';
+import Dashboard from './components/dashboard/Dashboard';
+import PrivateRoute from './components/routing/PrivateRoute';
 import { loadUser } from './actions/auth';
 import setAuthToken from './utils/setAuthToken';
 
@@ -29,11 +31,11 @@ const App = () => {
         <Router store={store}>
           <Layout>
             {/* <Alert /> */}
-            {/* <Route exact path="/" component={Dashboard} /> */}
             <Switch>
               <Route exact path="/welcome" component={Landing} />
               <Route exact path="/register" component={Register} />
               <Route exact path="/login" component={Login} />
+              <PrivateRoute path="/dashboard" component={Dashboard} />
             </Switch>
           </Layout>
         </Router>
