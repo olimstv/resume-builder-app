@@ -1,11 +1,10 @@
-import React, { useEffect } from 'react';
+import React, { Fragment, useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
-import { getCurrentProfile } from '../../actions/prifile';
-import Card from '@material-ui/core/Card';
-import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
+import { getCurrentProfile } from '../../actions/profile';
+import Spinner from '../layout/Spinner';
+import PersonIcon from '@material-ui/icons/Person';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 
@@ -26,40 +25,32 @@ const useStyles = makeStyles({
   },
 });
 
-const Dashboard = ({ getCurrentProfile, auth, profile }) => {
-  const classes = useStyles();
-  const bull = <span className={classes.bullet}>•</span>;
-
+const Dashboard = ({
+  getCurrentProfile,
+  auth,
+  profile: { profile, loading },
+  // profile,
+}) => {
   useEffect(() => {
     getCurrentProfile();
   }, []);
 
-  return (
-    <Card className={classes.root}>
-      <CardContent>
-        <Typography
-          className={classes.title}
-          color="textSecondary"
-          gutterBottom
-        >
-          Word of the Day
-        </Typography>
-        <Typography variant="h1" component="h2">
-          Dashboard
-        </Typography>
-        <Typography className={classes.pos} color="textSecondary">
-          adjective
-        </Typography>
-        <Typography variant="body2" component="p">
-          well meaning and kindly.
-          <br />
-          {'"a benevolent smile"'}
-        </Typography>
-      </CardContent>
-      <CardActions>
-        <Button size="small">Learn More</Button>
-      </CardActions>
-    </Card>
+  console.log('profile: ', profile);
+  return profile && loading === null ? (
+    <Spinner />
+  ) : (
+    <Fragment>
+      <Typography variant="h3">Dashboard</Typography>
+      <Typography variant="h5">
+        <PersonIcon fontSize="inherit" />
+        Welcome {auth.user.firstName} {auth.user.lastName}
+      </Typography>
+      {profile !== null ? (
+        <Fragment>has</Fragment>
+      ) : (
+        <Fragment>has not</Fragment>
+      )}
+    </Fragment>
   );
 };
 
