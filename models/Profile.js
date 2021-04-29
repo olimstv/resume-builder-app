@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 const ProfileSchema = new mongoose.Schema({
   user: {
@@ -6,7 +6,21 @@ const ProfileSchema = new mongoose.Schema({
     ref: 'user'
   },
   location: {
-    type: String
+    address: {
+      type: String
+    },
+    postalCode: {
+      type: String
+    },
+    city: {
+      type: String
+    },
+    countryCode: {
+      type: String
+    },
+    region: {
+      type: String
+    }
   },
   relocation: {
     type: Boolean
@@ -41,61 +55,97 @@ const ProfileSchema = new mongoose.Schema({
   ],
   experience: [
     {
-      title: {
-        type: String,
-        required: true
-      },
       company: {
-        type: String,
-        required: true
-      },
-      location: {
         type: String
       },
-      from: {
-        type: Date,
-        required: true
+      position: {
+        type: String
       },
-      to: {
+      website: {
+        type: String
+      },
+      startDate: {
         type: Date
       },
-      current: {
-        type: Boolean,
-        default: false
+      endDate: {
+        type: Date
       },
-      description: {
+      summary: {
         type: String
+      },
+      highlights: {
+        type: [String]
+      }
+    }
+  ],
+  volunteer: [
+    {
+      organization: {
+        type: String
+      },
+      position: {
+        type: String
+      },
+      website: {
+        type: String
+      },
+      startDate: {
+        type: Date
+      },
+      endDate: {
+        type: Date
+      },
+      summary: {
+        type: String
+      },
+      highlights: {
+        type: [String]
       }
     }
   ],
   education: [
     {
-      school: {
-        type: String,
-        required: true
+      institution: {
+        type: String
       },
-      degree: {
-        type: String,
-        required: true
+      area: {
+        type: String
       },
-      fieldofstudy: {
-        type: String,
-        required: true
+      studyType: {
+        type: String
       },
-      from: {
-        type: Date,
-        required: true
-      },
-      to: {
+      startDate: {
         type: Date
       },
-      current: {
-        type: Boolean,
-        default: false
+      endDate: {
+        type: Date
       },
-      description: {
+      gpa: {
         type: String
+      },
+      courses: {
+        type: [String]
       }
+    }
+  ],
+  languages: [
+    {
+      language: { type: String },
+      fluency: { type: String }
+    }
+  ],
+  interests: [
+    {
+      name: { type: String },
+      keywords: {
+        type: [String]
+      }
+    }
+  ],
+  references: [
+    {
+      name: { type: String },
+      reference: { type: String }
     }
   ],
   date: {
@@ -104,4 +154,5 @@ const ProfileSchema = new mongoose.Schema({
   }
 });
 
-module.exports = Profile = mongoose.model('profile', ProfileSchema);
+export default mongoose.models.ProfileSchema ||
+  mongoose.model('profile', ProfileSchema);

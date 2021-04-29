@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 const Schema = mongoose.Schema;
 
 const ResumeSchema = new Schema({
@@ -192,3 +192,6 @@ const ResumeSchema = new Schema({
     ]
   }
 });
+
+export default mongoose.models.ResumeSchema ||
+  mongoose.model('resume', ResumeSchema);
