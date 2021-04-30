@@ -18,6 +18,10 @@ export default async function handler(req, res) {
         res.status(500).send('Server Error');
       }
       break;
+
+    // @route   POST api/users
+    // @desc    Register User
+    // @access  Public
     case 'POST':
       try {
         const { firstName, lastName, email, password } = req.body;
