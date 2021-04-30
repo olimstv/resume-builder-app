@@ -25,17 +25,18 @@ const Dashboard = ({ resumes }) => {
   return (
     <>
       <h1>Dashboard</h1>
-
-      <table>
-        <thead>
-          <tr>
-            <th>resume title</th>
-            <th>Slug</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>{resumeRows}</tbody>
-      </table>
+      <div className='table-container'>
+        <table>
+          <thead>
+            <tr>
+              <th>resume title</th>
+              <th>Slug</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>{resumeRows}</tbody>
+        </table>
+      </div>
     </>
   );
 };

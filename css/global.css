@@ -1,0 +1,24 @@
+:root {
+  --base-spacing-unit: 24px;
+  --half-spacing-unit: var(--base-spacing-unit) / 2;
+
+  --color-alpha: #1772ff;
+  --color-form-highlight: #eeeeee;
+}
+nav {
+  display: flex;
+  margin: 10px 30px;
+  align-items: center;
+  justify-content: space-between;
+}
+.table-container {
+  width: 80%;
+  margin: 20px auto;
+}
+table,
+thead {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+}
