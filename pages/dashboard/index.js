@@ -1,4 +1,3 @@
-// import Page from '../components/Page';
 import Link from 'next/link';
 import dbConnect from '../../util/dbConnect';
 import Resume from '../../models/Resume';
@@ -10,13 +9,12 @@ const Dashboard = ({ resumes }) => {
       <tr key={resume.slug}>
         <td>{resume.title}</td>
         <td>
-          <Link href={`resumes/${resume.slug}`}>{resume.slug}</Link>
+          <Link href={`/resumes/${resume.slug}`}>{resume.slug}</Link>
         </td>
         <td>
-          <Link href={`/resume-editor/${resume.slug}`}>edit</Link>
-        </td>
-        <td>
-          <Link href={`/dashboard/`}>delete</Link>
+          <Link href={`/resume-editor/${resume.slug}`}>edit </Link>
+
+          <Link href={`/dashboard/`}> delete</Link>
         </td>
       </tr>
     );
@@ -24,12 +22,12 @@ const Dashboard = ({ resumes }) => {
 
   return (
     <>
-      <h1>Dashboard</h1>
       <div className='table-container'>
+        <h1>Dashboard</h1>
         <table>
           <thead>
             <tr>
-              <th>resume title</th>
+              <th>Resume Title</th>
               <th>Slug</th>
               <th>Actions</th>
             </tr>
@@ -53,25 +51,15 @@ export async function getServerSideProps(context) {
   await dbConnect();
 
   const result = await Resume.find({ user: user._id });
-
   const resumes = result.map(item => {
     const resume = item.toObject();
+
     resume._id = resume._id.toString();
     resume.user = resume.user.toString();
     return resume;
   });
-  console.log('resumes :>> ', resumes);
-  return { props: { resumes: resumes } };
+  console.log('result :>> ', result);
 
-  // const resumes = [
-  //   {
-  //     name: 'Complete 2021',
-  //     slug: 'complete-resume-2021'
-  //   },
-  //   {
-  //     name: 'seek.com front end 2021',
-  //     slug: 'seek-front-end-2021'
-  //   }
-  // ];
+  return { props: { resumes: resumes } };
 }
 export default Dashboard;

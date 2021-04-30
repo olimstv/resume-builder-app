@@ -199,5 +199,4 @@ const ResumeSchema = new mongoose.Schema({
   }
 });
 
-export default mongoose.models.Resume || mongoose.model('resume', ResumeSchema);
-// module.exports = Resume = mongoose.model('resume', ResumeSchema);
+export default mongoose.models.Resume || mongoose.model('Resume', ResumeSchema);
