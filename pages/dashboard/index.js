@@ -9,13 +9,17 @@ const Dashboard = ({ resumes }) => {
       <tr key={resume.slug}>
         <td>{resume.title}</td>
         <td>
-          <Link href={`/resumes/${resume.slug}`}>{resume.slug}</Link>
+          <Link href={`/resumes/[id]`} as={`/resumes/${resume._id}`}>
+            {resume.slug}
+          </Link>
         </td>
-        <td>
-          <Link href={`/resume-editor/${resume.slug}`}>edit </Link>
+        {/* <td>
+          <Link href={`/resumes/[id]/edit`} as={`/resumes/${resume._id}/edit`}>
+            edit{' '}
+          </Link>
 
           <Link href={`/dashboard/`}> delete</Link>
-        </td>
+        </td> */}
       </tr>
     );
   });
@@ -39,7 +43,8 @@ const Dashboard = ({ resumes }) => {
   );
 };
 
-export async function getServerSideProps(context) {
+// export async function getServerSideProps(context) {
+export async function getStaticProps(context) {
   // Fetch from Mongo!
   const user = {
     _id: '608a8471dbb3c253e4d4e175',
@@ -51,15 +56,15 @@ export async function getServerSideProps(context) {
   await dbConnect();
 
   const result = await Resume.find({ user: user._id });
+
   const resumes = result.map(item => {
     const resume = item.toObject();
-
     resume._id = resume._id.toString();
+    resume.vacancy = resume.vacancy.toString();
     resume.user = resume.user.toString();
     return resume;
   });
-  console.log('result :>> ', result);
-
+  // console.log('resumes :>> ', resumes);
   return { props: { resumes: resumes } };
 }
 export default Dashboard;

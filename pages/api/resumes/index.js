@@ -21,42 +21,46 @@ export default async function handler(req, res) {
       }
       break;
     case 'POST':
-      //   try {
-      //     const pet = await Resume.create(
-      //       req.body
-      //     ); /* create a new model in the database */
-      //     res.status(201).json({ success: true, data: resume });
-      //   } catch (error) {
-      //     res.status(400).json({ success: false });
-      //   }
-      //   break;
-
-      const { user, vacancy, slug, title, subprofile } = req.body;
-      const resumeFields = {};
-      resumeFields.user = req.user.id;
-      if (vacancy) resumeFields.vacancy = vacancy;
-      if (slug) resumeFields.slug = slug;
-      if (title) resumeFields.title = title;
-      if (subprofile) resumeFields.subprofile = subprofile;
-
       try {
-        let resume = await Resume.findOne({ user: req.user.id });
-        if (resume) {
-          // Update
-          resume = await Resume.findOneAndUpdate({
-            user: req.user.id,
-            $set: resumeFields,
-            new: true
-          });
-        }
-        // Create
-        resume = new Resume(resumeFields);
+        const resume = await Resume.create(
+          req.body
+        ); /* create a new model in the database */
         res.status(201).json({ success: true, data: resume });
-      } catch (err) {
-        console.log(err.message);
+      } catch (error) {
         res.status(400).json({ success: false });
       }
       break;
+
+    // case 'POST':
+    //   // @route   POST api/resumes
+    //   // @desc    Create/update resume
+    //   // @access  Private
+    //   const { user, vacancy, slug, title, subprofile } = req.body;
+    //   const resumeFields = {};
+    //   resumeFields.user = req.user.id;
+    //   if (vacancy) resumeFields.vacancy = vacancy;
+    //   if (slug) resumeFields.slug = slug;
+    //   if (title) resumeFields.title = title;
+    //   if (subprofile) resumeFields.subprofile = subprofile;
+
+    //   try {
+    //     let resume = await Resume.findOne({ user: req.user.id });
+    //     if (resume) {
+    //       // Update
+    //       resume = await Resume.findOneAndUpdate({
+    //         user: req.user.id,
+    //         $set: resumeFields,
+    //         new: true
+    //       });
+    //     }
+    //     // Create
+    //     resume = new Resume(resumeFields);
+    //     res.status(201).json({ success: true, data: resume });
+    //   } catch (err) {
+    //     console.log(err.message);
+    //     res.status(400).json({ success: false });
+    //   }
+    //   break;
     case 'DELETE':
       // @route   DELETE api/resumes/:id
       // @desc    Delete resume
