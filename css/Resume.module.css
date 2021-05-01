@@ -1,10 +1,10 @@
-body {
+.resume_body {
   font-family: 'Open Sans', Arial, Tahoma;
   font-weight: 400;
   color: #363636;
   background: #334960;
 }
-blockquote {
+.blockquote {
   font-size: 1em;
 }
 
@@ -96,8 +96,7 @@ blockquote {
     #32475c 89%,
     #ffffff 100%
   );
-  background: -webkit-gradient(
-    linear,
+  background: linear-gradient(
     left top,
     left bottom,
     color-stop(0%, #ffffff),
@@ -305,14 +304,14 @@ blockquote {
   border-bottom: 1px solid #eee;
 }
 
-/* </style > <style type='text/css' media='print' > body {
+/* body {
   font-size: 0.95em;
   -webkit-print-color-adjust: exact;
-}
+} */
 
-a[href]:after {
+/* a::after {
   content: none !important;
-}
+} */
 
 #photo {
   display: none;
@@ -322,7 +321,7 @@ a[href]:after {
   margin-bottom: -10px;
 }
 
-blockquote,
+.blockquote,
 #education,
 #awards,
 .contact-item,
@@ -395,4 +394,4 @@ blockquote,
   border-right-color: #999;
   border-width: 4px;
   pointer-events: none;
-} */
+}

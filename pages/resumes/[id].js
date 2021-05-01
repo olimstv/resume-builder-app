@@ -1,12 +1,14 @@
 import { useState } from 'react';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
-
+import styles from '../../css/Resume.module.css';
 import dbConnect from '../../util/dbConnect';
 import Resume from '../../models/Resume';
 import ResumeHeader from '../../components/resume/ResumeHeader';
-// import styles from '../../css/resume.css';
+import About from '../../components/resume/About';
 
+// import styles from '../../css/resume.css';
+// SSR of each path
 export const getStaticPaths = async () => {
   const user = {
     _id: '608a8471dbb3c253e4d4e175',
@@ -23,7 +25,6 @@ export const getStaticPaths = async () => {
     resume._id = resume._id.toString();
     resume.vacancy = resume.vacancy.toString();
     resume.user = resume.user.toString();
-    // resume.user = resume.user.toString();
 
     return `/resumes/${resume._id}`;
   });
@@ -34,39 +35,33 @@ export const getStaticPaths = async () => {
   };
 };
 
-// export const getStaticProps = async context => {
-//   try {
-//     await dbConnect();
-//     const id = context.params.id;
-//     const data = await Resume.findOne({ _id: id });
+// getting static props from page
+export async function getStaticProps({ params }) {
+  await dbConnect();
 
-//     console.log('data :>> ', data);
-//     console.log('context.params.id :>> ', id);
-//     return {
-//       props: {
-//         resume: data
-//       }
-//     };
-//   } catch (err) {
-//     console.error(err);
-//   }
-// };
+  const resume = await Resume.findById(params.id).lean();
+  // console.log('resume._id :>> ', resume._id.toString());
+  resume._id = resume._id.toString();
+  resume.vacancy = resume.vacancy.toString();
+  resume.user = resume.user.toString();
 
+  return { props: { resume } };
+}
+// Component
 const PublicCvPage = ({ resume }) => {
   const router = useRouter();
   const [message, setMessage] = useState('');
 
   const { basics, work, volunteer, education, skills, specific } = resume;
   const {
-    name,
-    label,
     picture,
     email,
     phone,
     website,
-    summary,
+
     location,
-    profiles
+    profiles,
+    summary
   } = basics;
   let gitHubArr = profiles.filter(profile => {
     return profile.network === 'GitHub';
@@ -76,8 +71,15 @@ const PublicCvPage = ({ resume }) => {
   const { address, postalCode, city, countryCode, region } = location;
 
   // check
-  console.log('skills :>> ', skills);
-  return <ResumeHeader basics={basics} />;
+  // console.log('skills :>> ', resume);
+  return (
+    <div className={styles.resume_body}>
+      <div className={styles.container}>
+        <ResumeHeader basics={basics} />
+        <About resume={resume} />
+      </div>
+    </div>
+  );
 
   //   return (
   //     <div className='container'>
@@ -110,47 +112,47 @@ const PublicCvPage = ({ resume }) => {
   //             <p>{specific.basics.personalDescription}</p>
   //           </div>
 
-  //           {work && (
-  //             <div className='box'>
-  //             <h2>
-  //               <i className='fas fa-suitcase ico'></i> Work Experience
-  //             </h2>
-  //             <div className='job clearfix'>
-  //               <div className='row'>
-  //                 <div className='details'>
-  //                   <div className='where'></div>
-  //                   <div className='year'>{}</div>
-  //                 </div>
-  //               </div>
-  //               <div className='row'>
-  //                 <div className='job-details col-xs-11'>
-  //                   <div className='profession'>
-  //                     Software Testing Automation Engineer
-  //                   </div>
-  //                   <div className='description'>
-  //                     Description...
-  //                     <div className='highlights'>Highlights</div>
-  //                     <ul className='list-group'>
-  //                       <li className='list-group-item'>
-  //                         System components and functions analysis
-  //                       </li>
-  //                       <li className='list-group-item'>
-  //                         Reviewing design inputs according to the scope of
-  //                         testing issues
-  //                       </li>
-  //                       <li className='list-group-item'>
-  //                         Creation and updating of UI and Functional Test
-  //                         Cases(manual and automation)
-  //                       </li>
-  //                       <li className='list-group-item'>
-  //                         Automated test code-review and test stabilization
-  //                       </li>
-  //                     </ul>
-  //                   </div>
-  //                 </div>
-  //               </div>
-  //             </div>
-  //           )}
+  // {work && (
+  //   <div className='box'>
+  //   <h2>
+  //     <i className='fas fa-suitcase ico'></i> Work Experience
+  //   </h2>
+  //   <div className='job clearfix'>
+  //     <div className='row'>
+  //       <div className='details'>
+  //         <div className='where'></div>
+  //         <div className='year'>{}</div>
+  //       </div>
+  //     </div>
+  //     <div className='row'>
+  //       <div className='job-details col-xs-11'>
+  //         <div className='profession'>
+  //           Software Testing Automation Engineer
+  //         </div>
+  //         <div className='description'>
+  //           Description...
+  //           <div className='highlights'>Highlights</div>
+  //           <ul className='list-group'>
+  //             <li className='list-group-item'>
+  //               System components and functions analysis
+  //             </li>
+  //             <li className='list-group-item'>
+  //               Reviewing design inputs according to the scope of
+  //               testing issues
+  //             </li>
+  //             <li className='list-group-item'>
+  //               Creation and updating of UI and Functional Test
+  //               Cases(manual and automation)
+  //             </li>
+  //             <li className='list-group-item'>
+  //               Automated test code-review and test stabilization
+  //             </li>
+  //           </ul>
+  //         </div>
+  //       </div>
+  //     </div>
+  //   </div>
+  // )}
 
   //             <div className='job clearfix'>
   //               <div className='row'>
@@ -410,15 +412,4 @@ const PublicCvPage = ({ resume }) => {
   //   );
 };
 
-export async function getStaticProps({ params }) {
-  await dbConnect();
-
-  const resume = await Resume.findById(params.id).lean();
-  console.log('resume._id :>> ', resume._id.toString());
-  resume._id = resume._id.toString();
-  resume.vacancy = resume.vacancy.toString();
-  resume.user = resume.user.toString();
-
-  return { props: { resume } };
-}
 export default PublicCvPage;

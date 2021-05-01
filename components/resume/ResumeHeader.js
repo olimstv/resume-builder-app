@@ -1,4 +1,7 @@
-const ResumeHeader = ({ name, label }) => {
+import styles from '../../css/Resume.module.css';
+const ResumeHeader = ({ basics }) => {
+  const { name, label } = basics;
+
   return (
     <div className='row'>
       <div className='col-xs-12'>
