@@ -1,7 +1,7 @@
 import styles from '../../css/Resume.module.css';
 const ResumeHeader = ({ basics }) => {
   const { name, label } = basics;
-
+  // console.log('basics :>> ', basics);
   return (
     <div className='row'>
       <div className='col-xs-12'>

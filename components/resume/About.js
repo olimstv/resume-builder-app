@@ -1,8 +1,9 @@
-const About = ({ resume }) => {
-  const summary = resume.basics.summary;
-
-  const work = resume.work;
-
+const About = ({ subprofile }) => {
+  const { basics } = subprofile;
+  // console.log('basics :>> ', basics);
+  const { work } = subprofile;
+  // console.log('work :>> ', work);
+  //
   return (
     <div className='row'>
       <div className='col-xs-12 col-sm-7'>
@@ -10,19 +11,19 @@ const About = ({ resume }) => {
           <h2>
             <i className='fas fa-user ico'></i> About
           </h2>
-          <p>{summary}</p>
+          <p>{basics.summary}</p>
         </div>
         <div className='box'>
           <h2>
             <i className='fas fa-suitcase ico'></i> Work Experience
           </h2>
           {work &&
-            work.map(exp => {
+            work.map((exp, index) => {
               return (
-                <div className='job clearfix'>
+                <div key={index} className='job clearfix'>
                   <div className='row'>
                     <div className='details'>
-                      <div className='where'></div>
+                      <div className='where'>{exp.company}</div>
                       <div className='year'>
                         {exp.startDate} -{' '}
                         {!exp.endDate ? `till now` : exp.endDate}
@@ -36,8 +37,12 @@ const About = ({ resume }) => {
                         {exp.summary}
                         <div className='highlights'>Highlights</div>
                         <ul className='list-group'>
-                          {exp.highlights.map(item => {
-                            return <li className='list-group-item'>{item}</li>;
+                          {exp.highlights.map((item, index) => {
+                            return (
+                              <li key={index} className='list-group-item'>
+                                {item}
+                              </li>
+                            );
                           })}
                         </ul>
                       </div>
