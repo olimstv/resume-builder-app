@@ -44,7 +44,7 @@ const Dashboard = ({ resumes }) => {
 };
 
 // export async function getServerSideProps(context) {
-export async function getStaticProps(context) {
+export async function getServerSideProps(context) {
   // Fetch from Mongo!
   const user = {
     _id: '608a8471dbb3c253e4d4e175',

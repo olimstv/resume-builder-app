@@ -7,30 +7,32 @@ import Resume from '../../models/Resume';
 import ResumeHeader from '../../components/resume/ResumeHeader';
 // import styles from '../../css/resume.css';
 
-// export const getStaticPaths = async () => {
-//   const user = {
-//     _id: '608a8471dbb3c253e4d4e175',
-//     firstName: 'test',
-//     lastName: 'test',
-//     email: 'oli@moli.com'
-//   };
-//   await dbConnect();
+export const getStaticPaths = async () => {
+  const user = {
+    _id: '608a8471dbb3c253e4d4e175',
+    firstName: 'test',
+    lastName: 'test',
+    email: 'oli@moli.com'
+  };
+  await dbConnect();
 
-//   const data = await Resume.find({ user: user._id });
+  const data = await Resume.find({ user: user._id });
 
-//   const paths = data.map(item => {
-//     const resume = item.toObject();
-//     resume._id = resume._id.toString();
-//     // resume.user = resume.user.toString();
+  const paths = data.map(item => {
+    const resume = item.toObject();
+    resume._id = resume._id.toString();
+    resume.vacancy = resume.vacancy.toString();
+    resume.user = resume.user.toString();
+    // resume.user = resume.user.toString();
 
-//     return `/resumes/${resume._id}`;
-//   });
+    return `/resumes/${resume._id}`;
+  });
 
-//   return {
-//     paths,
-//     fallback: false
-//   };
-// };
+  return {
+    paths,
+    fallback: false
+  };
+};
 
 // export const getStaticProps = async context => {
 //   try {
@@ -408,7 +410,7 @@ const PublicCvPage = ({ resume }) => {
   //   );
 };
 
-export async function getServerSideProps({ params }) {
+export async function getStaticProps({ params }) {
   await dbConnect();
 
   const resume = await Resume.findById(params.id).lean();
