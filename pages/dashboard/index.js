@@ -1,41 +1,42 @@
 import Link from 'next/link';
 import dbConnect from '../../util/dbConnect';
 import Resume from '../../models/Resume';
+import React from 'react';
+import { Container, Icon, Label, Menu, Table } from 'semantic-ui-react';
+import { Header } from 'semantic-ui-react';
 
 const Dashboard = ({ resumes }) => {
   let resumeRows = [];
   resumes.map(resume => {
     resumeRows.push(
-      <tr key={resume.slug}>
-        <td>{resume.title}</td>
-        <td>
-          <Link href={`/resumes/${resume._id}`}>{resume.slug}</Link>
-        </td>
-        <td>
-          <Link href={`/resumes/${resume._id}/edit`}>edit </Link>
-
-          <Link href={`/dashboard/`}> delete</Link>
-        </td>
-      </tr>
+      <Table.Row key={resume.slug}>
+        <Table.Cell>{resume.title}</Table.Cell>
+        <Table.Cell>
+          <Link href={`/resumes/${resume.slug}`}>{resume.slug}</Link>
+        </Table.Cell>
+        <Table.Cell>
+          <Link href={`/resumes/edit/${resume.slug}`}>edit </Link>
+          <Link href={`/dashboard/`}>delete</Link>
+        </Table.Cell>
+      </Table.Row>
     );
   });
 
   return (
-    <>
-      <div className='table-container'>
-        <h1>Dashboard</h1>
-        <table>
-          <thead>
-            <tr>
-              <th>Resume Title</th>
-              <th>Slug</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>{resumeRows}</tbody>
-        </table>
-      </div>
-    </>
+    <Container>
+      <Header as='h2'>Dashboard</Header>
+      <Table celled>
+        <Table.Header>
+          <Table.Row>
+            <Table.HeaderCell>Resume Title</Table.HeaderCell>
+            <Table.HeaderCell>Slug</Table.HeaderCell>
+            <Table.HeaderCell>Action</Table.HeaderCell>
+          </Table.Row>
+        </Table.Header>
+
+        <Table.Body>{resumeRows}</Table.Body>
+      </Table>
+    </Container>
   );
 };
 

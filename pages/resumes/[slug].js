@@ -72,7 +72,7 @@ export const getStaticPaths = async () => {
     resume.vacancy = resume.vacancy.toString();
     resume.user = resume.user.toString();
 
-    return `/resumes/${resume._id}`;
+    return `/resumes/${resume.slug}`;
   });
 
   return {
@@ -85,7 +85,7 @@ export const getStaticPaths = async () => {
 export async function getStaticProps({ params }) {
   await dbConnect();
 
-  const resume = await Resume.findById(params.id).lean();
+  const resume = await Resume.findOne({ slug: params.slug }).lean();
   resume._id = resume._id.toString();
   resume.vacancy = resume.vacancy.toString();
   resume.user = resume.user.toString();
