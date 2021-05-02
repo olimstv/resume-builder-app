@@ -22,13 +22,14 @@ const Education = ({ education }) => {
                 <p>Software Development</p>
                 <div>Courses</div>
                 <ul className='list-group'>
-                  {exp.courses.map((course, index) => {
-                    return (
-                      <li key={index} className='list-group-item'>
-                        {course}
-                      </li>
-                    );
-                  })}
+                  {exp.courses &&
+                    exp.courses.map((course, index) => {
+                      return (
+                        <li key={index} className='list-group-item'>
+                          {course}
+                        </li>
+                      );
+                    })}
                 </ul>
               </div>
             </li>

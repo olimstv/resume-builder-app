@@ -6,12 +6,15 @@ import dbConnect from '../../util/dbConnect';
 import Resume from '../../models/Resume';
 import ResumeHeader from '../../components/resume/ResumeHeader';
 import About from '../../components/resume/About';
+import Awards from '../../components/resume/Awards';
 import Volunteer from '../../components/resume/Volunteer';
 import Contact from '../../components/resume/Contact';
 import Education from '../../components/resume/Education';
 import Skills from '../../components/resume/Skills';
+import Publications from '../../components/resume/Publications';
+import Languages from '../../components/resume/Languages';
 import Interests from '../../components/resume/Interests';
-import References from '../../components/resume/Regerences';
+import References from '../../components/resume/References';
 
 // Component
 const PublicCvPage = ({ resume }) => {
@@ -32,38 +35,20 @@ const PublicCvPage = ({ resume }) => {
     interests,
     references
   } = subprofile;
-  const {
-    name,
-    label,
-    picture,
-    email,
-    phone,
-    website,
-    location,
-    profiles,
-    summary
-  } = basics;
-  const { address, postalCode, city, countryCode, region } = location;
-  // let gitHubArr = profiles.filter(profile => {
-  //   return profile.network === 'GitHub';
-  // });
-  // const gitHub = gitHubArr[0];
-
-  // const { address, postalCode, city, countryCode, region } = location;
-
-  // check
-  // console.log('volunteer on parent :>> ', volunteer);
   return (
     <div className={styles.resume_body}>
       <div className={styles.container}>
         <ResumeHeader basics={basics} />
         <About subprofile={subprofile} />
+        {/* <Awards /> */}
         {volunteer && <Volunteer subprofile={subprofile} />}
         <Contact basics={basics} />
-        <Education education={education} />
-        <Skills skills={skills} />
-        <Interests interests={interests} />
-        {/* <References resume={resume} /> */}
+        {education && <Education education={education} />}
+        {skills && <Skills skills={skills} />}
+        {/* <Publications /> */}
+        <Languages languages={languages} />
+        {interests && <Interests interests={interests} />}
+        {references && <References references={references} />}
       </div>
     </div>
   );

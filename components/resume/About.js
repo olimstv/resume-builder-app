@@ -1,9 +1,6 @@
 const About = ({ subprofile }) => {
-  const { basics } = subprofile;
-  // console.log('basics :>> ', basics);
-  const { work } = subprofile;
-  // console.log('work :>> ', work);
-  //
+  const { basics, work } = subprofile;
+
   return (
     <div className='row'>
       <div className='col-xs-12 col-sm-7'>
@@ -37,13 +34,14 @@ const About = ({ subprofile }) => {
                         {exp.summary}
                         <div className='highlights'>Highlights</div>
                         <ul className='list-group'>
-                          {exp.highlights.map((item, index) => {
-                            return (
-                              <li key={index} className='list-group-item'>
-                                {item}
-                              </li>
-                            );
-                          })}
+                          {exp.highlights &&
+                            exp.highlights.map((item, index) => {
+                              return (
+                                <li key={index} className='list-group-item'>
+                                  {item}
+                                </li>
+                              );
+                            })}
                         </ul>
                       </div>
                     </div>
