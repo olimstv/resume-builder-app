@@ -1,26 +1,39 @@
-const Education = () => {
+const Education = ({ education }) => {
+  // console.log('education :>> ', education);
   return (
-    <div class='box'>
+    <div className='box'>
       <h2>
-        <i class='fas fa-university ico'></i> Education
+        <i className='fas fa-university ico'></i> Education
       </h2>
-      <ul id='education' class='clearfix'>
-        <li>
-          <div class='year pull-left'>2020 2021</div>
-          <div class='description pull-right'>
-            <h3>General Assembly</h3>
-            <div class='where'></div>
-            <p>
-              <i class='fas fa-graduation-cap ico'></i> Full Stack Web
-              Development course
-            </p>
-            <p>Software Development</p>
-            <div>Courses</div>
-            <ul class='list-group'>
-              <li class='list-group-item'>Flex Immersive</li>
-            </ul>
-          </div>
-        </li>
+      <ul id='education' className='clearfix'>
+        {education.map((exp, index) => {
+          return (
+            <li key={index}>
+              <div className='year pull-left'>
+                {exp.startDate} - {!exp.endDate ? `till now` : exp.endDate}
+              </div>
+              <div className='description pull-right'>
+                <h3>{exp.institution}</h3>
+                <div className='where'></div>
+                <p>
+                  <i className='fas fa-graduation-cap ico'></i> Full Stack Web
+                  Development course
+                </p>
+                <p>Software Development</p>
+                <div>Courses</div>
+                <ul className='list-group'>
+                  {exp.courses.map((course, index) => {
+                    return (
+                      <li key={index} className='list-group-item'>
+                        {course}
+                      </li>
+                    );
+                  })}
+                </ul>
+              </div>
+            </li>
+          );
+        })}
       </ul>
     </div>
   );
