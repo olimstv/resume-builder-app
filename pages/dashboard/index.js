@@ -9,17 +9,13 @@ const Dashboard = ({ resumes }) => {
       <tr key={resume.slug}>
         <td>{resume.title}</td>
         <td>
-          <Link href={`/resumes/[id]`} as={`/resumes/${resume._id}`}>
-            {resume.slug}
-          </Link>
+          <Link href={`/resumes/${resume._id}`}>{resume.slug}</Link>
         </td>
-        {/* <td>
-          <Link href={`/resumes/[id]/edit`} as={`/resumes/${resume._id}/edit`}>
-            edit{' '}
-          </Link>
+        <td>
+          <Link href={`/resumes/${resume._id}/edit`}>edit </Link>
 
           <Link href={`/dashboard/`}> delete</Link>
-        </td> */}
+        </td>
       </tr>
     );
   });
