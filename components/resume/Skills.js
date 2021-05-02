@@ -1,32 +1,28 @@
-const Skills = () => {
+const Skills = ({ skills }) => {
   return (
-    <div class='box'>
+    <div className='box'>
       <h2>
-        <i class='fas fa-tasks ico'></i> Skills
+        <i className='fas fa-tasks ico'></i> Skills
       </h2>
-      <div class='skills clearfix'>
-        <div class='item-skills'>
-          Web Development
-          <span class='skill-level'>Junior</span>
-        </div>
-        <div class='col-sm-offset-1 col-sm-12 clearfix'>
-          <span class='skill badge'>HTML</span>
-          <span class='skill badge'>CSS</span>
-          <span class='skill badge'>Javascript</span>
-          <span class='skill badge'>Ruby</span>
-          <span class='skill badge'>SQL</span>
-          <span class='skill badge'>Rest API</span>
-          <span class='skill badge'>React</span>
-          <span class='skill badge'>Express JS</span>
-          <span class='skill badge'>MongoDB</span>
-          <span class='skill badge'>Node JS</span>
-          <span class='skill badge'>Next JS</span>
-          <span class='skill badge'>Gatsby</span>
-          <span class='skill badge'>Rails</span>
-          <span class='skill badge'>PostgreSQL</span>
-          <span class='skill badge'>Material Design</span>
-        </div>
-      </div>
+      {skills.map(skill => {
+        return (
+          <div key={skill.name} className='skills clearfix'>
+            <div className='item-skills'>
+              {skill.name}
+              <span className='skill-level'>{skill.level}</span>
+            </div>
+            <div className='col-sm-offset-1 col-sm-12 clearfix'>
+              {skill.keywords.map((keyword, index) => {
+                return (
+                  <span key={index} className='skill badge'>
+                    {keyword}
+                  </span>
+                );
+              })}
+            </div>
+          </div>
+        );
+      })}
     </div>
   );
 };
