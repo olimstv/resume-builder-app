@@ -59,7 +59,7 @@ const PublicCvPage = ({ resume }) => {
         <ResumeHeader basics={basics} />
         <About subprofile={subprofile} />
         {volunteer && <Volunteer subprofile={subprofile} />}
-        <Contact resume={resume} />
+        <Contact basics={basics} />
         {/* <Education resume={resume} /> */}
         {/* <Skills resume={resume} /> */}
         {/* <Hobbies resume={resume} /> */}

@@ -1,43 +1,56 @@
-const Contact = () => {
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
+const Contact = ({ basics }) => {
+  const { email, phone, website, location, profiles } = basics;
+
+  const getProfile = (title, arr) => {
+    return arr.filter(el => el.network === title);
+  };
+  const linkedIn = getProfile('LinkedIn', profiles);
+  const gitHub = getProfile('gitHub', profiles);
+
+  // console.log('basics :>> ', basics);
   return (
-    <div class='col-xs-12 col-sm-5'>
-      <div class='box clearfix'>
+    <div className='col-xs-12 col-sm-5'>
+      <div className='box clearfix'>
         <h2>
-          <i class='fas fa-bullseye ico'></i> Contact
+          <i className='fas fa-bullseye ico'></i> Contact
         </h2>
-        <div class='contact-item'>
-          <div class='icon pull-left text-center'>
-            <span class='fas fa-map-marker fa-fw'></span>
+        <div className='contact-item'>
+          <div className='icon pull-left text-center'>
+            <span className='fas fa-map-marker fa-fw'></span>
           </div>
-          <div class='title only  pull-right'>Adelaide, SA AU</div>
+          <div className='title only  pull-right'>
+            {location.city}, {location.region} {location.countryCode}
+          </div>
         </div>
-        <div class='contact-item'>
-          <div class='icon pull-left text-center'>
-            <span class='fas fa-phone fa-fw'></span>
+        <div className='contact-item'>
+          <div className='icon pull-left text-center'>
+            <span className='fas fa-phone fa-fw'></span>
           </div>
-          <div class='title only pull-right'>+61 410 256 252</div>
+          <div className='title only pull-right'>{phone}</div>
         </div>
-        <div class='contact-item'>
-          <div class='icon pull-left text-center'>
-            <span class='fas fa-envelope fa-fw'></span>
+        <div className='contact-item'>
+          <div className='icon pull-left text-center'>
+            <span className='fas fa-envelope fa-fw'></span>
+
+            {/* <FontAwesomeIcon icon={['far', 'envelope']} /> */}
           </div>
-          <div class='title only pull-right'>
-            <a href='mailto:oleksii.mostovyi@gmail.com' target='_blank'>
-              oleksii.mostovyi@gmail.com
+          <div className='title only pull-right'>
+            <a href={email} target='_blank'>
+              {email}
             </a>
           </div>
         </div>
-        <div class='contact-item'>
-          <div class='icon pull-left text-center'>
-            <span class='fab fa-linkedin fa-fw'></span>
+        <div className='contact-item'>
+          <div className='icon pull-left text-center'>
+            <span className='fab fa-linkedin fa-fw'></span>
+            <a href={linkedIn.url}></a>
           </div>
-          <div class='title pull-right'>LinkedIn</div>
-          <div class='description pull-right'>
-            <a
-              href='https:&#x2F;&#x2F;www.linkedin.com&#x2F;in&#x2F;olimstv&#x2F;'
-              target='_blank'
-            >
-              olimstv
+          <div className='title pull-right'>{linkedIn.network}</div>
+          <div className='description pull-right'>
+            <a href='https://www.linkedin.com/in/olimstv' target='_blank'>
+              {linkedIn.username}
             </a>
           </div>
         </div>
