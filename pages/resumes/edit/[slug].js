@@ -24,10 +24,10 @@ const ResumeEditForm = ({ resume }) => {
 
   return (
     <Container>
-      <Header as='h2'>Edit Resume</Header>
+      <Header as='h1'>Edit Resume</Header>
       <Form>
         <ResumeHeader basics={basics} />
-        <About />
+        <About subprofile={subprofile} />
       </Form>
     </Container>
   );

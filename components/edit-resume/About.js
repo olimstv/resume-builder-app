@@ -1,20 +1,33 @@
-import Button, { Container, Form, Header, TextArea } from 'semantic-ui-react';
-const About = ({}) => {
+import {
+  Container,
+  Button,
+  Form,
+  Header,
+  TextArea,
+  Icon,
+  ButtonGroup
+} from 'semantic-ui-react';
+const About = ({ subprofile }) => {
+  const { basics, work } = subprofile;
   return (
-    // <Form>
-    //   <Form.Input>
-    //     <TextArea></TextArea>
-    // <Button primary>Edit</Button>
-    // <Button>Save</Button>
-    //   </Form.Input>
-    // </Form>
-    <Container>
-      <Header as='h3'>About</Header>
-      <TextArea placeholder='Tell us more' />
-      {/* <div>
-        <Button primary>Edit</Button>
-        <Button>Save</Button>
-      </div> */}
+    <Container fluid>
+      <Header color='blue' as='h2'>
+        About
+      </Header>
+
+      <Form.TextArea
+        label='About Section'
+        placeholder='Tell us more'
+        value={basics.summary}
+      />
+      <ButtonGroup floated='right'>
+        <Button color='blue' icon>
+          <Icon name='edit' />
+        </Button>
+        <Button icon>
+          <Icon name='save' />
+        </Button>
+      </ButtonGroup>
     </Container>
   );
 };
