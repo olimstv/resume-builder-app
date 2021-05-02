@@ -10,7 +10,7 @@ import Volunteer from '../../components/resume/Volunteer';
 import Contact from '../../components/resume/Contact';
 import Education from '../../components/resume/Education';
 import Skills from '../../components/resume/Skills';
-import Hobbies from '../../components/resume/Hobbies';
+import Interests from '../../components/resume/Interests';
 import References from '../../components/resume/Regerences';
 
 // Component
@@ -62,7 +62,7 @@ const PublicCvPage = ({ resume }) => {
         <Contact basics={basics} />
         <Education education={education} />
         <Skills skills={skills} />
-        {/* <Hobbies resume={resume} /> */}
+        <Interests interests={interests} />
         {/* <References resume={resume} /> */}
       </div>
     </div>
