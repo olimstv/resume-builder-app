@@ -9,14 +9,22 @@ const Dashboard = ({ resumes }) => {
   let resumeRows = [];
   resumes.map(resume => {
     resumeRows.push(
-      <Table.Row key={resume.slug}>
+      <Table.Row key={resume._id}>
         <Table.Cell>{resume.title}</Table.Cell>
         <Table.Cell>
-          <Link href={`/resumes/${resume.slug}`}>{resume.slug}</Link>
+          {/* <Link href='/resumes/[slug]' as={`/${resume.slug}`}> */}
+          <Link href={`/resumes/${resume.slug}`}>
+            <a>{resume.slug}</a>
+          </Link>
         </Table.Cell>
         <Table.Cell>
-          <Link href={`/resumes/edit/${resume.slug}`}>edit </Link>
-          <Link href={`/dashboard/`}>delete</Link>
+          {/* <Link href={`/resumes/[slug]/edit`} as={`/${resume.slug}/edit`}> */}
+          <Link href={`/resumes/${resume.slug}/edit`}>
+            <a>edit</a>
+          </Link>
+          <Link href={`/dashboard/`}>
+            <a>delete</a>
+          </Link>
         </Table.Cell>
       </Table.Row>
     );
@@ -42,6 +50,7 @@ const Dashboard = ({ resumes }) => {
 
 // export async function getServerSideProps(context) {
 export async function getServerSideProps(context) {
+  // console.log('context.params :>> ', params);
   // Fetch from Mongo!
   const user = {
     _id: '608a8471dbb3c253e4d4e175',
