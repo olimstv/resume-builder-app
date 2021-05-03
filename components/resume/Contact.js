@@ -1,5 +1,3 @@
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-
 const Contact = ({ basics }) => {
   const { email, phone, website, location, profiles } = basics;
 
