@@ -5,6 +5,8 @@ import {
   HeaderContent,
   Icon,
   Label,
+  List,
+  ListItem,
   Segment
 } from 'semantic-ui-react';
 export default function ProfileSelector(props) {
@@ -30,67 +32,107 @@ export default function ProfileSelector(props) {
           <Icon name='user' size='small' />
           About
         </Header>
-        <Segment>A summary of John Doe...</Segment>
+        <Segment>
+          <Label attached='top left'>Summary</Label>
+          <div>{profile.basics.summary}</div>
+        </Segment>
       </Segment>
 
       {/* <!-- WORK EXPERIENCE --> */}
-      <Segment>
-        <Header as='h2' dividing>
-          <Icon name='suitcase' />
-          Work Experience
-        </Header>
-        {console.log('profile.basics.work :>> ', profile.basics.work)}
-        {profile.work &&
-          profile.work.map((exp, index) => {
-            return (
-              <div div key={index}>
-                <Segment>
-                  <Header as='h3'>{exp.company}</Header>
-                  <Header.Subheader>
-                    {exp.startDate} - {!exp.endDate ? `till now` : exp.endDate}
-                  </Header.Subheader>
+      {!profile.work ? (
+        <Label>Work Experience section doesn't filled yet...</Label>
+      ) : (
+        <Segment>
+          <Header as='h2' dividing>
+            <Icon name='suitcase' />
+            Work Experience
+          </Header>
 
-                  <Segment className='profession'>{exp.postiton}</Segment>
-                  <Segment className='description'>
-                    {exp.summary}
-                    <div className='highlights'>Highlights</div>
-                    <ul className='list-group'>
-                      {exp.highlights &&
-                        exp.highlights.map((item, index) => {
-                          return (
-                            <li key={index} className='list-group-item'>
-                              {item}
-                            </li>
-                          );
-                        })}
-                    </ul>
-                  </Segment>
+          {profile.work.map((exp, index) => {
+            return (
+              <Segment key={index}>
+                <Header as='h3'>{exp.company}</Header>
+                <Header.Subheader>
+                  {exp.startDate} - {!exp.endDate ? `till now` : exp.endDate}
+                </Header.Subheader>
+
+                <Segment>
+                  <Label attached='top left'>Role</Label>
+                  <div>{exp.position}</div>
                 </Segment>
-              </div>
+                <Segment>
+                  <Label attached='top left'>Summary</Label>
+                  <div>{exp.summary}</div>
+                </Segment>
+                <Segment>
+                  <Header>Highlights</Header>
+                  <List>
+                    {exp.highlights &&
+                      exp.highlights.map((item, index) => {
+                        return (
+                          <ListItem>
+                            <List.Icon name='check' />
+                            <List.Content
+                              key={index}
+                              className='list-group-item'
+                            >
+                              {item}
+                            </List.Content>
+                          </ListItem>
+                        );
+                      })}
+                  </List>
+                </Segment>
+              </Segment>
             );
           })}
-      </Segment>
-      <div className='where'></div>
-      <div className='year'>November 2017 – February 2019</div>
-      <div className='profession'>Software Testing Automation Engineer</div>
-      <div className='description'>Description...</div>
-      <div className='highlights'>Highlights</div>
-      <ul className='list-group'>
-        <li className='list-group-item'>
-          System components and functions analysis
-        </li>
-        <li className='list-group-item'>
-          Reviewing design inputs according to the scope of testing issues
-        </li>
-        <li className='list-group-item'>
-          Creation and updating of UI and Functional Test Cases(manual and
-          automation)
-        </li>
-        <li className='list-group-item'>
-          Automated test code-review and test stabilization
-        </li>
-      </ul>
+        </Segment>
+      )}
       {/* <!-- VOLUNTEER --> */}
+
+      {!profile.volunteer ? (
+        <Label>Volunteer section doesn't filled yet...</Label>
+      ) : (
+        <Segment>
+          <Header as='h2' dividing>
+            <Icon name='users' />
+            Volunteer
+          </Header>
+          {profile.volunteer.map((exp, index) => {
+            return (
+              <Segment key={index}>
+                <Header as='h3'>{exp.organization}</Header>
+                <Header.Subheader>
+                  {exp.startDate} - {!exp.endDate ? `till now` : exp.endDate}
+                </Header.Subheader>
+
+                <Segment>
+                  <Label attached='top left'>Role</Label>
+                  <div>{exp.position}</div>
+                </Segment>
+
+                <Segment>
+                  <Label attached='top left'>Summary</Label>
+                  <div>{exp.summary}</div>
+                </Segment>
+
+                <Header className='highlights'>Highlights</Header>
+                <List>
+                  {exp.highlights.map((item, index) => {
+                    return (
+                      <ListItem key={index}>
+                        <List.Icon name='check' />
+                        <List.Content>{item}</List.Content>
+                      </ListItem>
+                    );
+                  })}
+                </List>
+              </Segment>
+            );
+          })}
+        </Segment>
+      )}
+
       <div className='box'>
         <h2>
           <i className='fas fa-users ico'></i> Volunteer
