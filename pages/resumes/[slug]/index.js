@@ -15,6 +15,11 @@ import Publications from '../../../components/resume/Publications';
 import Languages from '../../../components/resume/Languages';
 import Interests from '../../../components/resume/Interests';
 import References from '../../../components/resume/References';
+import { Grid } from 'semantic-ui-react';
+
+// import '../../../css/bootstrap.min.css';
+// import '../../../css/fontawesome.all.min.css';
+// import './resumeStyles.css';
 
 // Component
 const PublicCvPage = ({ resume }) => {
@@ -36,21 +41,30 @@ const PublicCvPage = ({ resume }) => {
     references
   } = subprofile;
   return (
-    <div className={styles.resume_body}>
-      <div className={styles.container}>
-        <ResumeHeader basics={basics} />
-        <About subprofile={subprofile} />
-        {/* <Awards /> */}
-        {volunteer && <Volunteer subprofile={subprofile} />}
-        <Contact basics={basics} />
-        {education && <Education education={education} />}
-        {skills && <Skills skills={skills} />}
-        {/* <Publications /> */}
-        <Languages languages={languages} />
-        {interests && <Interests interests={interests} />}
-        {references && <References references={references} />}
-      </div>
-    </div>
+    <>
+      <ResumeHeader basics={basics} />
+      <Grid>
+        <Grid.Row>
+          {/* LEFT COLUMN */}
+          <Grid.Column computer={8} mobile={16}>
+            <About subprofile={subprofile} />
+            {/* <Awards /> */}
+            {volunteer && <Volunteer subprofile={subprofile} />}
+          </Grid.Column>
+
+          {/* RIGHT COLUMN */}
+          <Grid.Column computer={8} mobile={16}>
+            <Contact basics={basics} />
+            {education && <Education education={education} />}
+            {skills && <Skills skills={skills} />}
+            {/* <Publications /> */}
+            <Languages languages={languages} />
+            {interests && <Interests interests={interests} />}
+            {references && <References references={references} />}
+          </Grid.Column>
+        </Grid.Row>
+      </Grid>
+    </>
   );
 };
 

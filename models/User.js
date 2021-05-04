@@ -37,10 +37,7 @@ const UserSchema = new mongoose.Schema({
       website: {
         type: String
       },
-      summary: {
-        type: Schema.Types.ObjectId,
-        ref: 'objective'
-      },
+
       location: {
         address: {
           type: String
@@ -208,4 +205,4 @@ const UserSchema = new mongoose.Schema({
   }
 });
 
-module.exports = User = mongoose.model('user', UserSchema);
+export default mongoose.models.User || mongoose.model('User', UserSchema);

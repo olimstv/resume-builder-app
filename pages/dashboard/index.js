@@ -19,7 +19,7 @@ const Dashboard = ({ resumes }) => {
         </Table.Cell>
         <Table.Cell>
           {/* <Link href={`/resumes/[slug]/edit`} as={`/${resume.slug}/edit`}> */}
-          <Link href={`/resumes/${resume.slug}/edit`}>
+          <Link href={`/resumes/edit/${resume._id}`}>
             <a>edit</a>
           </Link>
           <Link href={`/dashboard/`}>
@@ -53,10 +53,10 @@ export async function getServerSideProps(context) {
   // console.log('context.params :>> ', params);
   // Fetch from Mongo!
   const user = {
-    _id: '608a8471dbb3c253e4d4e175',
-    firstName: 'test',
-    lastName: 'test',
-    email: 'oli@moli.com'
+    _id: '6090dcbc09b7fade1e520965',
+    firstName: 'Oleksii',
+    lastName: 'Mostovyi',
+    email: 'oleksii.mostovyi@gmail.com'
   };
 
   await dbConnect();
