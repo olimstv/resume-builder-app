@@ -1,4 +1,4 @@
-import { Grid, Container } from 'semantic-ui-react';
+import { Grid, Container, Header, Divider, Segment } from 'semantic-ui-react';
 import ResumeViewer from '../../../components/ResumeViewer';
 import ProfileSelector from '../../../components/ProfileSelector';
 import dbConnect from '../../../util/dbConnect';
@@ -9,21 +9,23 @@ export default function EditResumePage(props) {
   const { profile, resume, userId } = props;
 
   return (
-    <Container>
-      <Grid>
-        <Grid.Row>
-          {/* Profile Data View */}
-          <Grid.Column computer={6} mobile={16}>
-            <ProfileSelector profile={profile} />
-          </Grid.Column>
+    <div>
+      <Container fluid>
+        <Grid>
+          <Grid.Row>
+            {/* Profile Data View */}
+            <Grid.Column computer={6} mobile={16}>
+              <ProfileSelector profile={profile} />
+            </Grid.Column>
 
-          {/* Resume Preview */}
-          <Grid.Column computer={10} mobile={16}>
-            <ResumeViewer subprofile={resume.subprofile} />
-          </Grid.Column>
-        </Grid.Row>
-      </Grid>
-    </Container>
+            {/* Resume Preview */}
+            <Grid.Column computer={10} mobile={16}>
+              <ResumeViewer subprofile={resume.subprofile} />
+            </Grid.Column>
+          </Grid.Row>
+        </Grid>
+      </Container>
+    </div>
   );
 }
 

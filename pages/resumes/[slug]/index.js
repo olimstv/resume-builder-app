@@ -42,6 +42,7 @@ const PublicCvPage = ({ resume }) => {
   } = subprofile;
   return (
     <>
+      <ResumeViewer />
       <ResumeHeader basics={basics} />
       <Grid>
         <Grid.Row>
