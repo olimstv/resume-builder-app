@@ -12,20 +12,79 @@ import {
   Button,
   Reveal
 } from 'semantic-ui-react';
-export default function ProfileSelector(props) {
-  const { profile } = props;
 
-  const getProfile = (title, arr) => {
-    return arr.filter(el => el.network === title);
+import * as T from 'prop-types';
+import { default as lodashSet } from 'lodash/set';
+
+export default function ProfileSelector(props) {
+  const { profile, subprofile, onSubprofileChange, mode = 'editor' } = props;
+
+  const isEditor = mode === 'editor';
+  const isSelector = mode === 'selector';
+
+  const isNetworkProfileFoundInSubprofile = networkName => {
+    const profiles = subprofile?.basics?.profiles;
+    if (!profiles) {
+      return false;
+    }
+    const numProfiles = profiles.length;
+    for (let i = 0; i < numProfiles; i++) {
+      if (profiles[i].network === networkName) {
+        return true;
+      }
+    }
+    return false;
   };
-  const linkedIn = getProfile('LinkedIn', profile.basics.profiles);
-  console.log('linkedIn:', linkedIn);
-  console.log('linkedIn:', linkedIn[0].url);
-  const gitHub = getProfile('gitHub', profile.basics.profiles);
-  console.log('gitHub:', gitHub);
+
+  const doSubprofileNamesMatch =
+    profile?.basics?.name === subprofile?.basics?.name;
+
+  const callOnSubprofileChange = newSubprofileObject => {
+    if (onSubprofileChange) {
+      onSubprofileChange(newSubprofileObject);
+    }
+  };
+
+  const handleAddNameClick = () => {
+    const newSubprofile = { ...subprofile };
+    lodashSet(newSubprofile, 'basics.name', profile.basics.name);
+    lodashSet(newSubprofile, 'basics.label', profile.basics.label);
+    callOnSubprofileChange(newSubprofile);
+  };
+
+  const ProfileSegment = props => {
+    const { network, username, url } = props.networkProfile;
+
+    const isFoundInSubprofile = isNetworkProfileFoundInSubprofile(network);
+    let iconName;
+    if (network === 'LinkedIn') {
+      iconName = 'linkedin';
+    } else if (network === 'gitHub') {
+      iconName = 'github';
+    }
+
+    return (
+      <Segment padded>
+        {isEditor && <Button icon='edit' floated='right' />}
+        {isSelector && (
+          <Button
+            positive
+            icon={isFoundInSubprofile ? 'check' : 'add'}
+            floated='right'
+          />
+        )}
+
+        {iconName && <Icon name={iconName} />}
+
+        <a href={url} target={network}>
+          {username}
+        </a>
+      </Segment>
+    );
+  };
 
   return (
-    <Segment>
+    <div>
       <Header as='h2' block color='grey' textAlign='center'>
         {' '}
         Profile
@@ -36,7 +95,11 @@ export default function ProfileSelector(props) {
         <Button.Group floated='right'>
           <Button icon='edit'></Button>
           <Button.Or />
-          <Button positive icon='add'></Button>
+          <Button
+            onClick={handleAddNameClick}
+            positive
+            icon={doSubprofileNamesMatch ? 'check' : 'add'}
+          />
         </Button.Group>
         <div>
           <Header as='h2'>{profile.basics.name}</Header>
@@ -115,7 +178,7 @@ export default function ProfileSelector(props) {
                     {exp.highlights &&
                       exp.highlights.map((item, index) => {
                         return (
-                          <Segment>
+                          <Segment key={index}>
                             {/* <Button basic floated='right' icon='add'></Button> */}
                             <Button.Group floated='right'>
                               <Button icon='edit'></Button>
@@ -183,7 +246,7 @@ export default function ProfileSelector(props) {
                 <List>
                   {exp.highlights.map((item, index) => {
                     return (
-                      <Segment>
+                      <Segment key={index}>
                         <Button.Group floated='right'>
                           <Button icon='edit'></Button>
                           <Button.Or />
@@ -244,34 +307,9 @@ export default function ProfileSelector(props) {
             {profile.basics.email}
           </a>
         </Segment>
-        {linkedIn.length > 0 && (
-          <Segment padded>
-            <Button.Group floated='right'>
-              <Button icon='edit'></Button>
-              <Button.Or />
-              <Button positive icon='add'></Button>
-            </Button.Group>
-            <Icon name='linkedin' />
-
-            <a href={linkedIn[0].url} target='_blank'>
-              {linkedIn[0].username}
-            </a>
-          </Segment>
-        )}
-
-        {gitHub.length > 0 && (
-          <Segment padded>
-            <Button.Group floated='right'>
-              <Button icon='edit'></Button>
-              <Button.Or />
-              <Button positive icon='add'></Button>
-            </Button.Group>
-            <Icon name='github' />
-            <a href={gitHub[0].url} target='_blank'>
-              {gitHub[0].username}
-            </a>
-          </Segment>
-        )}
+        {profile.basics.profiles.map((networkProfile, ind) => {
+          return <ProfileSegment key={ind} networkProfile={networkProfile} />;
+        })}
       </Segment>
 
       {/* <!-- EDUCATION --> */}
@@ -343,6 +381,13 @@ export default function ProfileSelector(props) {
           </footer>
         </blockquote>
       </div>
-    </Segment>
+    </div>
   );
 }
+
+ProfileSelector.propTypes = {
+  onSubprofileChange: T.func,
+  subprofile: T.object.isRequired,
+  profile: T.object.isRequired,
+  mode: T.oneOf(['selector', 'editor'])
+};

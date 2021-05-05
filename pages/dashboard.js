@@ -1,6 +1,6 @@
 import Link from 'next/link';
-import dbConnect from '../../util/dbConnect';
-import Resume from '../../models/Resume';
+import dbConnect from '../util/dbConnect';
+import Resume from '../models/Resume';
 import React from 'react';
 import { Container, Icon, Label, Menu, Table } from 'semantic-ui-react';
 import { Header } from 'semantic-ui-react';
