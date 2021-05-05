@@ -10,11 +10,13 @@ import {
   Segment,
   Link,
   Button,
-  Reveal
+  Reveal,
+  IconGroup
 } from 'semantic-ui-react';
 
 import * as T from 'prop-types';
 import { default as lodashSet } from 'lodash/set';
+import { Fragment } from 'react';
 
 export default function ProfileSelector(props) {
   const { profile, subprofile, onSubprofileChange, mode = 'editor' } = props;
@@ -125,11 +127,11 @@ export default function ProfileSelector(props) {
           </Header>
         </div>
         <Segment>
-          <div>
-            <Label attached='top left'>Summary</Label>
-          </div>
           <Button basic floated='right' icon='add'></Button>
-          <div>{profile.basics.summary}</div>
+
+          <Label ribbon='left'>Summary</Label>
+
+          <span>{profile.basics.summary}</span>
         </Segment>
       </Segment>
 
@@ -164,12 +166,12 @@ export default function ProfileSelector(props) {
                 </Header.Subheader>
 
                 <Segment>
-                  <Label attached='top left'>Role</Label>
-                  <div>{exp.position}</div>
+                  <Label ribbon='left'>Role</Label>
+                  <span>{exp.position}</span>
                 </Segment>
                 <Segment>
-                  <Label attached='top left'>Summary</Label>
-                  <div>{exp.summary}</div>
+                  <Label ribbon='left'>Summary</Label>
+                  <span>{exp.summary}</span>
                 </Segment>
                 <Segment>
                   {/* <Button basic floated='right' icon='add'></Button> */}
@@ -233,13 +235,14 @@ export default function ProfileSelector(props) {
                 </Header.Subheader>
 
                 <Segment>
-                  <Label attached='top left'>Role</Label>
-                  <div>{exp.position}</div>
+                  <Label ribbon>Role</Label>
+                  {/* <Header as='h3'>{exp.position}</Header> */}
+                  <span>{exp.position}</span>
                 </Segment>
 
                 <Segment>
-                  <Label attached='top left'>Summary</Label>
-                  <div>{exp.summary}</div>
+                  <Label ribbon='left'>Summary</Label>
+                  {exp.summary}
                 </Segment>
 
                 <Header>Highlights</Header>
@@ -353,30 +356,44 @@ export default function ProfileSelector(props) {
         })}
       </Segment>
 
-      <div className='box'>
-        <h2>
-          <i className='fas fa-university ico'></i> Education
-        </h2>
-        <ul id='education' className='clearfix'>
-          <li>
-            <div className='year pull-left'>2020 2021</div>
-            <div className='description pull-right'>
-              <h3>General Assembly</h3>
-              <div className='where'></div>
-              <p>
-                <i className='fas fa-graduation-cap ico'></i> Full Stack Web
-                Development course
-              </p>
-              <p>Software Development</p>
-              <div>Courses</div>
-              <ul className='list-group'>
-                <li className='list-group-item'>Flex Immersive</li>
-              </ul>
-            </div>
-          </li>
-        </ul>
-      </div>
       {/* <!-- SKILLS --> */}
+
+      <Segment>
+        <Button basic floated='right' icon='add'></Button>
+        <Header dividing as='h2'>
+          <Icon name='tasks' /> Skills
+        </Header>
+
+        <Segment>
+          {profile.skills.map((skill, index) => {
+            return (
+              <div key={index}>
+                <Header as='h3'>{skill.name}</Header>
+                <Header.Subheader>{skill.level}</Header.Subheader>
+                <Divider hidden />
+                {skill.keywords && (
+                  <Fragment>
+                    <Label ribbon='left'>Tools &#38; Technologies</Label>
+
+                    <Label.Group circular>
+                      <Divider hidden fitted />
+                      {skill.keywords.map((word, index) => {
+                        return (
+                          <Label as='a' key={index}>
+                            <Icon corner='right' name='add' />
+                            {word}
+                          </Label>
+                        );
+                      })}
+                    </Label.Group>
+                  </Fragment>
+                )}
+              </div>
+            );
+          })}
+        </Segment>
+      </Segment>
+
       <div className='box'>
         <h2>
           <i className='fas fa-tasks ico'></i> Skills
