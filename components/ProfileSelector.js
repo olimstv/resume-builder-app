@@ -253,8 +253,10 @@ export default function ProfileSelector(props) {
                           <Button positive icon='add'></Button>
                         </Button.Group>
                         <ListItem key={index}>
-                          <List.Icon name='check' />
-                          <List.Content>{item}</List.Content>
+                          <List.Content>
+                            <List.Icon name='check' />
+                            {item}
+                          </List.Content>
                         </ListItem>
                       </Segment>
                     );
@@ -313,6 +315,44 @@ export default function ProfileSelector(props) {
       </Segment>
 
       {/* <!-- EDUCATION --> */}
+
+      <Segment>
+        <Button basic floated='right' icon='add'></Button>
+        <Header dividing as='h2'>
+          <Icon name='university' /> Education
+        </Header>
+
+        {profile.education.map((exp, index) => {
+          return (
+            <Segment key={index}>
+              <Button basic floated='right' icon='add'></Button>
+              <Header as='h3'>{exp.institution}</Header>
+              <Header.Subheader>
+                {exp.startDate} - {!exp.endDate ? `till now` : exp.endDate}
+              </Header.Subheader>
+
+              <div className='description pull-right'>
+                <Header as='h4'>{exp.Area}</Header>
+                <Header.Subheader>{exp.studyType}</Header.Subheader>
+
+                {exp.courses &&
+                  exp.courses.map((course, index) => {
+                    return (
+                      <ListItem key={index}>
+                        <List.Content>
+                          {' '}
+                          <List.Icon name='book' />
+                          {course}
+                        </List.Content>
+                      </ListItem>
+                    );
+                  })}
+              </div>
+            </Segment>
+          );
+        })}
+      </Segment>
+
       <div className='box'>
         <h2>
           <i className='fas fa-university ico'></i> Education
