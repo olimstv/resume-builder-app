@@ -365,6 +365,7 @@ export default function ProfileSelector(props) {
         </Header>
 
         <Segment>
+          <Button floated='right' icon='add'></Button>
           {profile.skills.map((skill, index) => {
             return (
               <div key={index}>
@@ -393,22 +394,38 @@ export default function ProfileSelector(props) {
           })}
         </Segment>
       </Segment>
-
-      <div className='box'>
-        <h2>
-          <i className='fas fa-tasks ico'></i> Skills
-        </h2>
-        <div className='skills clearfix'>
-          <div className='item-skills'>
-            Web Development
-            <span className='skill-level'>Junior</span>
-          </div>
-          <div className='col-sm-offset-1 col-sm-12 clearfix'>
-            <span className='skill badge'>HTML</span>
-          </div>
-        </div>
-      </div>
       {/* <!-- HOBBIES --> */}
+
+      {profile.interests && (
+        <Segment>
+          <Button basic floated='right' icon='add'></Button>
+          <Header dividing as='h2'>
+            <Icon name='heart' /> Interests
+          </Header>
+          <Segment>
+            <Button floated='right' icon='add'></Button>
+            {profile.interests.map((interest, index) => {
+              return (
+                <div key={index}>
+                  <Header as='h3'>{interest.name}</Header>
+                  <Label.Group circular>
+                    {interest.keywords &&
+                      interest.keywords.map((keyword, index) => {
+                        return (
+                          <Label as='a' key={index}>
+                            <Icon corner='right' name='add' />
+                            {keyword}
+                          </Label>
+                        );
+                      })}
+                  </Label.Group>
+                  <Divider hidden />
+                </div>
+              );
+            })}
+          </Segment>
+        </Segment>
+      )}
       <div className='box'>
         <h2>
           <i className='fas fa-heart ico'></i> Interests
