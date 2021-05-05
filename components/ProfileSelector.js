@@ -7,13 +7,23 @@ import {
   Label,
   List,
   ListItem,
-  Segment
+  Segment,
+  Link
 } from 'semantic-ui-react';
 export default function ProfileSelector(props) {
   const { profile } = props;
 
+  const getProfile = (title, arr) => {
+    return arr.filter(el => el.network === title);
+  };
+  const linkedIn = getProfile('LinkedIn', profile.basics.profiles);
+  console.log('linkedIn:', linkedIn);
+  console.log('linkedIn:', linkedIn[0].url);
+  const gitHub = getProfile('gitHub', profile.basics.profiles);
+  console.log('gitHub:', gitHub);
+
   return (
-    <Container>
+    <Segment>
       <Header as='h2' block color='grey' textAlign='center'>
         {' '}
         Profile
@@ -70,15 +80,17 @@ export default function ProfileSelector(props) {
                     {exp.highlights &&
                       exp.highlights.map((item, index) => {
                         return (
-                          <ListItem>
-                            <List.Icon name='check' />
-                            <List.Content
-                              key={index}
-                              className='list-group-item'
-                            >
-                              {item}
-                            </List.Content>
-                          </ListItem>
+                          <Segment>
+                            <ListItem key={index}>
+                              <List.Icon name='check' />
+                              <List.Content
+                                key={index}
+                                className='list-group-item'
+                              >
+                                {item}
+                              </List.Content>
+                            </ListItem>
+                          </Segment>
                         );
                       })}
                   </List>
@@ -116,14 +128,16 @@ export default function ProfileSelector(props) {
                   <div>{exp.summary}</div>
                 </Segment>
 
-                <Header className='highlights'>Highlights</Header>
+                <Header>Highlights</Header>
                 <List>
                   {exp.highlights.map((item, index) => {
                     return (
-                      <ListItem key={index}>
-                        <List.Icon name='check' />
-                        <List.Content>{item}</List.Content>
-                      </ListItem>
+                      <Segment>
+                        <ListItem key={index}>
+                          <List.Icon name='check' />
+                          <List.Content>{item}</List.Content>
+                        </ListItem>
+                      </Segment>
                     );
                   })}
                 </List>
@@ -132,69 +146,48 @@ export default function ProfileSelector(props) {
           })}
         </Segment>
       )}
-
-      <div className='box'>
-        <h2>
-          <i className='fas fa-users ico'></i> Volunteer
-        </h2>
-        <div className='job clearfix'>
-          <div className='row'>
-            <div className='details'>
-              <div className='where'></div>
-              <div className='year'>September 2015 – September 2015</div>
-            </div>
-          </div>
-          <div className='row'>
-            <div className='job-details col-xs-11'>
-              <div className='profession'></div>
-              <div className='description'></div>
-            </div>
-          </div>
-        </div>
-      </div>
       {/* <!-- CONTACT --> */}
-      <div className='box clearfix'>
-        <h2>
-          <i className='fas fa-bullseye ico'></i> Contact
-        </h2>
-        <div className='contact-item'>
-          <div className='icon pull-left text-center'>
-            <span className='fas fa-map-marker fa-fw'></span>
-          </div>
 
-          <div className='title only  pull-right'>Adelaide, SA AU</div>
-        </div>
-        <div className='contact-item'>
-          <div className='icon pull-left text-center'>
-            <span className='fas fa-phone fa-fw'></span>
-          </div>
-          <div className='title only pull-right'>+61 410 256 252</div>
-        </div>
-        <div className='contact-item'>
-          <div className='icon pull-left text-center'>
-            <span className='fas fa-envelope fa-fw'></span>
-          </div>
-          <div className='title only pull-right'>
-            <a href='mailto:oleksii.mostovyi@gmail.com' target='_blank'>
-              oleksii.mostovyi@gmail.com
+      <Segment>
+        <Header dividing as='h2'>
+          <Icon name='bullseye' /> Contact
+        </Header>
+        <Segment>
+          <Icon name='location arrow' />
+          {profile.basics.location.city}, {profile.basics.location.region}{' '}
+          {profile.basics.location.countryCode}
+        </Segment>
+        <Segment>
+          <Icon name='phone' />
+          {profile.basics.phone}
+        </Segment>
+        <Segment>
+          <Icon name='mail' />
+          {/* <a href={`mailto:${profile.basics.email}`}>{profile.basics.email}</a> */}
+          <a href={`mailto:{profile.basics.email}`} target='_blank'>
+            {profile.basics.email}
+          </a>
+        </Segment>
+        {linkedIn.length > 0 && (
+          <Segment>
+            <Icon name='linkedin' />
+
+            <a href={linkedIn[0].url} target='_blank'>
+              {linkedIn[0].username}
             </a>
-          </div>
-        </div>
-        <div className='contact-item'>
-          <div className='icon pull-left text-center'>
-            <span className='fab fa-linkedin fa-fw'></span>
-          </div>
-          <div className='title pull-right'>LinkedIn</div>
-          <div className='description pull-right'>
-            <a
-              href='https:&#x2F;&#x2F;www.linkedin.com&#x2F;in&#x2F;olimstv&#x2F;'
-              target='_blank'
-            >
-              olimstv
+          </Segment>
+        )}
+
+        {gitHub.length > 0 && (
+          <Segment>
+            <Icon name='github' />
+            <a href={gitHub[0].url} target='_blank'>
+              {gitHub[0].username}
             </a>
-          </div>
-        </div>
-      </div>
+          </Segment>
+        )}
+      </Segment>
+
       {/* <!-- EDUCATION --> */}
       <div className='box'>
         <h2>
@@ -264,6 +257,6 @@ export default function ProfileSelector(props) {
           </footer>
         </blockquote>
       </div>
-    </Container>
+    </Segment>
   );
 }

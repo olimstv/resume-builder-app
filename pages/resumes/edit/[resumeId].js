@@ -9,23 +9,22 @@ export default function EditResumePage(props) {
   const { profile, resume, userId } = props;
 
   return (
-    <div>
-      <Container fluid>
-        <Grid>
-          <Grid.Row>
-            {/* Profile Data View */}
-            <Grid.Column computer={6} mobile={16}>
-              <ProfileSelector profile={profile} />
-            </Grid.Column>
+    <Container fluid>
+      <Grid>
+        <Grid.Row>
+          {/* Profile Data View */}
+          <Grid.Column computer={6} mobile={16}>
+            <ProfileSelector profile={profile} />
+          </Grid.Column>
 
-            {/* Resume Preview */}
-            <Grid.Column computer={10} mobile={16}>
-              <ResumeViewer subprofile={resume.subprofile} />
-            </Grid.Column>
-          </Grid.Row>
-        </Grid>
-      </Container>
-    </div>
+          {/* Resume Preview */}
+          <Grid.Column computer={10} mobile={12}>
+            <ResumeViewer subprofile={resume.subprofile} />
+          </Grid.Column>
+        </Grid.Row>
+      </Grid>
+      //{' '}
+    </Container>
   );
 }
 
