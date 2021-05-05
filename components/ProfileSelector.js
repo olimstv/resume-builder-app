@@ -426,35 +426,33 @@ export default function ProfileSelector(props) {
           </Segment>
         </Segment>
       )}
-      <div className='box'>
-        <h2>
-          <i className='fas fa-heart ico'></i> Interests
-        </h2>
-        <div className='interests clearfix'>
-          <div className='item-interests'>Music</div>
-          <div className='col-sm-offset-1 col-sm-12 clearfix'>
-            <span className='interest badge'>Professional musician</span>
-            <span className='interest badge'>Drummer</span>
-            <span className='interest badge'>Drumming teacher</span>
-            <span className='interest badge'>
-              Sound engineering and video production
-            </span>
-          </div>
-        </div>
-      </div>
-      <div className='box'>
-        <h2>
-          <i className='fas fa-check-square ico'></i> References
-        </h2>
-        <blockquote>
-          <div>Reference...</div>
-          <footer>
-            <a href='' target='_blank'>
-              Oleksandr Bilyk
-            </a>
-          </footer>
-        </blockquote>
-      </div>
+
+      {/* References */}
+      {profile.references && (
+        <Segment>
+          <Button basic floated='right' icon='add'></Button>
+          <Header dividing as='h2'>
+            <Icon name='check square' /> References
+          </Header>
+          <Segment>
+            {/* <Button floated='right' icon='add'></Button> */}
+            {profile.references.map((ref, index) => {
+              return (
+                <div key={index}>
+                  <span as='h5'>{ref.reference}</span>
+
+                  <footer>
+                    <blockquote>
+                      <a target='_blank'>{ref.name}</a>
+                    </blockquote>
+                  </footer>
+                  <Divider hidden />
+                </div>
+              );
+            })}
+          </Segment>
+        </Segment>
+      )}
     </div>
   );
 }
