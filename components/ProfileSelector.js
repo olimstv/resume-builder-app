@@ -278,6 +278,7 @@ export default function ProfileSelector(props) {
           <Button
             onClick={handleAddVolunteerExperienceClick}
             floated='right'
+            color={doSubprofileVolunteerMatch && 'green'}
             icon={doSubprofileVolunteerMatch ? 'check' : 'add'}
             size='mini'
           />
@@ -290,6 +291,7 @@ export default function ProfileSelector(props) {
               <Segment key={index}>
                 <Button
                   floated='right'
+                  color={doSubprofileVolunteerMatch && 'green'}
                   icon={doSubprofileVolunteerMatch ? 'check' : 'add'}
                   size='mini'
                 />
@@ -318,6 +320,7 @@ export default function ProfileSelector(props) {
                       <Fragment key={index}>
                         <Button
                           floated='right'
+                          color={doSubprofileVolunteerMatch && 'green'}
                           icon={doSubprofileVolunteerMatch ? 'check' : 'add'}
                           size='mini'
                         />
