@@ -1,5 +1,4 @@
 const Interests = ({ interests }) => {
-  console.log('interests :>> ', interests);
   return (
     <div className='box'>
       <h2>

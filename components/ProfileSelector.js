@@ -17,7 +17,6 @@ import {
 import * as T from 'prop-types';
 import { default as lodashSet } from 'lodash/set';
 import { Fragment } from 'react';
-
 export default function ProfileSelector(props) {
   const { profile, subprofile, onSubprofileChange, mode = 'editor' } = props;
 
@@ -38,21 +37,83 @@ export default function ProfileSelector(props) {
     return false;
   };
 
-  const doSubprofileNamesMatch =
-    profile?.basics?.name === subprofile?.basics?.name;
-
   const callOnSubprofileChange = newSubprofileObject => {
     if (onSubprofileChange) {
       onSubprofileChange(newSubprofileObject);
     }
   };
-
+  // NAME
   const handleAddNameClick = () => {
     const newSubprofile = { ...subprofile };
     lodashSet(newSubprofile, 'basics.name', profile.basics.name);
     lodashSet(newSubprofile, 'basics.label', profile.basics.label);
     callOnSubprofileChange(newSubprofile);
   };
+  // Button Icon
+  const doSubprofileNamesMatch =
+    profile?.basics?.name === subprofile?.basics?.name;
+
+  // ABOUT
+  const handleAddAboutClick = () => {
+    const newSubprofile = { ...subprofile };
+    lodashSet(newSubprofile, 'basics.summary', profile.basics.summary);
+    callOnSubprofileChange(newSubprofile);
+  };
+  // Button Icon
+  const doSubprofileSummaryMatch =
+    profile?.basics?.summary === subprofile?.basics?.summary;
+
+  // WORK EXP (ALL)
+  const handleAddWorkExperienceClick = () => {
+    const newSubprofile = { ...subprofile };
+    lodashSet(newSubprofile, 'work', profile.work);
+    callOnSubprofileChange(newSubprofile);
+  };
+  // Button Icon
+  const doSubprofileWorkMatch = profile?.work === subprofile?.work;
+
+  const handleAddWorkExperienceInstanceClick = index => {
+    const newSubprofile = { ...subprofile };
+    const profileWorkArr = profile.work;
+    if (!newSubprofile.work) {
+      newSubprofile.work = [];
+    } else if (newSubprofile.work.some(el => el === profileWorkArr[index])) {
+      return;
+    }
+
+    newSubprofile.work.push(profileWorkArr[index]);
+    callOnSubprofileChange(newSubprofile);
+  };
+  const isWorkItemInSubprofile = index => {
+    const { company, position } = profile.work[index];
+    let match = subprofile.work.some(oneSubprofileWork => {
+      return (
+        oneSubprofileWork.company === company &&
+        oneSubprofileWork.position === position
+      );
+    });
+    return match;
+  };
+  // VOLUNTEER (ALL)
+  const handleAddVolunteerExperienceClick = () => {
+    const newSubprofile = { ...subprofile };
+    lodashSet(newSubprofile, 'volunteer', profile.volunteer);
+    callOnSubprofileChange(newSubprofile);
+  };
+
+  // Button Icon
+  const doSubprofileVolunteerMatch =
+    profile?.volunteer === subprofile?.volunteer;
+
+  // // CONTACTS (ALL)
+  //   const handleAddContactsClick = () => {
+  //     const newSubprofile = { ...subprofile };
+  //     lodashSet(newSubprofile, 'volunteer', profile.volunteer);
+  //     callOnSubprofileChange(newSubprofile);
+  //   };
+
+  //   // Button Icon
+  //   const doSubprofileContactsMatch = profile?.volunteer === subprofile?.volunteer;
 
   const ProfileSegment = props => {
     const { network, username, url } = props.networkProfile;
@@ -66,72 +127,62 @@ export default function ProfileSelector(props) {
     }
 
     return (
-      <Segment padded>
-        {isEditor && <Button icon='edit' floated='right' />}
+      <ListItem>
+        {isEditor && <Button icon='edit' size='mini' floated='right' />}
         {isSelector && (
           <Button
-            positive
             icon={isFoundInSubprofile ? 'check' : 'add'}
             floated='right'
+            size='mini'
           />
         )}
 
-        {iconName && <Icon name={iconName} />}
+        {iconName && <List.Icon name={iconName} />}
 
-        <a href={url} target={network}>
-          {username}
-        </a>
-      </Segment>
+        <List.Content>
+          <a href={url} target={network}>
+            {username}
+          </a>
+        </List.Content>
+      </ListItem>
     );
   };
 
   return (
-    <div>
+    <Fragment>
       <Header as='h2' block color='grey' textAlign='center'>
         {' '}
         Profile
       </Header>
 
       <Segment>
-        {/* <Button basic floated='right' icon='add'></Button> */}
-        <Button.Group floated='right'>
-          <Button icon='edit'></Button>
-          <Button.Or />
+        <Fragment>
           <Button
+            floated='right'
+            size='mini'
             onClick={handleAddNameClick}
-            positive
+            color={doSubprofileNamesMatch && 'green'}
             icon={doSubprofileNamesMatch ? 'check' : 'add'}
           />
-        </Button.Group>
-        <div>
           <Header as='h2'>{profile.basics.name}</Header>
-          <Label>
-            <Icon name='code'></Icon> {profile.basics.label}
-          </Label>
-        </div>
-      </Segment>
+          <Label>{profile.basics.label}</Label>
+        </Fragment>
+        {/* ABOUT ME */}
 
-      {/* ABOUT ME */}
-      <Segment>
-        {/* <Button basic floated='right' icon='add'></Button>
-         */}
-        <Button.Group floated='right'>
-          <Button icon='edit'></Button>
-          <Button.Or />
-          <Button positive icon='add'></Button>
-        </Button.Group>
-        <div>
-          <Header as='h2' dividing>
+        <Segment>
+          <Button
+            onClick={handleAddAboutClick}
+            floated='right'
+            color={doSubprofileSummaryMatch && 'green'}
+            icon={doSubprofileSummaryMatch ? 'check' : 'add'}
+            size='mini'
+          />
+          <Header as='h2'>
             <Icon name='user' size='small' />
             About
           </Header>
-        </div>
-        <Segment>
-          <Button basic floated='right' icon='add'></Button>
-
-          <Label ribbon='left'>Summary</Label>
-
-          <span>{profile.basics.summary}</span>
+          <Label ribbon>Summary</Label>
+          {profile.basics.summary}
         </Segment>
       </Segment>
 
@@ -140,53 +191,65 @@ export default function ProfileSelector(props) {
         <Label>Work Experience section doesn't filled yet...</Label>
       ) : (
         <Segment>
-          <Button.Group floated='right'>
-            <Button icon='edit'></Button>
-            <Button.Or />
-            <Button positive icon='add'></Button>
-          </Button.Group>
+          <Button
+            onClick={handleAddWorkExperienceClick}
+            floated='right'
+            color={doSubprofileWorkMatch && 'green'}
+            icon={doSubprofileWorkMatch ? 'check' : 'add'}
+            size='mini'
+          />
 
-          <Header as='h2' dividing>
+          <Header as='h2'>
             <Icon name='suitcase' />
             Work Experience
           </Header>
+          {/* <Divider /> */}
 
           {profile.work.map((exp, index) => {
+            const isInSubprofile = isWorkItemInSubprofile(index);
             return (
               <Segment key={index}>
-                {/* <Button basic floated='right' icon='add'></Button> */}
-                <Button.Group floated='right'>
-                  <Button icon='edit'></Button>
-                  <Button.Or />
-                  <Button positive icon='add'></Button>
-                </Button.Group>
+                <Button
+                  onClick={handleAddWorkExperienceInstanceClick.bind(
+                    this,
+                    index
+                  )}
+                  floated='right'
+                  color={isInSubprofile && 'green'}
+                  icon={isInSubprofile ? 'check' : 'add'}
+                  size='mini'
+                />
                 <Header as='h3'>{exp.company}</Header>
                 <Header.Subheader>
                   {exp.startDate} - {!exp.endDate ? `till now` : exp.endDate}
                 </Header.Subheader>
 
-                <Segment>
-                  <Label ribbon='left'>Role</Label>
-                  <span>{exp.position}</span>
-                </Segment>
-                <Segment>
-                  <Label ribbon='left'>Summary</Label>
-                  <span>{exp.summary}</span>
-                </Segment>
-                <Segment>
-                  {/* <Button basic floated='right' icon='add'></Button> */}
+                <Fragment>
+                  <Divider hidden />
+                  <Label ribbon>Role</Label>
+                  {exp.position}
+                </Fragment>
+                <Fragment>
+                  <Divider hidden />
+                  <Label ribbon>Summary</Label>
+                  {exp.summary}
+                </Fragment>
+                <Fragment>
+                  {/* <Button  floated='right' icon='add' size='mini' /> */}
+                  {/* <Divider /> */}
                   <Header>Highlights</Header>
                   <List>
                     {exp.highlights &&
                       exp.highlights.map((item, index) => {
+                        const isInSubprofile = doSubprofileWorkMatch;
                         return (
-                          <Segment key={index}>
-                            {/* <Button basic floated='right' icon='add'></Button> */}
-                            <Button.Group floated='right'>
-                              <Button icon='edit'></Button>
-                              <Button.Or />
-                              <Button positive icon='add'></Button>
-                            </Button.Group>
+                          <Fragment key={index}>
+                            <Button
+                              floated='right'
+                              color={isInSubprofile && 'green'}
+                              icon={isInSubprofile ? 'check' : 'add'}
+                              size='mini'
+                            ></Button>
                             <ListItem key={index}>
                               <List.Icon name='check' />
                               <List.Content
@@ -196,11 +259,11 @@ export default function ProfileSelector(props) {
                                 {item}
                               </List.Content>
                             </ListItem>
-                          </Segment>
+                          </Fragment>
                         );
                       })}
                   </List>
-                </Segment>
+                </Fragment>
               </Segment>
             );
           })}
@@ -212,56 +275,60 @@ export default function ProfileSelector(props) {
         <Label>Volunteer section doesn't filled yet...</Label>
       ) : (
         <Segment>
-          <Button.Group floated='right'>
-            <Button icon='edit'></Button>
-            <Button.Or />
-            <Button positive icon='add'></Button>
-          </Button.Group>
-          <Header as='h2' dividing>
+          <Button
+            onClick={handleAddVolunteerExperienceClick}
+            floated='right'
+            icon={doSubprofileVolunteerMatch ? 'check' : 'add'}
+            size='mini'
+          />
+          <Header as='h2'>
             <Icon name='users' />
             Volunteer
           </Header>
           {profile.volunteer.map((exp, index) => {
             return (
               <Segment key={index}>
-                <Button.Group floated='right'>
-                  <Button icon='edit'></Button>
-                  <Button.Or />
-                  <Button positive icon='add'></Button>
-                </Button.Group>
+                <Button
+                  floated='right'
+                  icon={doSubprofileVolunteerMatch ? 'check' : 'add'}
+                  size='mini'
+                />
                 <Header as='h3'>{exp.organization}</Header>
                 <Header.Subheader>
                   {exp.startDate} - {!exp.endDate ? `till now` : exp.endDate}
                 </Header.Subheader>
 
-                <Segment>
+                <div>
                   <Label ribbon>Role</Label>
                   {/* <Header as='h3'>{exp.position}</Header> */}
-                  <span>{exp.position}</span>
-                </Segment>
+                  {exp.position}
+                  <Divider hidden />
+                </div>
 
-                <Segment>
-                  <Label ribbon='left'>Summary</Label>
+                <Fragment>
+                  <Label ribbon>Summary</Label>
                   {exp.summary}
-                </Segment>
+                </Fragment>
 
                 <Header>Highlights</Header>
+                {/* <Divider /> */}
                 <List>
                   {exp.highlights.map((item, index) => {
                     return (
-                      <Segment key={index}>
-                        <Button.Group floated='right'>
-                          <Button icon='edit'></Button>
-                          <Button.Or />
-                          <Button positive icon='add'></Button>
-                        </Button.Group>
+                      <Fragment key={index}>
+                        <Button
+                          floated='right'
+                          icon={doSubprofileVolunteerMatch ? 'check' : 'add'}
+                          size='mini'
+                        />
                         <ListItem key={index}>
                           <List.Content>
                             <List.Icon name='check' />
                             {item}
                           </List.Content>
                         </ListItem>
-                      </Segment>
+                        <Divider hidden />
+                      </Fragment>
                     );
                   })}
                 </List>
@@ -273,62 +340,55 @@ export default function ProfileSelector(props) {
       {/* <!-- CONTACT --> */}
 
       <Segment>
-        <Button.Group floated='right'>
-          <Button icon='edit'></Button>
-          <Button.Or />
-          <Button positive icon='add'></Button>
-        </Button.Group>
-        <Header dividing as='h2'>
+        <Button floated='right' icon='add' size='mini' />
+        <Header as='h2'>
           <Icon name='bullseye' /> Contact
         </Header>
-        <Segment padded>
-          <Button.Group floated='right'>
-            <Button icon='edit'></Button>
-            <Button.Or />
-            <Button positive icon='add'></Button>
-          </Button.Group>
-          <Icon name='location arrow' />
-          {profile.basics.location.city}, {profile.basics.location.region}{' '}
-          {profile.basics.location.countryCode}
-        </Segment>
-        <Segment padded>
-          <Button.Group floated='right'>
-            <Button icon='edit'></Button>
-            <Button.Or />
-            <Button positive icon='add'></Button>
-          </Button.Group>
-          <Icon name='phone' />
-          {profile.basics.phone}
-        </Segment>
-        <Segment padded>
-          <Button.Group floated='right'>
-            <Button icon='edit'></Button>
-            <Button.Or />
-            <Button positive icon='add'></Button>
-          </Button.Group>
-          <Icon name='mail' />
-          {/* <a href={`mailto:${profile.basics.email}`}>{profile.basics.email}</a> */}
-          <a href={`mailto:{profile.basics.email}`} target='_blank'>
-            {profile.basics.email}
-          </a>
-        </Segment>
-        {profile.basics.profiles.map((networkProfile, ind) => {
-          return <ProfileSegment key={ind} networkProfile={networkProfile} />;
-        })}
+        <Divider />
+        <List>
+          <ListItem>
+            <Button floated='right' icon='add' size='mini' />
+            <List.Icon name='location arrow' />
+            <List.Content>
+              {profile.basics.location.city}, {profile.basics.location.region}{' '}
+              {profile.basics.location.countryCode}
+            </List.Content>
+          </ListItem>
+          <Divider hidden fitted />
+          <ListItem>
+            <Button floated='right' icon='add' size='mini' />
+            <List.Icon name='phone' />
+            <List.Content>{profile.basics.phone}</List.Content>
+          </ListItem>
+          <Divider hidden fitted />
+          <ListItem>
+            <Button floated='right' icon='add' size='mini' />
+            <List.Icon name='mail' />
+            <List.Content>
+              <a href={`mailto:{profile.basics.email}`} target='_blank'>
+                {profile.basics.email}
+              </a>
+            </List.Content>
+          </ListItem>
+
+          {profile.basics.profiles.map((networkProfile, ind) => {
+            return <ProfileSegment key={ind} networkProfile={networkProfile} />;
+          })}
+        </List>
       </Segment>
 
       {/* <!-- EDUCATION --> */}
 
       <Segment>
-        <Button basic floated='right' icon='add'></Button>
-        <Header dividing as='h2'>
+        <Button floated='right' icon='add' size='mini' />
+        <Header as='h2'>
           <Icon name='university' /> Education
         </Header>
 
         {profile.education.map((exp, index) => {
           return (
             <Segment key={index}>
-              <Button basic floated='right' icon='add'></Button>
+              <Button floated='right' icon='add' size='mini' />
               <Header as='h3'>{exp.institution}</Header>
               <Header.Subheader>
                 {exp.startDate} - {!exp.endDate ? `till now` : exp.endDate}
@@ -359,13 +419,13 @@ export default function ProfileSelector(props) {
       {/* <!-- SKILLS --> */}
 
       <Segment>
-        <Button basic floated='right' icon='add'></Button>
-        <Header dividing as='h2'>
+        <Button floated='right' icon='add' size='mini' />
+        <Header as='h2'>
           <Icon name='tasks' /> Skills
         </Header>
 
         <Segment>
-          <Button floated='right' icon='add'></Button>
+          <Button floated='right' icon='add' size='mini' />
           {profile.skills.map((skill, index) => {
             return (
               <div key={index}>
@@ -374,14 +434,14 @@ export default function ProfileSelector(props) {
                 <Divider hidden />
                 {skill.keywords && (
                   <Fragment>
-                    <Label ribbon='left'>Tools &#38; Technologies</Label>
-
+                    <Label ribbon>Tools &#38; Technologies</Label>
+                    <Divider hidden />
                     <Label.Group circular>
                       <Divider hidden fitted />
                       {skill.keywords.map((word, index) => {
                         return (
                           <Label as='a' key={index}>
-                            <Icon corner='right' name='add' />
+                            <Icon corner='top right' name='add' />
                             {word}
                           </Label>
                         );
@@ -398,12 +458,12 @@ export default function ProfileSelector(props) {
 
       {profile.interests && (
         <Segment>
-          <Button basic floated='right' icon='add'></Button>
-          <Header dividing as='h2'>
+          <Button floated='right' icon='add' size='mini' />
+          <Header as='h2'>
             <Icon name='heart' /> Interests
           </Header>
           <Segment>
-            <Button floated='right' icon='add'></Button>
+            <Button floated='right' icon='add' size='mini' />
             {profile.interests.map((interest, index) => {
               return (
                 <div key={index}>
@@ -413,7 +473,7 @@ export default function ProfileSelector(props) {
                       interest.keywords.map((keyword, index) => {
                         return (
                           <Label as='a' key={index}>
-                            <Icon corner='right' name='add' />
+                            <Icon corner='top right' name='add' />
                             {keyword}
                           </Label>
                         );
@@ -430,8 +490,8 @@ export default function ProfileSelector(props) {
       {/* References */}
       {profile.references && (
         <Segment>
-          <Button basic floated='right' icon='add'></Button>
-          <Header dividing as='h2'>
+          <Button floated='right' icon='add' size='mini' />
+          <Header as='h2'>
             <Icon name='check square' /> References
           </Header>
           <Segment>
@@ -439,6 +499,7 @@ export default function ProfileSelector(props) {
             {profile.references.map((ref, index) => {
               return (
                 <div key={index}>
+                  <Button floated='right' icon='add' size='mini' />
                   <span as='h5'>{ref.reference}</span>
 
                   <footer>
@@ -453,7 +514,7 @@ export default function ProfileSelector(props) {
           </Segment>
         </Segment>
       )}
-    </div>
+    </Fragment>
   );
 }
 
