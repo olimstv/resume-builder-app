@@ -1,7 +1,14 @@
 {
-  "name": "resume-builder-app",
+  "name": "resume-builder",
   "version": "1.0.0",
   "description": "Resume Builder App",
+  "keywords": [
+    "react",
+    "next",
+    "next.js"
+  ],
+  "author": "Oleksii Mostovyi",
+  "license": "MIT",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
