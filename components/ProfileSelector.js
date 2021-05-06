@@ -219,7 +219,6 @@ export default function ProfileSelector(props) {
                 <Header.Subheader>
                   {exp.startDate} - {!exp.endDate ? `till now` : exp.endDate}
                 </Header.Subheader>
-
                 <Fragment>
                   <Divider hidden />
                   <Label ribbon>Role</Label>
