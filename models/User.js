@@ -19,7 +19,7 @@ const UserSchema = new mongoose.Schema({
     required: [true, 'Please provide your valid email'],
     unique: [true, 'User with this email address is already exists']
   },
-  subprofile: {
+  profile: {
     basics: {
       name: {
         type: String
