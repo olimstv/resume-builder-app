@@ -1,9 +1,10 @@
-import {Button, Container, Form, Header, Message} from "semantic-ui-react";
+import {Button, Container, Form, Grid, Header, Message, Segment} from "semantic-ui-react";
 import React, {useState} from "react";
-import withSession, {useUserServerSide} from "../util/session";
+import withSession, {extractReqResFromArgs, useUserServerSide} from "../util/session";
 import fetch from 'unfetch';
 import {callApi} from "../util/api";
 import { useRouter } from 'next/router';
+import Link from 'next/link';
 
 export default function LoginPage(props) {
 
@@ -32,35 +33,48 @@ export default function LoginPage(props) {
     }
 
     return (
-        <Container>
-            <Header as='h2'>Login</Header>
+        <Grid textAlign='center' style={{ height: '100vh' }} verticalAlign='middle'>
+            <Grid.Column style={{ maxWidth: 450 }}>
+                <Header as='h2' color='teal' textAlign='center'>
+                    {/*<Image src='/logo.png' />*/} Log-in to your account
+                </Header>
 
-            <Form onSubmit={handleLoginFormSubmit}>
+                <Form size='large' onSubmit={handleLoginFormSubmit}>
 
-                <Form.Field>
-                    <label htmlFor="email">Email:</label>
-                    <input name="email" type="text" value={email} onChange={handleEmailChange} tabIndex={1}/>
-                </Form.Field>
-                <Form.Field>
-                    <label htmlFor="password">Password:</label>
-                    <input name='password' type="password" value={password} onChange={handlePasswordChange}/>
-                </Form.Field>
+                    <Segment stacked>
+                        <Form.Field>
+                            <label htmlFor="email">Email:</label>
+                            <input name="email" type="text" value={email} onChange={handleEmailChange} tabIndex={1}/>
+                        </Form.Field>
+                        <Form.Field>
+                            <label htmlFor="password">Password:</label>
+                            <input name='password' type="password" value={password} onChange={handlePasswordChange}/>
+                        </Form.Field>
 
-                {lastAuthenticationError && (
-                    <Message negative>
-                        <Message.Header>Error</Message.Header>
-                        <p>{lastAuthenticationError}</p>
-                    </Message>
-                )}
+                        {lastAuthenticationError && (
+                            <Message negative>
+                                <Message.Header>Error</Message.Header>
+                                <p>{lastAuthenticationError}</p>
+                            </Message>
+                        )}
 
-                <Button type='submit'>Submit</Button>
-            </Form>
-        </Container>
+                        <Button type='submit'>Submit</Button>
+                    </Segment>
+
+                </Form>
+
+                <Message>
+                    New to us? <Link href='/signup'><a >Sign Up</a></Link>
+                </Message>
+            </Grid.Column>
+        </Grid>
     );
 }
 
 // export async function getServerSideProps(context) {
-export const getServerSideProps = withSession(async function (req, res) {
+export const getServerSideProps = withSession(async function (...args) {
+
+    const {req, res} = extractReqResFromArgs(args);
 
     const {isLoggedIn} = useUserServerSide(req);
     if (isLoggedIn) {

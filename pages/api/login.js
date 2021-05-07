@@ -45,7 +45,12 @@ const apiLogin = withSession(async function (req, res) {
             throw new Error(invalidCredentialsMessage);
         }
 
-        const sessionUser = {};
+        const sessionUser = {
+            _id: userInDb._id.toString(),
+            firstName: userInDb.firstName,
+            lastName: userInDb.lastName,
+            email: userInDb.email,
+        };
         req.session.set('user', sessionUser);
         await req.session.save();
         res.json(sessionUser);

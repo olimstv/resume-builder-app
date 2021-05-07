@@ -1,24 +1,87 @@
 import Link from 'next/link';
-const Navbar = () => {
-  return (
-    <nav className='navbar'>
-      <Link href='/'>
-        <a className='navbar-brand'>Let's Get IT</a>
-      </Link>
-      <Link href='/dashboard'>
-        <a className='nav-link'>Dasnboard</a>
-      </Link>
-      <Link href='/profile'>
-        <a className='nav-link'>Profile</a>
-      </Link>
-      <Link href='/'>
-        <a className='nav-link'>Create Resume</a>
-      </Link>
-      <Link href='/'>
-        <a className='nav-link'>Log Out</a>
-      </Link>
-    </nav>
-  );
+import * as T from 'prop-types';
+import {callApi} from "../util/api";
+import {useRouter} from "next/router";
+import {Container, Menu} from "semantic-ui-react";
+
+const Navbar = (props) => {
+
+    const router = useRouter();
+
+    const {user} = props;
+    const isLoggedIn = !!user;
+
+    const handleLogoutClick = async (e) => {
+        e.stopPropagation();
+        e.preventDefault();
+
+        const {isSuccess, errorMessage} = await callApi('/logout');
+        if (isSuccess) {
+            // Redirect to Home Page
+            await router.push('/');
+        } else {
+            console.error('An error was thrown by the /logout API: ' + errorMessage);
+        }
+    }
+
+    return (
+        <Menu stackable>
+            <Container>
+                <Link href='/'>
+                    <Menu.Item>
+                        Let's Get IT
+                    </Menu.Item>
+                </Link>
+
+                {/* Dashboard */}
+                {isLoggedIn && (
+                    <Link href='/dashboard'>
+                        <Menu.Item>
+                            Dashboard
+                        </Menu.Item>
+                    </Link>
+                )}
+
+                {/* Profile */}
+                {isLoggedIn && (
+                    <Link href='/profile'>
+                        <Menu.Item>
+                            Profile
+                        </Menu.Item>
+                    </Link>
+                )}
+
+                {isLoggedIn && (
+                    <Link href='/create-resume'>
+                        <Menu.Item>
+                            Create Resume
+                        </Menu.Item>
+                    </Link>
+                )}
+
+                {isLoggedIn? (
+                    <Menu.Item onClick={handleLogoutClick}>
+                        Log Out
+                    </Menu.Item>
+                ) : <>
+                    <Link href='/login'>
+                        <Menu.Item>
+                            Login
+                        </Menu.Item>
+                    </Link>
+                    <Link href='/signup'>
+                        <Menu.Item>
+                            Sign Up
+                        </Menu.Item>
+                    </Link>
+                </>}
+            </Container>
+        </Menu>
+    );
 };
+
+Navbar.propTypes = {
+    user: T.any,
+}
 
 export default Navbar;

@@ -4,9 +4,10 @@ import Resume from '../models/Resume';
 import React from 'react';
 import { Container, Icon, Label, Menu, Table } from 'semantic-ui-react';
 import { Header } from 'semantic-ui-react';
-import withSession, {useUserServerSide} from "../util/session";
+import withSession, {extractReqResFromArgs, useUserServerSide} from "../util/session";
+import Layout from "../components/Layout";
 
-const Dashboard = ({ resumes }) => {
+const Dashboard = ({ resumes, user }) => {
   let resumeRows = [];
   resumes.map(resume => {
     resumeRows.push(
@@ -31,40 +32,42 @@ const Dashboard = ({ resumes }) => {
     );
   });
 
-  return (
-    <Container>
-      <Header as='h2'>Dashboard</Header>
-      <Table celled>
-        <Table.Header>
-          <Table.Row>
-            <Table.HeaderCell>Resume Title</Table.HeaderCell>
-            <Table.HeaderCell>Slug</Table.HeaderCell>
-            <Table.HeaderCell>Action</Table.HeaderCell>
-          </Table.Row>
-        </Table.Header>
+  const hasResumes = resumeRows.length > 0;
 
-        <Table.Body>{resumeRows}</Table.Body>
-      </Table>
-    </Container>
+  return (
+      <Layout user={user}>
+        <Header as='h2'>Dashboard</Header>
+        {hasResumes? (
+            <Table celled>
+              <Table.Header>
+                <Table.Row>
+                  <Table.HeaderCell>Resume Title</Table.HeaderCell>
+                  <Table.HeaderCell>Slug</Table.HeaderCell>
+                  <Table.HeaderCell>Action</Table.HeaderCell>
+                </Table.Row>
+              </Table.Header>
+
+              <Table.Body>{resumeRows}</Table.Body>
+            </Table>
+        ) : (
+            <p>
+              Start by completing your <Link href='/profile'>profile</Link>, then create your first Resume
+              by clicking on the "Create Resume" link in the menu.
+            </p>
+        )}
+
+      </Layout>
   );
 };
 
 // export async function getServerSideProps(context) {
-export const getServerSideProps = withSession(async function (req, res) {
+export const getServerSideProps = withSession(async function (...args) {
 
-  const {isLoggedIn, user: user2, httpResponse} = useUserServerSide(req);
+  const {req, res} = extractReqResFromArgs(args);
+  const {isLoggedIn, user, httpResponse} = useUserServerSide(req);
   if (!isLoggedIn) {
     return httpResponse;
   }
-
-  // console.log('context.params :>> ', params);
-  // Fetch from Mongo!
-  const user = {
-    _id: '6090dcbc09b7fade1e520965',
-    firstName: 'Oleksii',
-    lastName: 'Mostovyi',
-    email: 'oleksii.mostovyi@gmail.com'
-  };
 
   await dbConnect();
 
@@ -78,7 +81,7 @@ export const getServerSideProps = withSession(async function (req, res) {
     return resume;
   });
   // console.log('resumes :>> ', resumes);
-  return { props: { resumes: resumes } };
+  return { props: { resumes, user } };
 });
 
 export default Dashboard;

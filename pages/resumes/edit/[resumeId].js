@@ -5,9 +5,11 @@ import dbConnect from '../../../util/dbConnect';
 import Resume from '../../../models/Resume';
 import User from '../../../models/User';
 import { useState } from 'react';
+import Layout from "../../../components/Layout";
+import withSession, {extractReqResFromArgs, useUserServerSide} from "../../../util/session";
 
 export default function EditResumePage(props) {
-  const { profile, resume, userId } = props;
+  const { profile, resume, user } = props;
 
   const [subprofile, setSubprofile] = useState(resume.subprofile);
   const [slug, setSlug] = useState(resume.slug);
@@ -24,33 +26,41 @@ export default function EditResumePage(props) {
   };
 
   return (
-    <Container fluid>
-      <Grid>
-        <Grid.Row>
-          {/* Profile Data View */}
-          <Grid.Column computer={6} mobile={16}>
-            <ProfileSelector
-              profile={profile}
-              subprofile={subprofile}
-              mode='selector'
-              onSubprofileChange={handleOnSubprofileChange}
-            />
-          </Grid.Column>
+    <Layout user={user}>
+      <Container fluid>
+        <Grid>
+          <Grid.Row>
+            {/* Profile Data View */}
+            <Grid.Column computer={6} mobile={16}>
+              <ProfileSelector
+                  profile={profile}
+                  subprofile={subprofile}
+                  mode='selector'
+                  onSubprofileChange={handleOnSubprofileChange}
+              />
+            </Grid.Column>
 
-          {/* Resume Preview */}
-          <Grid.Column computer={10} mobile={12}>
-            <ResumeViewer subprofile={subprofile} mode='editor' />
-          </Grid.Column>
-        </Grid.Row>
-      </Grid>{' '}
-      {/* TODO: Add components: 1) title, 2) slug, 3) isPublished checkbox; 3) Save button. The Save button will compose a new `resume` object with fields: slug, title, isPublished, subprofile, and  call an API to save it into the database (we do have its ID already!); and show a notice, e.g. "Saved successfully!". */}
-    </Container>
+            {/* Resume Preview */}
+            <Grid.Column computer={10} mobile={12}>
+              <ResumeViewer subprofile={subprofile} mode='editor' />
+            </Grid.Column>
+          </Grid.Row>
+        </Grid>{' '}
+        {/* TODO: Add components: 1) title, 2) slug, 3) isPublished checkbox; 3) Save button. The Save button will compose a new `resume` object with fields: slug, title, isPublished, subprofile, and  call an API to save it into the database (we do have its ID already!); and show a notice, e.g. "Saved successfully!". */}
+      </Container>
+    </Layout>
   );
 }
 
-export async function getServerSideProps({ params }) {
+export const getServerSideProps = withSession(async function (...args) {
+
+  const {req, res} = extractReqResFromArgs(args);
+  const {isLoggedIn, user: sessionUser, httpResponse} = useUserServerSide(req);
+  if (!isLoggedIn) {
+    return httpResponse;
+  }
+
   await dbConnect();
-  // const user = userUser();
 
   const resumeId = params.resumeId;
 
@@ -64,17 +74,23 @@ export async function getServerSideProps({ params }) {
   resume.vacancy = resume.vacancy.toString();
   resume.user = resume.user.toString();
 
-  const user = await User.findById(resume.user).lean();
+  const dbUser = await User.findById(resume.user).lean();
 
-  if (!user) {
+  if (!dbUser) {
     return { notFound: true };
   }
-  user._id = user._id.toString();
-  const profile = user.profile;
+  dbUser._id = dbUser._id.toString();
+  const profile = dbUser.profile;
 
-  //TODO: Prohibit access if the user currently authenticated
-  // is not the same User ID.
-  // Compare user._id with user.id
+  // Prohibit access if the user currently authenticated
+  if (dbUser._id !== sessionUser._id) {
+    return {
+      redirect: {
+        destination: '/login',
+        permanent: false,
+      }
+    }
+  }
 
-  return { props: { resume, profile, userId: user._id } };
-}
+  return { props: { resume, profile, user: sessionUser } };
+});
