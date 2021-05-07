@@ -4,6 +4,7 @@ import Resume from '../models/Resume';
 import React from 'react';
 import { Container, Icon, Label, Menu, Table } from 'semantic-ui-react';
 import { Header } from 'semantic-ui-react';
+import withSession, {useUserServerSide} from "../util/session";
 
 const Dashboard = ({ resumes }) => {
   let resumeRows = [];
@@ -49,7 +50,13 @@ const Dashboard = ({ resumes }) => {
 };
 
 // export async function getServerSideProps(context) {
-export async function getServerSideProps(context) {
+export const getServerSideProps = withSession(async function (req, res) {
+
+  const {isLoggedIn, user: user2, httpResponse} = useUserServerSide(req);
+  if (!isLoggedIn) {
+    return httpResponse;
+  }
+
   // console.log('context.params :>> ', params);
   // Fetch from Mongo!
   const user = {
@@ -72,5 +79,6 @@ export async function getServerSideProps(context) {
   });
   // console.log('resumes :>> ', resumes);
   return { props: { resumes: resumes } };
-}
+});
+
 export default Dashboard;

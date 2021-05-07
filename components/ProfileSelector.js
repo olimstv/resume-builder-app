@@ -313,7 +313,7 @@ export default function ProfileSelector(props) {
             <Button
               onClick={handleAddAboutClick}
               floated='right'
-              color={doSubprofileSummaryMatch && 'green'}
+              color={doSubprofileSummaryMatch ? 'green' : undefined}
               icon={doSubprofileSummaryMatch ? 'check' : 'add'}
               size='mini'
             />
