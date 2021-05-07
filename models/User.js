@@ -200,10 +200,6 @@ const UserSchema = new mongoose.Schema({
         reference: { type: String }
       }
     ]
-  },
-  date: {
-    type: Date,
-    default: Date.now
   }
 });
 
