@@ -42,16 +42,17 @@ const apiCreateResume = withSession(async function (req, res) {
         const dbUser = await User.findById(user._id);
         const currentUserProfile = dbUser.profile;
 
-        let newResume = new Resume({
+        const newResume = new Resume({
             slug: slugInput,
             title: titleInput,
             user: user._id,
             vacancy: null,
             subprofile: currentUserProfile
         });
-        newResume = await newResume.save();
+        await newResume.save();
+        const newResumeId = newResume._id.toString();
 
-        res.json({newResumeId: newResume._id.toString()});
+        res.json({newResumeId});
 
     } catch (error) {
         res.status(400).json({message: error.message})
