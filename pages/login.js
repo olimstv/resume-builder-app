@@ -5,7 +5,8 @@ import {
   Grid,
   Header,
   Message,
-  Segment
+  Segment,
+  Image
 } from 'semantic-ui-react';
 import React, { useState } from 'react';
 import withSession, {
@@ -52,8 +53,12 @@ export default function LoginPage(props) {
       <Grid.Column style={{ maxWidth: 450 }}>
         {/* <Container size='large'> */}
         <Segment stacked>
-          <Header as='h2' color='teal' textAlign='center'>
-            {/*<Image src='/logo.png' />*/} Log-in to your account
+          <Header as='h1' color='teal' textAlign='center'>
+            <Image size='massive' src='/logo.png' />
+            lets.get(IT)
+          </Header>
+          <Header as='h2' color='teal'>
+            Log-in to your account
           </Header>
           <Form size='large' onSubmit={handleLoginFormSubmit}>
             <Form.Field>
