@@ -78,7 +78,7 @@ export const getServerSideProps = withSession(async function (...args) {
   }
 
   resume._id = resume._id.toString();
-  resume.vacancy = resume.vacancy.toString();
+  
   resume.user = resume.user.toString();
 
   const dbUser = await User.findById(resume.user).lean();

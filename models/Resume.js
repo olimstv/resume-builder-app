@@ -5,10 +5,7 @@ const ResumeSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'user'
   },
-  vacancy: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'vacancy'
-  },
+
   slug: {
     type: String
   },

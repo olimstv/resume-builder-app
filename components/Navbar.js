@@ -2,7 +2,7 @@ import Link from 'next/link';
 import * as T from 'prop-types';
 import { callApi } from '../util/api';
 import { useRouter } from 'next/router';
-import { Container, Menu } from 'semantic-ui-react';
+import { Container, Menu, Image } from 'semantic-ui-react';
 
 const Navbar = props => {
   const router = useRouter();
@@ -24,10 +24,11 @@ const Navbar = props => {
   };
 
   return (
-    <Menu stackable>
-      <Container>
+    
+    <Menu fixed='top'>
+          <Container>
         <Link href='/'>
-          <Menu.Item>Let's Get IT</Menu.Item>
+          <Menu.Item as='a' header><Image size='mini' src='/logo.png' style={{ marginRight: '1.5em' }}  src='/logo.png' />Let's Get IT</Menu.Item>
         </Link>
 
         {/* Dashboard */}

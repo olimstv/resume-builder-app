@@ -50,14 +50,6 @@ export default function LoginPage(props) {
 
   return (
     <>
-      <style>
-        {`
-        html, body {
-          background: #ddd
-          ;
-        }
-      `}
-      </style>
       <Grid
         textAlign='center'
         style={{ height: '100vh' }}

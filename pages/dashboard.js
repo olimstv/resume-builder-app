@@ -78,7 +78,7 @@ export const getServerSideProps = withSession(async function (...args) {
   const resumes = result.map(item => {
     const resume = item.toObject();
     resume._id = resume._id.toString();
-    resume.vacancy = resume.vacancy.toString();
+    
     resume.subprofile = resume.subprofile.toString();
     resume.user = resume.user.toString();
     return resume;

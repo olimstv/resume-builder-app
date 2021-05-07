@@ -37,7 +37,7 @@ export async function getServerSideProps({ params }) {
 
   const resume = await Resume.findOne({ slug: params.slug }).lean();
   resume._id = resume._id.toString();
-  resume.vacancy = resume.vacancy.toString();
+  
   resume.user = resume.user.toString();
 
   return { props: { resume } };
