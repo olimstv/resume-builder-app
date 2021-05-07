@@ -257,7 +257,7 @@ export default function ProfileSelector(props) {
               floated='right'
               size='mini'
               onClick={handleAddNameClick}
-              color={doSubprofileNamesMatch && 'green'}
+              color={doSubprofileNamesMatch && 'teal'}
               icon={doSubprofileNamesMatch ? 'check' : 'add'}
             />
             <Header as='h2'>{profile.basics.name}</Header>
@@ -269,7 +269,7 @@ export default function ProfileSelector(props) {
             <Button
               onClick={handleAddAboutClick}
               floated='right'
-              color={doSubprofileSummaryMatch && 'green'}
+              color={doSubprofileSummaryMatch && 'teal'}
               icon={doSubprofileSummaryMatch ? 'check' : 'add'}
               size='mini'
             />
@@ -290,7 +290,7 @@ export default function ProfileSelector(props) {
           <Button
             onClick={handleAddWorkExperienceClick}
             floated='right'
-            color={doSubprofileWorkMatch && 'green'}
+            color={doSubprofileWorkMatch && 'teal'}
             icon={doSubprofileWorkMatch ? 'check' : 'add'}
             size='mini'
           />{' '}
@@ -309,7 +309,7 @@ export default function ProfileSelector(props) {
                     index
                   )}
                   floated='right'
-                  color={isInSubprofile && 'green'}
+                  color={isInSubprofile && 'teal'}
                   icon={isInSubprofile ? 'check' : 'add'}
                   size='mini'
                 />
@@ -339,7 +339,7 @@ export default function ProfileSelector(props) {
                           <Fragment key={index}>
                             <Button
                               floated='right'
-                              color={isInSubprofile && 'green'}
+                              color={isInSubprofile && 'teal'}
                               icon={isInSubprofile ? 'check' : 'add'}
                               size='mini'
                             ></Button>
@@ -375,7 +375,7 @@ export default function ProfileSelector(props) {
               <Button
                 onClick={handleAddVolunteerExperienceClick}
                 floated='right'
-                color={doSubprofileVolunteerMatch && 'green'}
+                color={doSubprofileVolunteerMatch && 'teal'}
                 icon={doSubprofileVolunteerMatch ? 'check' : 'add'}
                 size='mini'
               />
@@ -393,7 +393,7 @@ export default function ProfileSelector(props) {
                         index
                       )}
                       floated='right'
-                      color={isInSubprofile && 'green'}
+                      color={isInSubprofile && 'teal'}
                       icon={isInSubprofile ? 'check' : 'add'}
                       size='mini'
                     />
@@ -423,7 +423,7 @@ export default function ProfileSelector(props) {
                           <Fragment key={index}>
                             <Button
                               floated='right'
-                              color={isInSubprofile && 'green'}
+                              color={isInSubprofile && 'teal'}
                               icon={isInSubprofile ? 'check' : 'add'}
                               size='mini'
                             />
@@ -505,7 +505,7 @@ export default function ProfileSelector(props) {
             <Button
               onClick={handleAddEducationClick}
               floated='right'
-              color={doSubprofileEducationMatch && 'green'}
+              color={doSubprofileEducationMatch && 'teal'}
               icon={doSubprofileEducationMatch ? 'check' : 'add'}
               size='mini'
             />
@@ -520,7 +520,7 @@ export default function ProfileSelector(props) {
                 <Segment key={index}>
                   <Button
                     onClick={handleAddEducationInstanceClick.bind(this, index)}
-                    color={isInSubprofile && 'green'}
+                    color={isInSubprofile && 'teal'}
                     icon={isInSubprofile ? 'check' : 'add'}
                     floated='right'
                     size='mini'
@@ -561,7 +561,7 @@ export default function ProfileSelector(props) {
           {' '}
           <Button
             onClick={handleAddSkillsClick}
-            color={doSubprofileSkillsMatch && 'green'}
+            color={doSubprofileSkillsMatch && 'teal'}
             icon={doSubprofileSkillsMatch ? 'check' : 'add'}
             floated='right'
             size='mini'
@@ -571,7 +571,7 @@ export default function ProfileSelector(props) {
           </Header>
           <Segment>
             <Button
-              color={doSubprofileSkillsMatch && 'green'}
+              color={doSubprofileSkillsMatch && 'teal'}
               icon={doSubprofileSkillsMatch ? 'check' : 'add'}
               floated='right'
               size='mini'
@@ -696,11 +696,17 @@ export default function ProfileSelector(props) {
   // const TabExampleBasicAll = () => <Tab panes={panes} renderActiveOnly={false} />
   return (
     <Fragment>
-      <Header as='h2' block color='grey' textAlign='center'>
-        {' '}
-        Profile
-      </Header>
-      <Tab menu={{ secondary: true, pointing: true }} panes={panes} />
+      <style>{`
+      .grid{
+        
+
+      }
+      .active.item{
+        border-bottom: 2px solid teal;
+        
+      }
+      `}</style>
+      <Tab  menu={{ secondary: true, pointing: false }} panes={panes} />
     </Fragment>
   );
 }

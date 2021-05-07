@@ -2,7 +2,7 @@ import Link from 'next/link';
 import * as T from 'prop-types';
 import { callApi } from '../util/api';
 import { useRouter } from 'next/router';
-import { Container, Menu, Image } from 'semantic-ui-react';
+import { Container, Menu, Image, Header } from 'semantic-ui-react';
 
 const Navbar = props => {
   const router = useRouter();
@@ -24,17 +24,17 @@ const Navbar = props => {
   };
 
   return (
-    
-    <Menu fixed='top'>
-          <Container>
+    <Menu size='large' attached='bottom' activeIndex='3'>
+      <Container>
+
         <Link href='/'>
-          <Menu.Item as='a' header><Image size='mini' src='/logo.png' style={{ marginRight: '1.5em' }}  src='/logo.png' />Let's Get IT</Menu.Item>
+          <Menu.Item as='a' header><Header color='teal'><Image size='mini' src='/logo.png' style={{ marginRight: '1.5em' }}  src='/logo.png' />{`lets.get(IT)`}</Header></Menu.Item>
         </Link>
 
         {/* Dashboard */}
         {isLoggedIn && (
           <Link href='/dashboard'>
-            <Menu.Item>Dashboard</Menu.Item>
+            <Menu.Item >Dashboard</Menu.Item>
           </Link>
         )}
 
@@ -52,14 +52,14 @@ const Navbar = props => {
         )}
 
         {isLoggedIn ? (
-          <Menu.Item onClick={handleLogoutClick}>Log Out</Menu.Item>
+          <Menu.Item position='right' onClick={handleLogoutClick}>Log Out</Menu.Item>
         ) : (
           <>
             <Link href='/login'>
-              <Menu.Item>Login</Menu.Item>
+              <Menu.Item position='right'>Login</Menu.Item>
             </Link>
             <Link href='/signup'>
-              <Menu.Item>Sign Up</Menu.Item>
+              <Menu.Item position='right'>Sign Up</Menu.Item>
             </Link>
           </>
         )}

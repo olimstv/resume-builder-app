@@ -1,11 +1,11 @@
 import mongoose from 'mongoose';
 
+
 const ResumeSchema = new mongoose.Schema({
   user: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'user'
   },
-
   slug: {
     type: String
   },
@@ -51,7 +51,7 @@ const ResumeSchema = new mongoose.Schema({
         }
       },
       profiles: [
-        {
+        {_id:false,
           network: {
             type: String
           },
@@ -65,7 +65,7 @@ const ResumeSchema = new mongoose.Schema({
       ]
     },
     work: [
-      {
+      {_id:false,
         company: {
           type: String
         },
@@ -90,7 +90,7 @@ const ResumeSchema = new mongoose.Schema({
       }
     ],
     volunteer: [
-      {
+      {_id:false,
         organization: {
           type: String
         },
@@ -115,7 +115,7 @@ const ResumeSchema = new mongoose.Schema({
       }
     ],
     education: [
-      {
+      {_id:false,
         institution: {
           type: String
         },
@@ -140,7 +140,7 @@ const ResumeSchema = new mongoose.Schema({
       }
     ],
     awards: [
-      {
+      {_id:false,
         title: {
           type: String
         },
@@ -156,7 +156,7 @@ const ResumeSchema = new mongoose.Schema({
       }
     ],
     publications: [
-      {
+      {_id:false,
         name: { type: String },
         publisher: { type: String },
         releaseDate: { type: Date },
@@ -165,7 +165,7 @@ const ResumeSchema = new mongoose.Schema({
       }
     ],
     skills: [
-      {
+      {_id:false,
         name: { type: String },
         level: { type: String },
         keywords: {
@@ -174,13 +174,13 @@ const ResumeSchema = new mongoose.Schema({
       }
     ],
     languages: [
-      {
+      {_id:false,
         language: { type: String },
         fluency: { type: String }
       }
     ],
     interests: [
-      {
+      {_id:false,
         name: { type: String },
         keywords: {
           type: [String]
@@ -188,7 +188,7 @@ const ResumeSchema = new mongoose.Schema({
       }
     ],
     references: [
-      {
+      {_id:false,
         name: { type: String },
         reference: { type: String }
       }

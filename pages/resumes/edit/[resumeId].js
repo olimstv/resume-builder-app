@@ -11,6 +11,8 @@ import withSession, {
   useUserServerSide
 } from '../../../util/session';
 
+import safeJsonStringify from 'safe-json-stringify';
+
 export default function EditResumePage(props) {
   const { profile, resume, user } = props;
 
@@ -29,12 +31,16 @@ export default function EditResumePage(props) {
   };
 
   return (
-    <Layout user={user}>
       <Container fluid>
+    <Layout user={user}>
         <Grid>
           <Grid.Row>
             {/* Profile Data View */}
             <Grid.Column computer={6} mobile={16}>
+            <Header as='h2' block color='grey' textAlign='center'>
+        {' '}
+        Profile
+      </Header>
               <ProfileSelector
                 profile={profile}
                 subprofile={subprofile}
@@ -53,8 +59,8 @@ export default function EditResumePage(props) {
           </Grid.Row>
         </Grid>{' '}
         {/* TODO: Add components: 1) title, 2) slug, 3) isPublished checkbox; 3) Save button. The Save button will compose a new `resume` object with fields: slug, title, isPublished, subprofile, and  call an API to save it into the database (we do have its ID already!); and show a notice, e.g. "Saved successfully!". */}
-      </Container>
     </Layout>
+      </Container>
   );
 }
 
@@ -71,22 +77,32 @@ export const getServerSideProps = withSession(async function (...args) {
 
   const resumeId = params.resumeId;
 
-  const resume = await Resume.findById(resumeId).lean();
+  const rawResume = await Resume.findById(resumeId).lean();
+  console.log('rawResume:', rawResume)
+  const stringifiedResume = safeJsonStringify(rawResume)
+  const resume = JSON.parse(stringifiedResume);
+  console.log('resume:', resume)
+  
 
   if (!resume) {
     return { notFound: true };
   }
 
-  resume._id = resume._id.toString();
+  // resume._id = resume._id.toString();
   
-  resume.user = resume.user.toString();
+  // resume.user = resume.user.toString();
+    
 
-  const dbUser = await User.findById(resume.user).lean();
-
+  const rawDbUser = await User.findById(resume.user); //.lean();
+  // console.log('rawDbUser:', rawDbUser)
+  const stringifiedDbUser = safeJsonStringify(rawDbUser)
+  const dbUser = JSON.parse(stringifiedDbUser);
+  // console.log('dbUser:', dbUser)
+  
   if (!dbUser) {
     return { notFound: true };
   }
-  dbUser._id = dbUser._id.toString();
+  // dbUser._id = dbUser._id.toString();
   const profile = dbUser.profile;
 
   // Prohibit access if the user currently authenticated
