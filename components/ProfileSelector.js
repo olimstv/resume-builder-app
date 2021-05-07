@@ -132,12 +132,12 @@ export default function ProfileSelector(props) {
     callOnSubprofileChange(newSubprofile);
   };
 
-  // // CONTACTS (ALL)
-  //   const handleAddContactsClick = () => {
-  //     const newSubprofile = { ...subprofile };
-  //     lodashSet(newSubprofile, 'volunteer', profile.volunteer);
-  //     callOnSubprofileChange(newSubprofile);
-  //   };
+  // CONTACTS (ALL)
+  const handleAddContactsClick = () => {
+    const newSubprofile = { ...subprofile };
+    lodashSet(newSubprofile, 'volunteer', profile.volunteer);
+    callOnSubprofileChange(newSubprofile);
+  };
 
   //   // Button Icon
   //   const doSubprofileContactsMatch = profile?.volunteer === subprofile?.volunteer;
@@ -184,7 +184,7 @@ export default function ProfileSelector(props) {
   };
 
   // SKILLS
-  const handleAddAllSkillsClick = () => {
+  const handleAddSkillsClick = () => {
     const newSubprofile = { ...subprofile };
     lodashSet(newSubprofile, 'skills', profile.skills);
     callOnSubprofileChange(newSubprofile);
@@ -204,50 +204,6 @@ export default function ProfileSelector(props) {
     newSubprofile.work.push(profileWorkArr[index]);
     callOnSubprofileChange(newSubprofile);
   };
-
-  const handleSkillKeywordClick = (skillInd, keywordInd) => {
-
-    // Extract the skill object by its index
-    const skillObj = profile.skills?.[skillInd];
-    if (!skillObj) {
-      throw new Error(`Invalid skill index: ${skillInd}.`);
-    }
-    const skillName = skillObj.name;
-
-    // Extract the keyword string from the skill object by its index
-    const keyword = skillObj.keywords?.[keywordInd];
-    if (!keyword) {
-      throw new Error(`Invalid skill keyword index ${keywordInd} in skill #${skillInd} (${skillName}).`);
-    }
-
-    // Clone the subprofile, so that we can update the clone and use it for the new state
-    const newSubprofile = {...subprofile};
-
-    // Make sure the skills array exists
-    if (!newSubprofile.skills) {
-      newSubprofile.skills = [];
-    }
-
-    // Make sure the skill object with the right name exists
-    let subprofileSkillObj = newSubprofile.skills.find(skill => skill.name === skillName);
-    if (!subprofileSkillObj) {
-      subprofileSkillObj = {
-        name: skillName,
-        level: skillObj.level,
-        keywords: [],
-      };
-      newSubprofile.skills.push(subprofileSkillObj);
-    }
-
-    // Add the keyword to the skill, but only if it is not there already
-    const keywords = subprofileSkillObj.keywords;
-    if (keywords.indexOf(keyword) === -1) {
-      keywords.push(keyword);
-    }
-
-    callOnSubprofileChange(newSubprofile);
-  }
-
   const isSkillItemInSubprofile = index => {
     const { company, position } = profile.work[index];
     let match = subprofile.work.some(oneSubprofileWork => {
@@ -301,7 +257,7 @@ export default function ProfileSelector(props) {
               floated='right'
               size='mini'
               onClick={handleAddNameClick}
-              color={doSubprofileNamesMatch ? 'green' : undefined}
+              color={doSubprofileNamesMatch && 'green'}
               icon={doSubprofileNamesMatch ? 'check' : 'add'}
             />
             <Header as='h2'>{profile.basics.name}</Header>
@@ -313,7 +269,7 @@ export default function ProfileSelector(props) {
             <Button
               onClick={handleAddAboutClick}
               floated='right'
-              color={doSubprofileSummaryMatch ? 'green' : undefined}
+              color={doSubprofileSummaryMatch && 'green'}
               icon={doSubprofileSummaryMatch ? 'check' : 'add'}
               size='mini'
             />
@@ -600,66 +556,55 @@ export default function ProfileSelector(props) {
     },
     {
       menuItem: 'Skills',
-      render: () => {
-        const numSkills = profile?.skills?.length;
-
-        return (
-            <Tab.Pane attached={false}>
-              {' '}
-              <Button
-                  onClick={handleAddAllSkillsClick}
-                  color={doSubprofileSkillsMatch ? 'green' : undefined}
-                  icon={doSubprofileSkillsMatch ? 'check' : 'add'}
-                  floated='right'
-                  size='mini'
-              />
-              <Header as='h2'>
-                <Icon name='tasks' /> Skills
-              </Header>
-              <Segment>
-                <Button
-                    color   = {doSubprofileSkillsMatch ? 'green' : undefined}
-                    icon    = {doSubprofileSkillsMatch ? 'check' : 'add'}
-                    floated = 'right'
-                    size    = 'mini'
-                />
-                {profile.skills.map((skill, skillInd) => {
-
-                  const ind2 = 2;
-
-                  return <>
-                    <div key={skillInd}>
-                      <Header as='h3'>{skill.name}</Header>
-                      <Header.Subheader>{skill.level}</Header.Subheader>
+      render: () => (
+        <Tab.Pane attached={false}>
+          {' '}
+          <Button
+            onClick={handleAddSkillsClick}
+            color={doSubprofileSkillsMatch && 'green'}
+            icon={doSubprofileSkillsMatch ? 'check' : 'add'}
+            floated='right'
+            size='mini'
+          />
+          <Header as='h2'>
+            <Icon name='tasks' /> Skills
+          </Header>
+          <Segment>
+            <Button
+              color={doSubprofileSkillsMatch && 'green'}
+              icon={doSubprofileSkillsMatch ? 'check' : 'add'}
+              floated='right'
+              size='mini'
+            />
+            {profile.skills.map((skill, index) => {
+              return (
+                <div key={index}>
+                  <Header as='h3'>{skill.name}</Header>
+                  <Header.Subheader>{skill.level}</Header.Subheader>
+                  <Divider hidden />
+                  {skill.keywords && (
+                    <Fragment>
+                      <Label ribbon>Tools &#38; Technologies</Label>
                       <Divider hidden />
-                      {skill.keywords && (
-                          <Fragment>
-                            <Label ribbon>Tools &#38; Technologies</Label>
-                            <Divider hidden />
-                            <Label.Group circular>
-                              <Divider hidden fitted />
-                              {skill.keywords.map((keyword, keywordInd) => {
-                                return (
-                                    <Label as  ='a'
-                                           key ={keywordInd}
-                                           onClick = {handleSkillKeywordClick.bind(null, skillInd, keywordInd)}
-                                    >
-                                      <Icon corner='top right' name='add' />
-                                      {keyword}
-                                    </Label>
-                                );
-                              })}
-                            </Label.Group>
-                          </Fragment>
-                      )}
-                    </div>
-                    {skillInd < numSkills-1 && <Divider hidden />}
-                  </>;
-                })}
-              </Segment>
-            </Tab.Pane>
-        );
-      }
+                      <Label.Group circular>
+                        <Divider hidden fitted />
+                        {skill.keywords.map((word, index) => {
+                          return (
+                            <Label as='a' key={index}>
+                              <Icon corner='top right' name='add' />
+                              {word}
+                            </Label>
+                          );
+                        })}
+                      </Label.Group>
+                    </Fragment>
+                  )}
+                </div>
+              );
+            })}
+          </Segment>
+        </Tab.Pane>
+      )
     },
     {
       menuItem: 'Other',
