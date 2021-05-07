@@ -42,6 +42,9 @@ export default function EditResumePage(props) {
 
             {/* Resume Preview */}
             <Grid.Column computer={10} mobile={12}>
+              <Header as='h2' block color='grey' textAlign='center'>
+                Resume Preview
+              </Header>
               <ResumeViewer subprofile={subprofile} mode='editor' />
             </Grid.Column>
           </Grid.Row>
@@ -54,7 +57,7 @@ export default function EditResumePage(props) {
 
 export const getServerSideProps = withSession(async function (...args) {
 
-  const {req, res} = extractReqResFromArgs(args);
+  const {req, params} = extractReqResFromArgs(args);
   const {isLoggedIn, user: sessionUser, httpResponse} = useUserServerSide(req);
   if (!isLoggedIn) {
     return httpResponse;

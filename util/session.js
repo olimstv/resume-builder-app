@@ -39,5 +39,11 @@ export function useUserServerSide(req) {
 export function extractReqResFromArgs(args) {
   const req = args[0] && args[1] ? args[0] : args[0].req;
   const res = args[0] && args[1] ? args[1] : args[0].res;
-  return {req, res};
+
+  let params = args[0] && args[1]? {} : args[0].params;
+  if (!params) {
+    params = {};
+  }
+
+  return {req, res, params};
 }

@@ -25,9 +25,6 @@ export default function ResumeViewer(props) {
 
   return (
     <>
-      <Header as='h2' block color='grey' textAlign='center'>
-        Resume Preview
-      </Header>
       <Segment raised={mode === 'editor'}>
         <ResumeHeader basics={subprofile.basics} />
         <Grid>
