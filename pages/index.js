@@ -1,16 +1,21 @@
 import Layout from "../components/Layout";
-import {Header, Step, Icon} from "semantic-ui-react";
+import {Header, Step, Icon, Container, Card, Segment} from "semantic-ui-react";
 import withSession, {extractReqResFromArgs, useUserServerSide} from "../util/session";
 
 export default function Home({user}) {
     return <Layout user={user}>
+
+        <Container>
+            
+    
+
+
+
+            <Step.Group vertical attached='top' >
+                
         <Header as='h2'>Welcome to lets.get(IT)!</Header>
-
-        <p>
-            Compose multiple versions of your CV, each tuned individually for a particular role.
-        </p>
-
-        <Step.Group vertical>
+        <Header as='h5'>
+            Compose multiple versions of your CV, each tuned individually for a particular role.</Header>
             <Step>
                 <Icon name='signup' />
                 <Step.Content>
@@ -48,10 +53,12 @@ export default function Home({user}) {
                 </Step.Content>
             </Step>
         </Step.Group>
+        
 
         <p>
             We store your profile in Open Source <a href='https://jsonresume.org/' target='json_resume_open_source'>JSON Resume</a> format.
         </p>
+        </Container>
     </Layout>
 }
 
