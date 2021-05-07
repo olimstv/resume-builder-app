@@ -49,66 +49,80 @@ export default function LoginPage(props) {
   };
 
   return (
-    <Grid textAlign='center' style={{ height: '100vh' }} verticalAlign='middle'>
-      <Grid.Column style={{ maxWidth: 450 }}>
-        {/* <Container size='large'> */}
-        <Segment stacked>
-          <Header as='h1' color='teal' textAlign='center'>
-            <Image size='massive' src='/logo.png' />
-            lets.get(IT)
-          </Header>
-          <Header as='h2' color='teal'>
-            Log-in to your account
-          </Header>
-          <Form size='large' onSubmit={handleLoginFormSubmit}>
-            <Form.Field>
-              {/* <label htmlFor='email'>Email:</label> */}
-              <Form.Input
-                fluid
-                icon='user'
-                iconPosition='left'
-                placeholder='E-mail address'
-                name='email'
-                type='text'
-                value={email}
-                onChange={handleEmailChange}
-                tabIndex={1}
-              />
-            </Form.Field>
-            <Form.Field>
-              {/* <label htmlFor='password'>Password:</label> */}
-              <Form.Input
-                fluid
-                icon='lock'
-                iconPosition='left'
-                placeholder='Password'
-                name='password'
-                type='password'
-                value={password}
-                onChange={handlePasswordChange}
-              />
-            </Form.Field>
-            {lastAuthenticationError && (
-              <Message negative>
-                <Message.Header>Error</Message.Header>
-                <p>{lastAuthenticationError}</p>
-              </Message>
-            )}
+    <>
+      <style>
+        {`
+        html, body {
+          background: #ddd
+          ;
+        }
+      `}
+      </style>
+      <Grid
+        textAlign='center'
+        style={{ height: '100vh' }}
+        verticalAlign='middle'
+      >
+        <Grid.Column style={{ maxWidth: 450 }}>
+          {/* <Container size='large'> */}
+          <Segment stacked>
+            <Header as='h1' color='teal' textAlign='center'>
+              <Image size='massive' src='/logo.png' />
+              lets.get(IT)
+            </Header>
+            <Header as='h2' color='teal'>
+              Log-in to your account
+            </Header>
+            <Form size='large' onSubmit={handleLoginFormSubmit}>
+              <Form.Field>
+                {/* <label htmlFor='email'>Email:</label> */}
+                <Form.Input
+                  fluid
+                  icon='user'
+                  iconPosition='left'
+                  placeholder='E-mail address'
+                  name='email'
+                  type='text'
+                  value={email}
+                  onChange={handleEmailChange}
+                  tabIndex={1}
+                />
+              </Form.Field>
+              <Form.Field>
+                {/* <label htmlFor='password'>Password:</label> */}
+                <Form.Input
+                  fluid
+                  icon='lock'
+                  iconPosition='left'
+                  placeholder='Password'
+                  name='password'
+                  type='password'
+                  value={password}
+                  onChange={handlePasswordChange}
+                />
+              </Form.Field>
+              {lastAuthenticationError && (
+                <Message negative>
+                  <Message.Header>Error</Message.Header>
+                  <p>{lastAuthenticationError}</p>
+                </Message>
+              )}
 
-            <Button color='teal' fluid size='large' type='submit'>
-              Login
-            </Button>
-          </Form>
-        </Segment>
-        <Segment>
-          New to us?{' '}
-          <Link href='/signup'>
-            <a>Sign Up</a>
-          </Link>
-        </Segment>
-        {/* </Container> */}
-      </Grid.Column>
-    </Grid>
+              <Button color='teal' fluid size='large' type='submit'>
+                Login
+              </Button>
+            </Form>
+          </Segment>
+          <Segment>
+            New to us?{' '}
+            <Link href='/signup'>
+              <a>Sign Up</a>
+            </Link>
+          </Segment>
+          {/* </Container> */}
+        </Grid.Column>
+      </Grid>
+    </>
   );
 }
 

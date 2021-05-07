@@ -1,87 +1,74 @@
 import Link from 'next/link';
 import * as T from 'prop-types';
-import {callApi} from "../util/api";
-import {useRouter} from "next/router";
-import {Container, Menu} from "semantic-ui-react";
+import { callApi } from '../util/api';
+import { useRouter } from 'next/router';
+import { Container, Menu } from 'semantic-ui-react';
 
-const Navbar = (props) => {
+const Navbar = props => {
+  const router = useRouter();
 
-    const router = useRouter();
+  const { user } = props;
+  const isLoggedIn = !!user;
 
-    const {user} = props;
-    const isLoggedIn = !!user;
+  const handleLogoutClick = async e => {
+    e.stopPropagation();
+    e.preventDefault();
 
-    const handleLogoutClick = async (e) => {
-        e.stopPropagation();
-        e.preventDefault();
-
-        const {isSuccess, errorMessage} = await callApi('/logout');
-        if (isSuccess) {
-            // Redirect to Home Page
-            await router.push('/');
-        } else {
-            console.error('An error was thrown by the /logout API: ' + errorMessage);
-        }
+    const { isSuccess, errorMessage } = await callApi('/logout');
+    if (isSuccess) {
+      // Redirect to Home Page
+      await router.push('/');
+    } else {
+      console.error('An error was thrown by the /logout API: ' + errorMessage);
     }
+  };
 
-    return (
-        <Menu stackable>
-            <Container>
-                <Link href='/'>
-                    <Menu.Item>
-                        Let's Get IT
-                    </Menu.Item>
-                </Link>
+  return (
+    <Menu stackable>
+      <Container>
+        <Link href='/'>
+          <Menu.Item>Let's Get IT</Menu.Item>
+        </Link>
 
-                {/* Dashboard */}
-                {isLoggedIn && (
-                    <Link href='/dashboard'>
-                        <Menu.Item>
-                            Dashboard
-                        </Menu.Item>
-                    </Link>
-                )}
+        {/* Dashboard */}
+        {isLoggedIn && (
+          <Link href='/dashboard'>
+            <Menu.Item>Dashboard</Menu.Item>
+          </Link>
+        )}
 
-                {/* Profile */}
-                {isLoggedIn && (
-                    <Link href='/profile'>
-                        <Menu.Item>
-                            Profile
-                        </Menu.Item>
-                    </Link>
-                )}
+        {/* Profile */}
+        {isLoggedIn && (
+          <Link href='/profile'>
+            <Menu.Item>Profile</Menu.Item>
+          </Link>
+        )}
 
-                {isLoggedIn && (
-                    <Link href='/create-resume'>
-                        <Menu.Item>
-                            Create Resume
-                        </Menu.Item>
-                    </Link>
-                )}
+        {isLoggedIn && (
+          <Link href='/create-resume'>
+            <Menu.Item>Create Resume</Menu.Item>
+          </Link>
+        )}
 
-                {isLoggedIn? (
-                    <Menu.Item onClick={handleLogoutClick}>
-                        Log Out
-                    </Menu.Item>
-                ) : <>
-                    <Link href='/login'>
-                        <Menu.Item>
-                            Login
-                        </Menu.Item>
-                    </Link>
-                    <Link href='/signup'>
-                        <Menu.Item>
-                            Sign Up
-                        </Menu.Item>
-                    </Link>
-                </>}
-            </Container>
-        </Menu>
-    );
+        {isLoggedIn ? (
+          <Menu.Item onClick={handleLogoutClick}>Log Out</Menu.Item>
+        ) : (
+          <>
+            <Link href='/login'>
+              <Menu.Item>Login</Menu.Item>
+            </Link>
+            <Link href='/signup'>
+              <Menu.Item>Sign Up</Menu.Item>
+            </Link>
+          </>
+        )}
+      </Container>
+    </Menu>
+  );
 };
 
 Navbar.propTypes = {
-    user: T.any,
-}
+  user: T.any
+};
 
 export default Navbar;

@@ -5,8 +5,11 @@ import dbConnect from '../../../util/dbConnect';
 import Resume from '../../../models/Resume';
 import User from '../../../models/User';
 import { useState } from 'react';
-import Layout from "../../../components/Layout";
-import withSession, {extractReqResFromArgs, useUserServerSide} from "../../../util/session";
+import Layout from '../../../components/Layout';
+import withSession, {
+  extractReqResFromArgs,
+  useUserServerSide
+} from '../../../util/session';
 
 export default function EditResumePage(props) {
   const { profile, resume, user } = props;
@@ -33,10 +36,10 @@ export default function EditResumePage(props) {
             {/* Profile Data View */}
             <Grid.Column computer={6} mobile={16}>
               <ProfileSelector
-                  profile={profile}
-                  subprofile={subprofile}
-                  mode='selector'
-                  onSubprofileChange={handleOnSubprofileChange}
+                profile={profile}
+                subprofile={subprofile}
+                mode='selector'
+                onSubprofileChange={handleOnSubprofileChange}
               />
             </Grid.Column>
 
@@ -56,9 +59,10 @@ export default function EditResumePage(props) {
 }
 
 export const getServerSideProps = withSession(async function (...args) {
-
-  const {req, params} = extractReqResFromArgs(args);
-  const {isLoggedIn, user: sessionUser, httpResponse} = useUserServerSide(req);
+  const { req, params } = extractReqResFromArgs(args);
+  const { isLoggedIn, user: sessionUser, httpResponse } = useUserServerSide(
+    req
+  );
   if (!isLoggedIn) {
     return httpResponse;
   }
@@ -90,9 +94,9 @@ export const getServerSideProps = withSession(async function (...args) {
     return {
       redirect: {
         destination: '/login',
-        permanent: false,
+        permanent: false
       }
-    }
+    };
   }
 
   return { props: { resume, profile, user: sessionUser } };
