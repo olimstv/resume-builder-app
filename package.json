@@ -30,6 +30,7 @@
     "react-dom": "^16.6.0",
     "react-fontawesome": "^1.7.1",
     "react-json-editor-ajrm": "^2.5.13",
+    "safe-json-stringify": "^1.2.0",
     "semantic-ui-css": "^2.4.1",
     "semantic-ui-react": "^2.0.3",
     "unfetch": "^4.2.0",

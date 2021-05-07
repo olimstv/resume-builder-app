@@ -8,7 +8,10 @@ import dbConnect from "../util/dbConnect";
 import User from "../models/User";
 
 import dynamic from 'next/dynamic';
-import {callApi} from "../util/api";
+import { callApi } from "../util/api";
+
+import safeJsonStringify from 'safe-json-stringify';
+
 // react-json-editor-ajrm does not support server-side rendering (SSR),
 // therefore we load it dynamically, so that it is only loaded by the client
 // and rendered in the client
@@ -94,7 +97,9 @@ export const getServerSideProps = withSession(async function (...args) {
 
     await dbConnect();
 
-    const dbUser = await User.findById(user._id).lean();
+    const rawDbUser = await User.findById(user._id); //.lean();
+    const stringifiedDbUser = safeJsonStringify(rawDbUser);
+    const dbUser = JSON.parse(stringifiedDbUser);
     dbUser._id = dbUser._id.toString();
 
     return { props: { user: dbUser } };
