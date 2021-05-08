@@ -40,7 +40,7 @@ const Navbar = props => {
         {/* Dashboard */}
         {isLoggedIn && (
           <Link href='/dashboard'>
-            <Menu.Item active name='dashboard'  >Dashboard</Menu.Item>
+            <Menu.Item name='dashboard'  >Dashboard</Menu.Item>
           </Link>
         )}
 

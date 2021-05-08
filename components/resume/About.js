@@ -1,3 +1,5 @@
+import moment from 'moment'
+
 const About = ({ subprofile }) => {
   const { basics, work } = subprofile;
 
@@ -22,8 +24,8 @@ const About = ({ subprofile }) => {
                     <div className='details'>
                       <div className='where'>{exp.company}</div>
                       <div className='year'>
-                        {exp.startDate} -{' '}
-                        {!exp.endDate ? `till now` : exp.endDate}
+                        {moment(exp.startDate).format('DD-MM-YYY')} - {' '}
+                        {!exp.endDate ? `till now` : moment(exp.endDate).format('DD-MM-YYY')}
                       </div>
                     </div>
                   </div>

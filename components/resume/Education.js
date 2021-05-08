@@ -1,3 +1,4 @@
+import moment from 'moment'
 const Education = ({ education }) => {
   // console.log('education :>> ', education);
   return (
@@ -10,7 +11,7 @@ const Education = ({ education }) => {
           return (
             <li key={index}>
               <div className='year pull-left'>
-                {exp.startDate} - {!exp.endDate ? `till now` : exp.endDate}
+              {moment(exp.startDate).format('DD-MM-YYYY')} - {!exp.endDate ? `till now` : moment(exp.endDate).format('DD-MM-YYYY')}
               </div>
               <div className='description pull-right'>
                 <h3>{exp.institution}</h3>

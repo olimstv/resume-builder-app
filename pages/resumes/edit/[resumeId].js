@@ -12,6 +12,7 @@ import withSession, {
 } from '../../../util/session';
 
 import safeJsonStringify from 'safe-json-stringify';
+import moment from 'moment'
 
 export default function EditResumePage(props) {
   const { profile, resume, user } = props;
@@ -78,10 +79,10 @@ export const getServerSideProps = withSession(async function (...args) {
   const resumeId = params.resumeId;
 
   const rawResume = await Resume.findById(resumeId).lean();
-  console.log('rawResume:', rawResume)
+  // console.log('rawResume:', rawResume)
   const stringifiedResume = safeJsonStringify(rawResume)
   const resume = JSON.parse(stringifiedResume);
-  console.log('resume:', resume)
+  // console.log('resume:', resume)
   
 
   if (!resume) {
