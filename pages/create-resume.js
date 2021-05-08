@@ -4,7 +4,7 @@ import withSession, {extractReqResFromArgs, useUserServerSide} from "../util/ses
 import {useRouter} from "next/router";
 import {useState} from "react";
 import {callApi} from "../util/api";
-import {Button, Form, Header, Message, Segment} from "semantic-ui-react";
+import {Button, Container, Form, Header, Message, Segment} from "semantic-ui-react";
 import Layout from "../components/Layout";
 
 const Dashboard = ({ user }) => {
@@ -33,17 +33,24 @@ const Dashboard = ({ user }) => {
     }
 
     return <Layout user={user}>
-        <Header as='h2'>Create Resume</Header>
 
+        <Container  className='create-resume-form' >
+   <Form.Group widths='four eight four'>
         <Form size='large' onSubmit={handleFormSubmit}>
-            <Segment stacked>
+                <Segment stacked>
+        <Header as='h2' color='teal' textAlign='center'>Create Resume</Header>
                 <Form.Field>
-                    <label htmlFor="slug">Slug:</label>
-                    <input name="slug" type="text" value={slug} onChange={handleSlugChange} tabIndex={1}/>
+                    {/* <label htmlFor="slug">Slug:</label> */}
+                    <Form.Input   fluid
+                  icon='paper plane outline'
+                  iconPosition='left'
+                  placeholder='Enter a slug for the resume'
+                  
+                   name="slug" type="text" value={slug} onChange={handleSlugChange} tabIndex={1}/>
                 </Form.Field>
                 <Form.Field>
-                    <label htmlFor="title">Title:</label>
-                    <input name="title" type="text" value={title} onChange={handleTitleChange}/>
+                    {/* <label htmlFor="title">Title:</label> */}
+                    <Form.Input placeholder='Enter a title fo the resume' icon='quote right' iconPosition='left' className='submit-button' name="title" type="text" value={title} onChange={handleTitleChange}/>
                 </Form.Field>
 
                 {lastError && (
@@ -53,9 +60,11 @@ const Dashboard = ({ user }) => {
                     </Message>
                 )}
 
-                <Button type='submit'>Create</Button>
+                <Button color='teal' size='large' fluid type='submit'>Create</Button>
             </Segment>
-        </Form>
+            </Form>
+            </Form.Group>
+            </Container>
     </Layout>
 };
 

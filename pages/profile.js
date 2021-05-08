@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import Layout from '../components/Layout';
-import {Button, Header, Message} from "semantic-ui-react";
+import {Button, Container, Header, Message} from "semantic-ui-react";
 //import JSONInput from 'react-json-editor-ajrm';
 import locale    from 'react-json-editor-ajrm/locale/en';
 import withSession, {extractReqResFromArgs, useUserServerSide} from "../util/session";
@@ -14,7 +14,7 @@ import safeJsonStringify from 'safe-json-stringify';
 
 // react-json-editor-ajrm does not support server-side rendering (SSR),
 // therefore we load it dynamically, so that it is only loaded by the client
-// and rendered in the client
+// and rendered on the client
 const JSONInputWithNoSSR = dynamic(
     () => import('react-json-editor-ajrm'),
     { ssr: false }
@@ -47,6 +47,7 @@ const ProfilePage = ({ user }) => {
     }
 
     return <Layout user={user}>
+        <Container>
         <Header as='h2'>
             Profile JSON
         </Header>
@@ -80,10 +81,11 @@ const ProfilePage = ({ user }) => {
                 </Message>
             ) : null}
 
-            <Button onClick={handleSaveClick} disabled={!profileJsonObj}>
+            <Button color='teal' floated='right' size='large' onClick={handleSaveClick} disabled={!profileJsonObj}>
                 Save
             </Button>
-        </div>
+            </div>
+            </Container>
     </Layout>
 }
 

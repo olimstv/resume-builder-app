@@ -17,7 +17,7 @@ import Publications from '../components/resume/Publications';
 import Languages from '../components/resume/Languages';
 import Interests from '../components/resume/Interests';
 import References from '../components/resume/References';
-import { Grid, Segment } from 'semantic-ui-react';
+import { Grid, Segment, Button } from 'semantic-ui-react';
 // import ResumeViewer from '../../../components/ResumeViewer';
 
 export default function ResumeViewer(props) {
@@ -55,6 +55,10 @@ export default function ResumeViewer(props) {
           </Grid.Row>
         </Grid>
       </Segment>
+      
+     
+         
+              
     </>
   );
 }

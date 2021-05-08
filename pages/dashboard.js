@@ -2,7 +2,7 @@ import Link from 'next/link';
 import dbConnect from '../util/dbConnect';
 import Resume from '../models/Resume';
 import React from 'react';
-import { Container, Icon, Label, Menu, Table } from 'semantic-ui-react';
+import { Container, Icon, Button, Menu, Table } from 'semantic-ui-react';
 import { Header } from 'semantic-ui-react';
 import withSession, {
   extractReqResFromArgs,
@@ -10,11 +10,17 @@ import withSession, {
 } from '../util/session';
 import Layout from '../components/Layout';
 
+
+
 const Dashboard = ({ resumes, user }) => {
+  const handeleDeleteResumeClick = () => {
+    
+  }
   let resumeRows = [];
-  resumes.map(resume => {
+  resumes.map((resume, index) => {
     resumeRows.push(
-      <Table.Row key={resume._id}>
+      <>
+      <Table.Row >
         <Table.Cell>{resume.title}</Table.Cell>
         <Table.Cell>
           {/* <Link href='/resumes/[slug]' as={`/${resume.slug}`}> */}
@@ -22,16 +28,23 @@ const Dashboard = ({ resumes, user }) => {
             <a>{resume.slug}</a>
           </Link>
         </Table.Cell>
-        <Table.Cell>
-          {/* <Link href={`/resumes/[slug]/edit`} as={`/${resume.slug}/edit`}> */}
+        <Table.Cell width='three' textAlign='center' content>
+            
+            <Button.Group>
           <Link href={`/resumes/edit/${resume._id}`}>
-            <a>edit</a>
+              <Button color='teal' basic icon='edit'>
+            </Button>
           </Link>
           <Link href={`/dashboard/`}>
-            <a>delete</a>
+              <Button basic color='orange' icon='delete' onClick={handeleDeleteResumeClick.bind(null,index)}>
+              </Button>
           </Link>
+              </Button.Group>
         </Table.Cell>
-      </Table.Row>
+          
+          </Table.Row>
+          </>
+    
     );
   });
 
@@ -39,11 +52,13 @@ const Dashboard = ({ resumes, user }) => {
 
   return (
     <Layout user={user}>
+      <Container>
       <Header as='h2'>Dashboard</Header>
+      
       {hasResumes ? (
-        <Table celled>
-          <Table.Header>
-            <Table.Row>
+      <Table celled color='teal' >
+          <Table.Header >
+            <Table.Row textAlign='center'>
               <Table.HeaderCell>Resume Title</Table.HeaderCell>
               <Table.HeaderCell>Slug</Table.HeaderCell>
               <Table.HeaderCell>Action</Table.HeaderCell>
@@ -58,7 +73,8 @@ const Dashboard = ({ resumes, user }) => {
           create your first Resume by clicking on the "Create Resume" link in
           the menu.
         </p>
-      )}
+        )}
+        </Container>
     </Layout>
   );
 };
