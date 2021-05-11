@@ -4,11 +4,20 @@ import {
   Icon,
   Label, Segment, Tab
 } from 'semantic-ui-react';
+import {Fragment} from "react";
 
 
-const About = ({subprofile, handleAddNameClick, doSubprofileNamesMatch, handleAddAboutClick}) => {
+const About = ({
+                 profile,
+                 subprofile,
+                 handleAddNameClick,
+                 doSubprofileNamesMatch,
+                 doSubprofileSummaryMatch,
+                 handleAddAboutClick
+               }) => {
   const {basics, work} = subprofile;
   return (
+
     <>
       <Fragment>
         <Button
@@ -21,7 +30,8 @@ const About = ({subprofile, handleAddNameClick, doSubprofileNamesMatch, handleAd
         <Header as='h2'>{profile.basics.name}</Header>
         <Label>{profile.basics.label}</Label>
       </Fragment>
-      {/* ABOUT ME */}
+      {/* ABOUT ME */
+      }
 
       <Segment>
         <Button

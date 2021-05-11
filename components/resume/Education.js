@@ -1,5 +1,6 @@
 import moment from 'moment'
-const Education = ({ education }) => {
+
+const Education = ({education}) => {
   // console.log('education :>> ', education);
   return (
     <div className='box'>
@@ -11,7 +12,7 @@ const Education = ({ education }) => {
           return (
             <li key={index}>
               <div className='year pull-left'>
-              {moment(exp.startDate).format('DD-MM-YYYY')} - {!exp.endDate ? `till now` : moment(exp.endDate).format('DD-MM-YYYY')}
+                {moment(exp.startDate).format('DD-MM-YYYY')} - {!exp.endDate ? `till now` : moment(exp.endDate).format('DD-MM-YYYY')}
               </div>
               <div className='description pull-right'>
                 <h3>{exp.institution}</h3>
@@ -24,13 +25,13 @@ const Education = ({ education }) => {
                 <div>Courses</div>
                 <ul className='list-group'>
                   {exp.courses &&
-                    exp.courses.map((course, index) => {
-                      return (
-                        <li key={index} className='list-group-item'>
-                          {course}
-                        </li>
-                      );
-                    })}
+                  exp.courses.map((course, index) => {
+                    return (
+                      <li key={index} className='list-group-item'>
+                        {course}
+                      </li>
+                    );
+                  })}
                 </ul>
               </div>
             </li>

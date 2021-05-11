@@ -1,30 +1,69 @@
-const Skills = ({ skills }) => {
-  return (
-    <div className='box'>
-      <h2>
-        <i className='fas fa-tasks ico'></i> Skills
-      </h2>
-      {skills.map(skill => {
-        return (
-          <div key={skill.name} className='skills clearfix'>
-            <div className='item-skills'>
-              {skill.name}
-              <span className='skill-level'>{skill.level}</span>
-            </div>
-            <div className='col-sm-offset-1 col-sm-12 clearfix'>
-              {skill.keywords.map((keyword, index) => {
-                return (
-                  <span key={index} className='skill badge'>
-                    {keyword}
-                  </span>
-                );
-              })}
-            </div>
-          </div>
-        );
-      })}
-    </div>
-  );
-};
+import {Button, Header, Icon, Label, ListItem, Segment, Tab, Divider} from "semantic-ui-react";
 
+import {Fragment} from "react";
+
+const Skills = ({
+                  profile, handleAddAllSkillsClick,
+                  doSubprofileSkillsMatch,
+                  handleSkillKeywordClick
+
+                }) => {
+
+  const numSkills = profile?.skills?.length;
+  return (
+    <>
+      <Button
+        onClick={handleAddAllSkillsClick}
+        color={doSubprofileSkillsMatch ? 'green' : undefined}
+        icon={doSubprofileSkillsMatch ? 'check' : 'add'}
+        floated='right'
+        size='mini'
+      />
+      <Header as='h2'>
+        <Icon name='tasks'/> Skills
+      </Header>
+      <Segment>
+        <Button
+          color={doSubprofileSkillsMatch ? 'green' : undefined}
+          icon={doSubprofileSkillsMatch ? 'check' : 'add'}
+          floated='right'
+          size='mini'
+        />
+        {profile.skills.map((skill, skillInd) => {
+
+          const ind2 = 2;
+
+          return <>
+            <div key={skillInd}>
+              <Header as='h3'>{skill.name}</Header>
+              <Header.Subheader>{skill.level}</Header.Subheader>
+              <Divider hidden/>
+              {skill.keywords && (
+                <Fragment>
+                  <Label ribbon>Tools &#38; Technologies</Label>
+                  <Divider hidden/>
+                  <Label.Group circular>
+                    <Divider hidden fitted/>
+                    {skill.keywords.map((keyword, keywordInd) => {
+                      return (
+                        <Label as='a'
+                               key={keywordInd}
+                               onClick={handleSkillKeywordClick.bind(null, skillInd, keywordInd)}
+                        >
+                          <Icon corner='top right' name='add'/>
+                          {keyword}
+                        </Label>
+                      );
+                    })}
+                  </Label.Group>
+                </Fragment>
+              )}
+            </div>
+            {skillInd < numSkills - 1 && <Divider hidden/>}
+          </>;
+        })}
+      </Segment>
+    </>
+  )
+}
 export default Skills;

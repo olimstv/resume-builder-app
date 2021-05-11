@@ -1,5 +1,10 @@
-const Contact = ({ basics }) => {
-  const { email, phone, website, location, profiles } = basics;
+import {Button, Divider, Header, Icon, List, ListItem} from "semantic-ui-react";
+
+
+const Contact = ({profile, subprofile, mode}) => {
+  const {email, phone, website, location, profiles} = profile.basics;
+  const isEditor = mode === 'editor';
+  const isSelector = mode === 'selector';
 
   const getProfile = (title, arr) => {
     return arr.filter(el => el.network === title);
@@ -7,53 +12,99 @@ const Contact = ({ basics }) => {
   const linkedIn = getProfile('LinkedIn', profiles);
   const gitHub = getProfile('gitHub', profiles);
 
-  // console.log('basics :>> ', basics);
-  return (
-    <div className='col-xs-12 col-sm-5'>
-      <div className='box clearfix'>
-        <h2>
-          <i className='fas fa-bullseye ico'></i> Contact
-        </h2>
-        <div className='contact-item'>
-          <div className='icon pull-left text-center'>
-            <span className='fas fa-map-marker fa-fw'></span>
-          </div>
-          <div className='title only  pull-right'>
-            {location.city}, {location.region} {location.countryCode}
-          </div>
-        </div>
-        <div className='contact-item'>
-          <div className='icon pull-left text-center'>
-            <span className='fas fa-phone fa-fw'></span>
-          </div>
-          <div className='title only pull-right'>{phone}</div>
-        </div>
-        <div className='contact-item'>
-          <div className='icon pull-left text-center'>
-            <span className='fas fa-envelope fa-fw'></span>
 
-            {/* <FontAwesomeIcon icon={['far', 'envelope']} /> */}
-          </div>
-          <div className='title only pull-right'>
-            <a href={email} target='_blank'>
-              {email}
+  const isNetworkProfileFoundInSubprofile = networkName => {
+    const profiles = subprofile?.basics?.profiles;
+    if (!profiles) {
+      return false;
+    }
+    const numProfiles = profiles.length;
+    for (let i = 0; i < numProfiles; i++) {
+      if (profiles[i].network === networkName) {
+        return true;
+      }
+    }
+    return false;
+  };
+
+  const ProfileSegment = props => {
+    const {network, username, url} = props.networkProfile;
+
+    const isFoundInSubprofile = isNetworkProfileFoundInSubprofile(network);
+    let iconName;
+    if (network === 'LinkedIn') {
+      iconName = 'linkedin';
+    } else if (network === 'gitHub') {
+      iconName = 'github';
+    }
+
+    return (
+      <ListItem>
+        {isEditor && <Button icon='edit' size='mini' floated='right'/>}
+        {isSelector && (
+          <Button
+            icon={isFoundInSubprofile ? 'check' : 'add'}
+            floated='right'
+            size='mini'
+          />
+        )}
+
+        {iconName && <List.Icon name={iconName}/>}
+
+        <List.Content>
+          <a href={url} target={network}>
+            {username}
+          </a>
+        </List.Content>
+      </ListItem>
+    );
+  };
+
+  return (
+    <>
+      <Button
+        // TODO:handleAddContactClick
+        floated='right'
+        icon='add'
+        size='mini'
+      />
+      <Header as='h2'>
+        <Icon name='bullseye'/> Contact
+      </Header>
+      <Divider/>
+      <List>
+        <ListItem>
+          <Button floated='right' icon='add' size='mini'/>
+          <List.Icon name='location arrow'/>
+          <List.Content>
+            {profile.basics.location.city}, {profile.basics.location.region}{' '}
+            {profile.basics.location.countryCode}
+          </List.Content>
+        </ListItem>
+        <Divider hidden fitted/>
+        <ListItem>
+          <Button floated='right' icon='add' size='mini'/>
+          <List.Icon name='phone'/>
+          <List.Content>{profile.basics.phone}</List.Content>
+        </ListItem>
+        <Divider hidden fitted/>
+        <ListItem>
+          <Button floated='right' icon='add' size='mini'/>
+          <List.Icon name='mail'/>
+          <List.Content>
+            <a href={`mailto:{profile.basics.email}`} target='_blank'>
+              {profile.basics.email}
             </a>
-          </div>
-        </div>
-        <div className='contact-item'>
-          <div className='icon pull-left text-center'>
-            <span className='fab fa-linkedin fa-fw'></span>
-            <a href={linkedIn.url}></a>
-          </div>
-          <div className='title pull-right'>{linkedIn.network}</div>
-          <div className='description pull-right'>
-            <a href='https://www.linkedin.com/in/olimstv' target='_blank'>
-              {linkedIn.username}
-            </a>
-          </div>
-        </div>
-      </div>
-    </div>
+          </List.Content>
+        </ListItem>
+
+        {profile.basics.profiles.map((networkProfile, ind) => {
+          return (
+            <ProfileSegment key={ind} networkProfile={networkProfile}/>
+          );
+        })}
+      </List>
+    </>
   );
 };
 
