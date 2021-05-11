@@ -25,6 +25,7 @@ import Volunteer from "./edit-resume/Volunteer";
 import Contact from "./edit-resume/Contact";
 import Education from "./edit-resume/Education";
 import Skills from "./edit-resume/Skills";
+import Other from "./edit-resume/Other";
 
 export default function ProfileSelector(props) {
   const {profile, subprofile, onSubprofileChange, mode = 'editor'} = props;
@@ -381,85 +382,88 @@ export default function ProfileSelector(props) {
         render:
           () => (
             <Tab.Pane attached={false}>
-              <Fragment>
-                <Button floated='right' icon='add' size='mini'/>
-                <Header as='h2'>
-                  <Icon name='language'/> Languages
-                </Header>
-                <Divider/>
-                {profile.languages.map((language, index) => {
-                  return (
-                    <Fragment>
-                      <Header as='h3' key={index}>
-                        {language.language}
-                      </Header>
-                      <Label>{language.fluency}</Label>
-                    </Fragment>
-                  );
-                })}
-              </Fragment>
+              <Other
+                profile={profile}
+              />
+              {/*<Fragment>*/}
+              {/*  <Button floated='right' icon='add' size='mini'/>*/}
+              {/*  <Header as='h2'>*/}
+              {/*    <Icon name='language'/> Languages*/}
+              {/*  </Header>*/}
+              {/*  <Divider/>*/}
+              {/*  {profile.languages.map((language, index) => {*/}
+              {/*    return (*/}
+              {/*      <Fragment>*/}
+              {/*        <Header as='h3' key={index}>*/}
+              {/*          {language.language}*/}
+              {/*        </Header>*/}
+              {/*        <Label>{language.fluency}</Label>*/}
+              {/*      </Fragment>*/}
+              {/*    );*/}
+              {/*  })}*/}
+              {/*</Fragment>*/}
 
-              <Fragment>
-                {profile.interests && (
-                  <Segment>
-                    <Button floated='right' icon='add' size='mini'/>
-                    <Header as='h2'>
-                      <Icon name='heart'/> Interests
-                    </Header>
-                    <Segment>
-                      <Button floated='right' icon='add' size='mini'/>
-                      {profile.interests.map((interest, index) => {
-                        return (
-                          <div key={index}>
-                            <Header as='h3'>{interest.name}</Header>
-                            <Label.Group circular>
-                              {interest.keywords &&
-                              interest.keywords.map((keyword, index) => {
-                                return (
-                                  <Label as='a' key={index}>
-                                    <Icon corner='top right' name='add'/>
-                                    {keyword}
-                                  </Label>
-                                );
-                              })}
-                            </Label.Group>
-                            <Divider hidden/>
-                          </div>
-                        );
-                      })}
-                    </Segment>
-                  </Segment>
-                )}
-              </Fragment>
+              {/*<Fragment>*/}
+              {/*  {profile.interests && (*/}
+              {/*    <Segment>*/}
+              {/*      <Button floated='right' icon='add' size='mini'/>*/}
+              {/*      <Header as='h2'>*/}
+              {/*        <Icon name='heart'/> Interests*/}
+              {/*      </Header>*/}
+              {/*      <Segment>*/}
+              {/*        <Button floated='right' icon='add' size='mini'/>*/}
+              {/*        {profile.interests.map((interest, index) => {*/}
+              {/*          return (*/}
+              {/*            <div key={index}>*/}
+              {/*              <Header as='h3'>{interest.name}</Header>*/}
+              {/*              <Label.Group circular>*/}
+              {/*                {interest.keywords &&*/}
+              {/*                interest.keywords.map((keyword, index) => {*/}
+              {/*                  return (*/}
+              {/*                    <Label as='a' key={index}>*/}
+              {/*                      <Icon corner='top right' name='add'/>*/}
+              {/*                      {keyword}*/}
+              {/*                    </Label>*/}
+              {/*                  );*/}
+              {/*                })}*/}
+              {/*              </Label.Group>*/}
+              {/*              <Divider hidden/>*/}
+              {/*            </div>*/}
+              {/*          );*/}
+              {/*        })}*/}
+              {/*      </Segment>*/}
+              {/*    </Segment>*/}
+              {/*  )}*/}
+              {/*</Fragment>*/}
 
-              <Fragment>
-                {profile.references && (
-                  <Segment>
-                    <Button floated='right' icon='add' size='mini'/>
-                    <Header as='h2'>
-                      <Icon name='check square'/> References
-                    </Header>
-                    <Segment>
-                      {/* <Button floated='right' icon='add'></Button> */}
-                      {profile.references.map((ref, index) => {
-                        return (
-                          <div key={index}>
-                            <Button floated='right' icon='add' size='mini'/>
-                            <span as='h5'>{ref.reference}</span>
+              {/*<Fragment>*/}
+              {/*  {profile.references && (*/}
+              {/*    <Segment>*/}
+              {/*      <Button floated='right' icon='add' size='mini'/>*/}
+              {/*      <Header as='h2'>*/}
+              {/*        <Icon name='check square'/> References*/}
+              {/*      </Header>*/}
+              {/*      <Segment>*/}
+              {/*        /!* <Button floated='right' icon='add'></Button> *!/*/}
+              {/*        {profile.references.map((ref, index) => {*/}
+              {/*          return (*/}
+              {/*            <div key={index}>*/}
+              {/*              <Button floated='right' icon='add' size='mini'/>*/}
+              {/*              <span as='h5'>{ref.reference}</span>*/}
 
-                            <footer>
-                              <blockquote>
-                                <a target='_blank'>{ref.name}</a>
-                              </blockquote>
-                            </footer>
-                            <Divider hidden/>
-                          </div>
-                        );
-                      })}
-                    </Segment>
-                  </Segment>
-                )}
-              </Fragment>
+              {/*              <footer>*/}
+              {/*                <blockquote>*/}
+              {/*                  <a target='_blank'>{ref.name}</a>*/}
+              {/*                </blockquote>*/}
+              {/*              </footer>*/}
+              {/*              <Divider hidden/>*/}
+              {/*            </div>*/}
+              {/*          );*/}
+              {/*        })}*/}
+              {/*      </Segment>*/}
+              {/*    </Segment>*/}
+              {/*  )}*/}
+              {/*</Fragment>*/}
             </Tab.Pane>
           )
       }

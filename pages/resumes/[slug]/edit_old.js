@@ -9,7 +9,7 @@ import {
   ButtonGroup
 } from 'semantic-ui-react';
 import About from '../../../components/edit-resume/About';
-import { Container } from 'semantic-ui-react';
+import {Container} from 'semantic-ui-react';
 import ResumeHeader from '../../../components/edit-resume/ResumeHeader';
 import Volunteer from '../../../components/edit-resume/Volunteer';
 import Contact from '../../../components/edit-resume/Contact';
@@ -18,18 +18,20 @@ import Skills from '../../../components/edit-resume/Skills';
 import Publications from '../../../components/edit-resume/Publications';
 import Languages from '../../../components/edit-resume/Languages';
 import Interests from '../../../components/edit-resume/Interests';
-import References from '../../../components/edit-resume/References';
-import { useEffect, useState, useRef } from 'react';
-import { default as lodashSet } from 'lodash/set';
+import Other from '../../../components/edit-resume/Other';
+import {useEffect, useState, useRef} from 'react';
+import {default as lodashSet} from 'lodash/set';
 // import { useState, useEffect } from 'react';
 // import useSWR from 'swr';
 // import { useRouter } from 'next/router';
 
-const ResumeEditForm = ({ resume: loadedResume }) => {
+const ResumeEditForm = ({resume: loadedResume}) => {
   const inputRef = useRef();
+
   function focus() {
     inputRef.current.focus();
   }
+
   const [resumeData, setResumeData] = useState(loadedResume);
 
   // const [resumeData, setResumeData] = useState({
@@ -40,7 +42,7 @@ const ResumeEditForm = ({ resume: loadedResume }) => {
   //   title: resume.title,
   //   subprofile: resume.subprofile
   // });
-  const { subprofile } = resumeData;
+  const {subprofile} = resumeData;
   console.log('subprofile :>> ', subprofile);
   const {
     basics,
@@ -79,7 +81,7 @@ const ResumeEditForm = ({ resume: loadedResume }) => {
     const newValue = e.target.value;
     console.log(`Setting a new value for path "${path}: ${newValue}"`);
 
-    const newResumeData = { ...resumeData };
+    const newResumeData = {...resumeData};
     lodashSet(newResumeData, path, newValue);
 
     setResumeData(newResumeData);
@@ -112,10 +114,10 @@ const ResumeEditForm = ({ resume: loadedResume }) => {
           />
           <ButtonGroup floated='right'>
             <Button onClick={focus} primary icon>
-              <Icon name='edit' />
+              <Icon name='edit'/>
             </Button>
             <Button icon>
-              <Icon name='save' />
+              <Icon name='save'/>
             </Button>
           </ButtonGroup>
           <input
@@ -127,14 +129,14 @@ const ResumeEditForm = ({ resume: loadedResume }) => {
           />
           <ButtonGroup floated='right'>
             <Button onClick={focus} primary icon>
-              <Icon name='edit' />
+              <Icon name='edit'/>
             </Button>
             <Button icon>
-              <Icon name='save' />
+              <Icon name='save'/>
             </Button>
           </ButtonGroup>
         </Container>
-        <About subprofile={subprofile} />
+        <About subprofile={subprofile}/>
         {/* <Awards /> */}
         {/* {volunteer && <Volunteer subprofile={subprofile} />} */}
         {/* <Contact basics={basics} /> */}
@@ -149,15 +151,15 @@ const ResumeEditForm = ({ resume: loadedResume }) => {
   );
 };
 
-export async function getServerSideProps({ params }) {
+export async function getServerSideProps({params}) {
   await dbConnect();
 
-  const resume = await Resume.findOne({ slug: params.slug }).lean();
+  const resume = await Resume.findOne({slug: params.slug}).lean();
   resume._id = resume._id.toString();
-  
+
   resume.user = resume.user.toString();
 
-  return { props: { resume } };
+  return {props: {resume}};
 }
 
 export default ResumeEditForm;
