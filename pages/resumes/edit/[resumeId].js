@@ -1,4 +1,4 @@
-import { Grid, Container, Header, Link, Button, Segment } from 'semantic-ui-react';
+import { Grid, Container, Header, Button, Segment } from 'semantic-ui-react';
 import ResumeViewer from '../../../components/ResumeViewer';
 import ProfileSelector from '../../../components/ProfileSelector';
 import dbConnect from '../../../util/dbConnect';
@@ -10,6 +10,7 @@ import withSession, {
   extractReqResFromArgs,
   useUserServerSide
 } from '../../../util/session';
+import {Link} from 'next/link'
 
 import safeJsonStringify from 'safe-json-stringify';
 import moment from 'moment'
@@ -60,10 +61,10 @@ export default function EditResumePage(props) {
           </Grid.Row>
         </Grid>{' '}
         {/* TODO: Add components: 1) title, 2) slug, 3) isPublished checkbox; 3) Save button. The Save button will compose a new `resume` object with fields: slug, title, isPublished, subprofile, and  call an API to save it into the database (we do have its ID already!); and show a notice, e.g. "Saved successfully!". */}
-        <Link >
-              <Button color='teal' basic icon='save outline'>Save
-            </Button>
-          </Link>
+        {/*<Link >*/}
+        {/*      <Button color='teal' basic icon='save outline'>Save*/}
+        {/*    </Button>*/}
+        {/*  </Link>*/}
     </Layout>
       </Container>
   );

@@ -1,35 +1,46 @@
 import {
-  Container,
   Button,
-  Form,
   Header,
-  TextArea,
   Icon,
-  ButtonGroup
+  Label, Segment, Tab
 } from 'semantic-ui-react';
-const About = ({ subprofile }) => {
-  const { basics, work } = subprofile;
-  return (
-    <Container fluid>
-      <Header color='blue' as='h2'>
-        About
-      </Header>
 
-      <Form.TextArea
-        label='About Section'
-        placeholder='Tell us more'
-        value={basics.summary}
-      />
-      <ButtonGroup floated='right'>
-        <Button color='blue' icon>
-          <Icon name='edit' />
-        </Button>
-        <Button icon>
-          <Icon name='save' />
-        </Button>
-      </ButtonGroup>
-    </Container>
-  );
-};
+
+const About = ({subprofile, handleAddNameClick, doSubprofileNamesMatch, handleAddAboutClick}) => {
+  const {basics, work} = subprofile;
+  return (
+    <>
+      <Fragment>
+        <Button
+          floated='right'
+          size='mini'
+          onClick={handleAddNameClick}
+          color={doSubprofileNamesMatch ? 'teal' : null}
+          icon={doSubprofileNamesMatch ? 'check' : 'add'}
+        />
+        <Header as='h2'>{profile.basics.name}</Header>
+        <Label>{profile.basics.label}</Label>
+      </Fragment>
+      {/* ABOUT ME */}
+
+      <Segment>
+        <Button
+          onClick={handleAddAboutClick}
+          floated='right'
+          color={doSubprofileSummaryMatch ? 'teal' : null}
+          icon={doSubprofileSummaryMatch ? 'check' : 'add'}
+          size='mini'
+        />
+        <Header as='h2'>
+          <Icon name='user' size='small'/>
+          About
+        </Header>
+        <Label ribbon>Summary</Label>
+        {profile.basics.summary}
+      </Segment>
+    </>
+  )
+}
+
 
 export default About;

@@ -1,6 +1,5 @@
 import {
   Button,
-  Container,
   Form,
   Grid,
   Header,
@@ -13,7 +12,8 @@ import withSession, {
   extractReqResFromArgs,
   useUserServerSide
 } from '../util/session';
-import fetch from 'unfetch';
+
+import signup from '../pages/signup'
 import { callApi } from '../util/api';
 import { useRouter } from 'next/router';
 import Link from 'next/link';

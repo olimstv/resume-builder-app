@@ -17,10 +17,11 @@ import {
 
 import moment from 'moment'
 import * as T from 'prop-types';
-import { default as lodashSet } from 'lodash/set';
-import { Fragment } from 'react';
+import {default as lodashSet} from 'lodash/set';
+import {Fragment} from 'react';
+
 export default function ProfileSelector(props) {
-  const { profile, subprofile, onSubprofileChange, mode = 'editor' } = props;
+  const {profile, subprofile, onSubprofileChange, mode = 'editor'} = props;
 
   const isEditor = mode === 'editor';
   const isSelector = mode === 'selector';
@@ -46,7 +47,7 @@ export default function ProfileSelector(props) {
   };
   // NAME
   const handleAddNameClick = () => {
-    const newSubprofile = { ...subprofile };
+    const newSubprofile = {...subprofile};
     lodashSet(newSubprofile, 'basics.name', profile.basics.name);
     lodashSet(newSubprofile, 'basics.label', profile.basics.label);
     callOnSubprofileChange(newSubprofile);
@@ -57,7 +58,7 @@ export default function ProfileSelector(props) {
 
   // ABOUT
   const handleAddAboutClick = () => {
-    const newSubprofile = { ...subprofile };
+    const newSubprofile = {...subprofile};
     lodashSet(newSubprofile, 'basics.summary', profile.basics.summary);
     callOnSubprofileChange(newSubprofile);
   };
@@ -67,7 +68,7 @@ export default function ProfileSelector(props) {
 
   // WORK EXP (ALL)
   const handleAddWorkExperienceClick = () => {
-    const newSubprofile = { ...subprofile };
+    const newSubprofile = {...subprofile};
     lodashSet(newSubprofile, 'work', profile.work);
     callOnSubprofileChange(newSubprofile);
   };
@@ -75,7 +76,7 @@ export default function ProfileSelector(props) {
   const doSubprofileWorkMatch = profile?.work === subprofile?.work;
 
   const handleAddWorkExperienceInstanceClick = index => {
-    const newSubprofile = { ...subprofile };
+    const newSubprofile = {...subprofile};
     const profileWorkArr = profile.work;
     if (!newSubprofile.work) {
       newSubprofile.work = [];
@@ -87,7 +88,7 @@ export default function ProfileSelector(props) {
     callOnSubprofileChange(newSubprofile);
   };
   const isWorkItemInSubprofile = index => {
-    const { company, position } = profile.work[index];
+    const {company, position} = profile.work[index];
     let match = subprofile.work.some(oneSubprofileWork => {
       return (
         oneSubprofileWork.company === company &&
@@ -98,7 +99,7 @@ export default function ProfileSelector(props) {
   };
   // VOLUNTEER (ALL)
   const handleAddVolunteerExperienceClick = () => {
-    const newSubprofile = { ...subprofile };
+    const newSubprofile = {...subprofile};
     lodashSet(newSubprofile, 'volunteer', profile.volunteer);
     callOnSubprofileChange(newSubprofile);
   };
@@ -108,7 +109,7 @@ export default function ProfileSelector(props) {
     profile?.volunteer === subprofile?.volunteer;
 
   const isVolunteerItemInSubprofile = index => {
-    const { organization, position } = profile.volunteer[index];
+    const {organization, position} = profile.volunteer[index];
     let match = subprofile.volunteer.some(oneSubprofileVolunteer => {
       return (
         oneSubprofileVolunteer.organization === organization &&
@@ -120,7 +121,7 @@ export default function ProfileSelector(props) {
   };
   // ADD VOLUNTEER INSTANCE
   const handleAddVolunteerInstanceClick = index => {
-    const newSubprofile = { ...subprofile };
+    const newSubprofile = {...subprofile};
     const profileVolunteerkArr = profile.volunteer;
     if (!newSubprofile.volunteer) {
       newSubprofile.volunteer = [];
@@ -134,21 +135,21 @@ export default function ProfileSelector(props) {
   };
 
   // CONTACTS (ALL)
-    const handleAddContactsClick = () => {
-      const newSubprofile = { ...subprofile };
-      
-    };
+  const handleAddContactsClick = () => {
+    const newSubprofile = {...subprofile};
 
-    // Button Icon
-    const doSubprofileContactsMatch = profile?.volunteer === subprofile?.volunteer;
-  
+  };
+
+  // Button Icon
+  const doSubprofileContactsMatch = profile?.volunteer === subprofile?.volunteer;
+
   const handleAddContactClick = () => {
-    const newSubprofile = { ...subprofile };
+    const newSubprofile = {...subprofile};
   };
 
   // EDUCATION (ALL)
   const handleAddEducationClick = () => {
-    const newSubprofile = { ...subprofile };
+    const newSubprofile = {...subprofile};
     lodashSet(newSubprofile, 'education', profile.education);
     callOnSubprofileChange(newSubprofile);
   };
@@ -158,7 +159,7 @@ export default function ProfileSelector(props) {
     profile?.education === subprofile?.education;
 
   const isEducationItemInSubprofile = index => {
-    const { institution, area } = profile.education[index];
+    const {institution, area} = profile.education[index];
     let match = subprofile.education.some(oneSubprofileEducation => {
       return (
         oneSubprofileEducation.institution === institution &&
@@ -170,7 +171,7 @@ export default function ProfileSelector(props) {
   };
   //
   const handleAddEducationInstanceClick = index => {
-    const newSubprofile = { ...subprofile };
+    const newSubprofile = {...subprofile};
     const profileEducationArr = profile.education;
     if (!newSubprofile.education) {
       newSubprofile.education = [];
@@ -185,7 +186,7 @@ export default function ProfileSelector(props) {
 
   // SKILLS
   const handleAddAllSkillsClick = () => {
-    const newSubprofile = { ...subprofile };
+    const newSubprofile = {...subprofile};
     lodashSet(newSubprofile, 'skills', profile.skills);
     callOnSubprofileChange(newSubprofile);
   };
@@ -193,7 +194,7 @@ export default function ProfileSelector(props) {
   const doSubprofileSkillsMatch = profile?.skills === subprofile?.skills;
 
   const handleAddSkillInstanceClick = index => {
-    const newSubprofile = { ...subprofile };
+    const newSubprofile = {...subprofile};
     const profileWorkArr = profile.work;
     if (!newSubprofile.work) {
       newSubprofile.work = [];
@@ -249,7 +250,7 @@ export default function ProfileSelector(props) {
   }
 
   const isSkillItemInSubprofile = index => {
-    const { company, position } = profile.work[index];
+    const {company, position} = profile.work[index];
     let match = subprofile.work.some(oneSubprofileWork => {
       return (
         oneSubprofileWork.company === company &&
@@ -259,7 +260,7 @@ export default function ProfileSelector(props) {
     return match;
   };
   const ProfileSegment = props => {
-    const { network, username, url } = props.networkProfile;
+    const {network, username, url} = props.networkProfile;
 
     const isFoundInSubprofile = isNetworkProfileFoundInSubprofile(network);
     let iconName;
@@ -271,7 +272,7 @@ export default function ProfileSelector(props) {
 
     return (
       <ListItem>
-        {isEditor && <Button icon='edit' size='mini' floated='right' />}
+        {isEditor && <Button icon='edit' size='mini' floated='right'/>}
         {isSelector && (
           <Button
             icon={isFoundInSubprofile ? 'check' : 'add'}
@@ -280,7 +281,7 @@ export default function ProfileSelector(props) {
           />
         )}
 
-        {iconName && <List.Icon name={iconName} />}
+        {iconName && <List.Icon name={iconName}/>}
 
         <List.Content>
           <a href={url} target={network}>
@@ -292,16 +293,15 @@ export default function ProfileSelector(props) {
   };
 
   const panes = [
-    {
-      menuItem: 'About',
-      render: () => (
-        <Tab.Pane attached={false}>
+      {
+        menuItem: 'About',
+        render: () => <Tab.Pane attached={false}>
           <Fragment>
             <Button
               floated='right'
               size='mini'
               onClick={handleAddNameClick}
-              color={doSubprofileNamesMatch ? 'teal' :null}
+              color={doSubprofileNamesMatch ? 'teal' : null}
               icon={doSubprofileNamesMatch ? 'check' : 'add'}
             />
             <Header as='h2'>{profile.basics.name}</Header>
@@ -313,452 +313,463 @@ export default function ProfileSelector(props) {
             <Button
               onClick={handleAddAboutClick}
               floated='right'
-              color={doSubprofileSummaryMatch ? 'teal' :null}
+              color={doSubprofileSummaryMatch ? 'teal' : null}
               icon={doSubprofileSummaryMatch ? 'check' : 'add'}
               size='mini'
             />
             <Header as='h2'>
-              <Icon name='user' size='small' />
+              <Icon name='user' size='small'/>
               About
             </Header>
             <Label ribbon>Summary</Label>
             {profile.basics.summary}
           </Segment>
         </Tab.Pane>
-      )
-    },
-    {
-      menuItem: 'Work Experience',
-      render: () => (
-        <Tab.Pane attached={false}>
-          <Button
-            onClick={handleAddWorkExperienceClick}
-            floated='right'
-            color={doSubprofileWorkMatch ? 'teal' :null}
-            icon={doSubprofileWorkMatch ? 'check' : 'add'}
-            size='mini'
-          />{' '}
-          <Header as='h2'>
-            <Icon name='suitcase' />
-            Work Experience          </Header>
-          {/* <Divider /> */}
-          {profile.work.map((exp, index) => {
-            const isInSubprofile = isWorkItemInSubprofile(index);
-      console.log(moment(exp.startDate).format('DD-MM-YYYY'));
-            return (
-              <Segment key={index}>
-                <Button
-                  onClick={handleAddWorkExperienceInstanceClick.bind(
-                    this,
-                    index
-                  )}
-                  floated='right'
-                  color={isInSubprofile ? 'teal' :null}
-                  icon={isInSubprofile ? 'check' : 'add'}
-                  size='mini'
-                />
-                <Header as='h3'>{exp.company}</Header>
-                <Header.Subheader>
-                  {moment(exp.startDate).format('DD-MM-YYYY')} - {!exp.endDate ? `till now` : moment(exp.endDate).format('DD-MM-YYYY')}
-                </Header.Subheader>
-                <Fragment>
-                  <Divider hidden />
-                  <Label ribbon>Role</Label>
-                  {exp.position}
-                </Fragment>
-                <Fragment>
-                  <Divider hidden />
-                  <Label ribbon>Summary</Label>
-                  {exp.summary}
-                </Fragment>
-                <Fragment>
-                  {/* <Button  floated='right' icon='add' size='mini' /> */}
-                  {/* <Divider /> */}
-                  <Header>Highlights</Header>
-                  <List>
-                    {exp.highlights &&
-                      exp.highlights.map((item, index) => {
-                        // const isInSubprofile = doSubprofileWorkMatch;
-                        return (
-                          <Fragment key={index}>
-                            <Button
-                              floated='right'
-                              color={isInSubprofile ? 'teal' :null}
-                              icon={isInSubprofile ? 'check' : 'add'}
-                              size='mini'
-                            ></Button>
-                            <ListItem key={index}>
-                              <List.Icon name='check' />
-                              <List.Content
-                                key={index}
-                                className='list-group-item'
-                              >
-                                {item}
-                              </List.Content>
-                            </ListItem>
-                          </Fragment>
-                        );
-                      })}
-                  </List>
-                </Fragment>
-              </Segment>
-            );
-          })}
-        </Tab.Pane>
-      )
-    },
-    {
-      menuItem: 'Volunteer',
-      render: () => (
-        <Tab.Pane attached={false}>
-          {' '}
-          {!profile.volunteer ? (
-            <Label>Volunteer section doesn't filled yet...</Label>
-          ) : (
-            <Segment>
+
+      },
+      {
+        menuItem: 'Work Experience',
+        render:
+          () => (
+            <Tab.Pane attached={false}>
               <Button
-                onClick={handleAddVolunteerExperienceClick}
+                onClick={handleAddWorkExperienceClick}
                 floated='right'
-                color={doSubprofileVolunteerMatch ? 'teal' :null}
-                icon={doSubprofileVolunteerMatch ? 'check' : 'add'}
+                color={doSubprofileWorkMatch ? 'teal' : null}
+                icon={doSubprofileWorkMatch ? 'check' : 'add'}
                 size='mini'
-              />
+              />{' '}
               <Header as='h2'>
-                <Icon name='users' />
-                Volunteer
-              </Header>
-              {profile.volunteer.map((exp, index) => {
-                const isInSubprofile = isVolunteerItemInSubprofile(index);
+                <Icon name='suitcase'/>
+                Work Experience </Header>
+              {/* <Divider /> */}
+              {profile.work.map((exp, index) => {
+                const isInSubprofile = isWorkItemInSubprofile(index);
+                console.log(moment(exp.startDate).format('DD-MM-YYYY'));
                 return (
                   <Segment key={index}>
                     <Button
-                      onClick={handleAddVolunteerInstanceClick.bind(
+                      onClick={handleAddWorkExperienceInstanceClick.bind(
                         this,
                         index
                       )}
                       floated='right'
-                      color={isInSubprofile ? 'teal' :null}
+                      color={isInSubprofile ? 'teal' : null}
                       icon={isInSubprofile ? 'check' : 'add'}
                       size='mini'
                     />
-                    <Header as='h3'>{exp.organization}</Header>
+                    <Header as='h3'>{exp.company}</Header>
                     <Header.Subheader>
-                    {moment(exp.startDate).format('DD-MM-YYYY')} - {!exp.endDate ? `till now` : moment(exp.endDate).format('DD-MM-YYYY')}
+                      {moment(exp.startDate).format('DD-MM-YYYY')} - {!exp.endDate ? `till now` : moment(exp.endDate).format('DD-MM-YYYY')}
                     </Header.Subheader>
-
-                    <div>
-                      <Label ribbon>Role</Label>
-                      {/* <Header as='h3'>{exp.position}</Header> */}
-                      {exp.position}
-                      <Divider hidden />
-                    </div>
-
                     <Fragment>
+                      <Divider hidden/>
+                      <Label ribbon>Role</Label>
+                      {exp.position}
+                    </Fragment>
+                    <Fragment>
+                      <Divider hidden/>
                       <Label ribbon>Summary</Label>
                       {exp.summary}
                     </Fragment>
-
-                    <Header>Highlights</Header>
-                    {/* <Divider /> */}
-                    <List>
-                      {exp.highlights.map((item, index) => {
-                        return (
-                          <Fragment key={index}>
-                            <Button
-                              floated='right'
-                              color={isInSubprofile ? 'teal' :null}
-                              icon={isInSubprofile ? 'check' : 'add'}
-                              size='mini'
-                            />
-                            <ListItem key={index}>
-                              <List.Content>
-                                <List.Icon name='check' />
-                                {item}
-                              </List.Content>
-                            </ListItem>
-                            <Divider hidden />
-                          </Fragment>
-                        );
-                      })}
-                    </List>
+                    <Fragment>
+                      {/* <Button  floated='right' icon='add' size='mini' /> */}
+                      {/* <Divider /> */}
+                      <Header>Highlights</Header>
+                      <List>
+                        {exp.highlights &&
+                        exp.highlights.map((item, index) => {
+                          // const isInSubprofile = doSubprofileWorkMatch;
+                          return (
+                            <Fragment key={index}>
+                              <Button
+                                floated='right'
+                                color={isInSubprofile ? 'teal' : null}
+                                icon={isInSubprofile ? 'check' : 'add'}
+                                size='mini'
+                              ></Button>
+                              <ListItem key={index}>
+                                <List.Icon name='check'/>
+                                <List.Content
+                                  key={index}
+                                  className='list-group-item'
+                                >
+                                  {item}
+                                </List.Content>
+                              </ListItem>
+                            </Fragment>
+                          );
+                        })}
+                      </List>
+                    </Fragment>
                   </Segment>
                 );
               })}
-            </Segment>
-          )}
-        </Tab.Pane>
-      )
-    },
-    {
-      menuItem: 'Contact',
-      render: () => (
-        <Tab.Pane attached={false}>
-          {' '}
-          <Button
-            // TODO:handleAddContactClick
-            floated='right'
-            icon='add'
-            size='mini'
-          />
-          <Header as='h2'>
-            <Icon name='bullseye' /> Contact
-          </Header>
-          <Divider />
-          <List>
-            <ListItem>
-              <Button floated='right' icon='add' size='mini' />
-              <List.Icon name='location arrow' />
-              <List.Content>
-                {profile.basics.location.city}, {profile.basics.location.region}{' '}
-                {profile.basics.location.countryCode}
-              </List.Content>
-            </ListItem>
-            <Divider hidden fitted />
-            <ListItem>
-              <Button floated='right' icon='add' size='mini' />
-              <List.Icon name='phone' />
-              <List.Content>{profile.basics.phone}</List.Content>
-            </ListItem>
-            <Divider hidden fitted />
-            <ListItem>
-              <Button floated='right' icon='add' size='mini' />
-              <List.Icon name='mail' />
-              <List.Content>
-                <a href={`mailto:{profile.basics.email}`} target='_blank'>
-                  {profile.basics.email}
-                </a>
-              </List.Content>
-            </ListItem>
-
-            {profile.basics.profiles.map((networkProfile, ind) => {
-              return (
-                <ProfileSegment key={ind} networkProfile={networkProfile} />
-              );
-            })}
-          </List>
-        </Tab.Pane>
-      )
-    },
-    {
-      menuItem: 'Education',
-      render: () => (
-        <Tab.Pane attached={false}>
-          {' '}
-          <Segment>
-            <Button
-              onClick={handleAddEducationClick}
-              floated='right'
-              color={doSubprofileEducationMatch ? 'teal' :null}
-              icon={doSubprofileEducationMatch ? 'check' : 'add'}
-              size='mini'
-            />
-            <Header as='h2'>
-              <Icon name='university' /> Education
-            </Header>
-
-            {profile.education.map((exp, index) => {
-              const isInSubprofile = isEducationItemInSubprofile(index); //TODO: FIX ICON
-              console.log('isInSubprofile :>> ', isInSubprofile);
-              return (
-                <Segment key={index}>
+            </Tab.Pane>
+          )
+      }
+      ,
+      {
+        menuItem: 'Volunteer',
+        render:
+          () => (
+            <Tab.Pane attached={false}>
+              {' '}
+              {!profile.volunteer ? (
+                <Label>Volunteer section doesn't filled yet...</Label>
+              ) : (
+                <Segment>
                   <Button
-                    onClick={handleAddEducationInstanceClick.bind(this, index)}
-                    color={isInSubprofile ? 'teal' :null}
-                    icon={isInSubprofile ? 'check' : 'add'}
+                    onClick={handleAddVolunteerExperienceClick}
                     floated='right'
+                    color={doSubprofileVolunteerMatch ? 'teal' : null}
+                    icon={doSubprofileVolunteerMatch ? 'check' : 'add'}
                     size='mini'
                   />
-                  <Header as='h3'>{exp.institution}</Header>
-                  <Header.Subheader>
-                  {moment(exp.startDate).format('DD-MM-YYYY')} - {!exp.endDate ? `till now` : moment(exp.endDate).format('DD-MM-YYYY')}
-                  </Header.Subheader>
+                  <Header as='h2'>
+                    <Icon name='users'/>
+                    Volunteer
+                  </Header>
+                  {profile.volunteer.map((exp, index) => {
+                    const isInSubprofile = isVolunteerItemInSubprofile(index);
+                    return (
+                      <Segment key={index}>
+                        <Button
+                          onClick={handleAddVolunteerInstanceClick.bind(
+                            this,
+                            index
+                          )}
+                          floated='right'
+                          color={isInSubprofile ? 'teal' : null}
+                          icon={isInSubprofile ? 'check' : 'add'}
+                          size='mini'
+                        />
+                        <Header as='h3'>{exp.organization}</Header>
+                        <Header.Subheader>
+                          {moment(exp.startDate).format('DD-MM-YYYY')} - {!exp.endDate ? `till now` : moment(exp.endDate).format('DD-MM-YYYY')}
+                        </Header.Subheader>
 
-                  <div>
-                    <Header as='h4'>{exp.Area}</Header>
-                    <Header.Subheader>{exp.studyType}</Header.Subheader>
+                        <div>
+                          <Label ribbon>Role</Label>
+                          {/* <Header as='h3'>{exp.position}</Header> */}
+                          {exp.position}
+                          <Divider hidden/>
+                        </div>
 
-                    {exp.courses &&
-                      exp.courses.map((course, index) => {
-                        return (
-                          <ListItem key={index}>
-                            <List.Content>
-                              {' '}
-                              <List.Icon name='book' />
-                              {course}
-                            </List.Content>
-                          </ListItem>
-                        );
-                      })}
-                  </div>
+                        <Fragment>
+                          <Label ribbon>Summary</Label>
+                          {exp.summary}
+                        </Fragment>
+
+                        <Header>Highlights</Header>
+                        {/* <Divider /> */}
+                        <List>
+                          {exp.highlights.map((item, index) => {
+                            return (
+                              <Fragment key={index}>
+                                <Button
+                                  floated='right'
+                                  color={isInSubprofile ? 'teal' : null}
+                                  icon={isInSubprofile ? 'check' : 'add'}
+                                  size='mini'
+                                />
+                                <ListItem key={index}>
+                                  <List.Content>
+                                    <List.Icon name='check'/>
+                                    {item}
+                                  </List.Content>
+                                </ListItem>
+                                <Divider hidden/>
+                              </Fragment>
+                            );
+                          })}
+                        </List>
+                      </Segment>
+                    );
+                  })}
                 </Segment>
-              );
-            })}
-          </Segment>
-        </Tab.Pane>
-      )
-    },
-    {
-      menuItem: 'Skills',
-      render: () => {
-        const numSkills = profile?.skills?.length;
-
-        return (
+              )}
+            </Tab.Pane>
+          )
+      }
+      ,
+      {
+        menuItem: 'Contact',
+        render:
+          () => (
             <Tab.Pane attached={false}>
               {' '}
               <Button
+                // TODO:handleAddContactClick
+                floated='right'
+                icon='add'
+                size='mini'
+              />
+              <Header as='h2'>
+                <Icon name='bullseye'/> Contact
+              </Header>
+              <Divider/>
+              <List>
+                <ListItem>
+                  <Button floated='right' icon='add' size='mini'/>
+                  <List.Icon name='location arrow'/>
+                  <List.Content>
+                    {profile.basics.location.city}, {profile.basics.location.region}{' '}
+                    {profile.basics.location.countryCode}
+                  </List.Content>
+                </ListItem>
+                <Divider hidden fitted/>
+                <ListItem>
+                  <Button floated='right' icon='add' size='mini'/>
+                  <List.Icon name='phone'/>
+                  <List.Content>{profile.basics.phone}</List.Content>
+                </ListItem>
+                <Divider hidden fitted/>
+                <ListItem>
+                  <Button floated='right' icon='add' size='mini'/>
+                  <List.Icon name='mail'/>
+                  <List.Content>
+                    <a href={`mailto:{profile.basics.email}`} target='_blank'>
+                      {profile.basics.email}
+                    </a>
+                  </List.Content>
+                </ListItem>
+
+                {profile.basics.profiles.map((networkProfile, ind) => {
+                  return (
+                    <ProfileSegment key={ind} networkProfile={networkProfile}/>
+                  );
+                })}
+              </List>
+            </Tab.Pane>
+          )
+      }
+      ,
+      {
+        menuItem: 'Education',
+        render:
+          () => (
+            <Tab.Pane attached={false}>
+              {' '}
+              <Segment>
+                <Button
+                  onClick={handleAddEducationClick}
+                  floated='right'
+                  color={doSubprofileEducationMatch ? 'teal' : null}
+                  icon={doSubprofileEducationMatch ? 'check' : 'add'}
+                  size='mini'
+                />
+                <Header as='h2'>
+                  <Icon name='university'/> Education
+                </Header>
+
+                {profile.education.map((exp, index) => {
+                  const isInSubprofile = isEducationItemInSubprofile(index); //TODO: FIX ICON
+                  console.log('isInSubprofile :>> ', isInSubprofile);
+                  return (
+                    <Segment key={index}>
+                      <Button
+                        onClick={handleAddEducationInstanceClick.bind(this, index)}
+                        color={isInSubprofile ? 'teal' : null}
+                        icon={isInSubprofile ? 'check' : 'add'}
+                        floated='right'
+                        size='mini'
+                      />
+                      <Header as='h3'>{exp.institution}</Header>
+                      <Header.Subheader>
+                        {moment(exp.startDate).format('DD-MM-YYYY')} - {!exp.endDate ? `till now` : moment(exp.endDate).format('DD-MM-YYYY')}
+                      </Header.Subheader>
+
+                      <div>
+                        <Header as='h4'>{exp.Area}</Header>
+                        <Header.Subheader>{exp.studyType}</Header.Subheader>
+
+                        {exp.courses &&
+                        exp.courses.map((course, index) => {
+                          return (
+                            <ListItem key={index}>
+                              <List.Content>
+                                {' '}
+                                <List.Icon name='book'/>
+                                {course}
+                              </List.Content>
+                            </ListItem>
+                          );
+                        })}
+                      </div>
+                    </Segment>
+                  );
+                })}
+              </Segment>
+            </Tab.Pane>
+          )
+      }
+      ,
+      {
+        menuItem: 'Skills',
+        render:
+          () => {
+            const numSkills = profile?.skills?.length;
+
+            return (
+              <Tab.Pane attached={false}>
+                {' '}
+                <Button
                   onClick={handleAddAllSkillsClick}
                   color={doSubprofileSkillsMatch ? 'green' : undefined}
                   icon={doSubprofileSkillsMatch ? 'check' : 'add'}
                   floated='right'
                   size='mini'
-              />
-              <Header as='h2'>
-                <Icon name='tasks' /> Skills
-              </Header>
-              <Segment>
-                <Button
-                    color   = {doSubprofileSkillsMatch ? 'green' : undefined}
-                    icon    = {doSubprofileSkillsMatch ? 'check' : 'add'}
-                    floated = 'right'
-                    size    = 'mini'
                 />
-                {profile.skills.map((skill, skillInd) => {
+                <Header as='h2'>
+                  <Icon name='tasks'/> Skills
+                </Header>
+                <Segment>
+                  <Button
+                    color={doSubprofileSkillsMatch ? 'green' : undefined}
+                    icon={doSubprofileSkillsMatch ? 'check' : 'add'}
+                    floated='right'
+                    size='mini'
+                  />
+                  {profile.skills.map((skill, skillInd) => {
 
-                  const ind2 = 2;
+                    const ind2 = 2;
 
-                  return <>
-                    <div key={skillInd}>
-                      <Header as='h3'>{skill.name}</Header>
-                      <Header.Subheader>{skill.level}</Header.Subheader>
-                      <Divider hidden />
-                      {skill.keywords && (
+                    return <>
+                      <div key={skillInd}>
+                        <Header as='h3'>{skill.name}</Header>
+                        <Header.Subheader>{skill.level}</Header.Subheader>
+                        <Divider hidden/>
+                        {skill.keywords && (
                           <Fragment>
                             <Label ribbon>Tools &#38; Technologies</Label>
-                            <Divider hidden />
+                            <Divider hidden/>
                             <Label.Group circular>
-                              <Divider hidden fitted />
+                              <Divider hidden fitted/>
                               {skill.keywords.map((keyword, keywordInd) => {
                                 return (
-                                    <Label as  ='a'
-                                           key ={keywordInd}
-                                           onClick = {handleSkillKeywordClick.bind(null, skillInd, keywordInd)}
-                                    >
-                                      <Icon corner='top right' name='add' />
-                                      {keyword}
-                                    </Label>
+                                  <Label as='a'
+                                         key={keywordInd}
+                                         onClick={handleSkillKeywordClick.bind(null, skillInd, keywordInd)}
+                                  >
+                                    <Icon corner='top right' name='add'/>
+                                    {keyword}
+                                  </Label>
                                 );
                               })}
                             </Label.Group>
                           </Fragment>
-                      )}
-                    </div>
-                    {skillInd < numSkills-1 && <Divider hidden />}
-                  </>;
-                })}
-              </Segment>
-            </Tab.Pane>
-        );
+                        )}
+                      </div>
+                      {skillInd < numSkills - 1 && <Divider hidden/>}
+                    </>;
+                  })}
+                </Segment>
+              </Tab.Pane>
+            );
+          }
       }
-    },
-    {
-      menuItem: 'Other',
-      render: () => (
-        <Tab.Pane attached={false}>
-          <Fragment>
-            <Button floated='right' icon='add' size='mini' />
-            <Header as='h2'>
-              <Icon name='language' /> Languages
-            </Header>
-            <Divider />
-            {profile.languages.map((language, index) => {
-              return (
-                <Fragment>
-                  <Header as='h3' key={index}>
-                    {language.language}
-                  </Header>
-                  <Label>{language.fluency}</Label>
-                </Fragment>
-              );
-            })}
-          </Fragment>
-
-          <Fragment>
-            {profile.interests && (
-              <Segment>
-                <Button floated='right' icon='add' size='mini' />
+      ,
+      {
+        menuItem: 'Other',
+        render:
+          () => (
+            <Tab.Pane attached={false}>
+              <Fragment>
+                <Button floated='right' icon='add' size='mini'/>
                 <Header as='h2'>
-                  <Icon name='heart' /> Interests
+                  <Icon name='language'/> Languages
                 </Header>
-                <Segment>
-                  <Button floated='right' icon='add' size='mini' />
-                  {profile.interests.map((interest, index) => {
-                    return (
-                      <div key={index}>
-                        <Header as='h3'>{interest.name}</Header>
-                        <Label.Group circular>
-                          {interest.keywords &&
-                            interest.keywords.map((keyword, index) => {
-                              return (
-                                <Label as='a' key={index}>
-                                  <Icon corner='top right' name='add' />
-                                  {keyword}
-                                </Label>
-                              );
-                            })}
-                        </Label.Group>
-                        <Divider hidden />
-                      </div>
-                    );
-                  })}
-                </Segment>
-              </Segment>
-            )}
-          </Fragment>
+                <Divider/>
+                {profile.languages.map((language, index) => {
+                  return (
+                    <Fragment>
+                      <Header as='h3' key={index}>
+                        {language.language}
+                      </Header>
+                      <Label>{language.fluency}</Label>
+                    </Fragment>
+                  );
+                })}
+              </Fragment>
 
-          <Fragment>
-            {profile.references && (
-              <Segment>
-                <Button floated='right' icon='add' size='mini' />
-                <Header as='h2'>
-                  <Icon name='check square' /> References
-                </Header>
-                <Segment>
-                  {/* <Button floated='right' icon='add'></Button> */}
-                  {profile.references.map((ref, index) => {
-                    return (
-                      <div key={index}>
-                        <Button floated='right' icon='add' size='mini' />
-                        <span as='h5'>{ref.reference}</span>
+              <Fragment>
+                {profile.interests && (
+                  <Segment>
+                    <Button floated='right' icon='add' size='mini'/>
+                    <Header as='h2'>
+                      <Icon name='heart'/> Interests
+                    </Header>
+                    <Segment>
+                      <Button floated='right' icon='add' size='mini'/>
+                      {profile.interests.map((interest, index) => {
+                        return (
+                          <div key={index}>
+                            <Header as='h3'>{interest.name}</Header>
+                            <Label.Group circular>
+                              {interest.keywords &&
+                              interest.keywords.map((keyword, index) => {
+                                return (
+                                  <Label as='a' key={index}>
+                                    <Icon corner='top right' name='add'/>
+                                    {keyword}
+                                  </Label>
+                                );
+                              })}
+                            </Label.Group>
+                            <Divider hidden/>
+                          </div>
+                        );
+                      })}
+                    </Segment>
+                  </Segment>
+                )}
+              </Fragment>
 
-                        <footer>
-                          <blockquote>
-                            <a target='_blank'>{ref.name}</a>
-                          </blockquote>
-                        </footer>
-                        <Divider hidden />
-                      </div>
-                    );
-                  })}
-                </Segment>
-              </Segment>
-            )}
-          </Fragment>
-        </Tab.Pane>
-      )
-    }
-  ];
-  
+              <Fragment>
+                {profile.references && (
+                  <Segment>
+                    <Button floated='right' icon='add' size='mini'/>
+                    <Header as='h2'>
+                      <Icon name='check square'/> References
+                    </Header>
+                    <Segment>
+                      {/* <Button floated='right' icon='add'></Button> */}
+                      {profile.references.map((ref, index) => {
+                        return (
+                          <div key={index}>
+                            <Button floated='right' icon='add' size='mini'/>
+                            <span as='h5'>{ref.reference}</span>
+
+                            <footer>
+                              <blockquote>
+                                <a target='_blank'>{ref.name}</a>
+                              </blockquote>
+                            </footer>
+                            <Divider hidden/>
+                          </div>
+                        );
+                      })}
+                    </Segment>
+                  </Segment>
+                )}
+              </Fragment>
+            </Tab.Pane>
+          )
+      }
+    ]
+  ;
 
 
-return (
-  <Fragment>
-    {/* <Header as='h2' block color='grey' textAlign='center'>
+  return (
+    <Fragment>
+      {/* <Header as='h2' block color='grey' textAlign='center'>
       {' '}
       Profile
     </Header> */}
-    <Tab menu={{ secondary: true, pointing: true }} panes={panes} />
-  </Fragment>
-);
+      <Tab menu={{secondary: true, pointing: true}} panes={panes}/>
+    </Fragment>
+  );
 }
 ProfileSelector.propTypes = {
   onSubprofileChange: T.func,
