@@ -7,7 +7,8 @@ const Skills = ({
                   handleAddAllSkillsClick,
                   doSubprofileSkillsMatch,
                   handleSkillKeywordClick,
-                  isSkillItemInSubprofile
+                  isSkillItemInSubprofile,
+                  isSkillKeywordInSubrofile
                 }) => {
 
   const numSkills = profile?.skills?.length;
@@ -46,14 +47,15 @@ const Skills = ({
                   <Label.Group circular>
                     <Divider hidden fitted/>
                     {skill.keywords.map((keyword, keywordInd) => {
-                      console.log(isSkillItemInSubprofile(keywordInd))
+                      const isSkillKeywordInSubprofile = isSkillKeywordInSubrofile(keyword)
                       return (
                         <Label as='a'
                                key={keywordInd}
                                onClick={handleSkillKeywordClick.bind(null, skillInd, keywordInd)}
-                               color={isSkillItemInSubprofile(keywordInd) ? 'teal' : null}
+                               color={isSkillKeywordInSubprofile ? 'teal' : 'grey'}
+                               basic
                         >
-                          <Icon corner='top right' name='add'/>
+                          <Icon corner='top right' name={isSkillKeywordInSubprofile ? 'minus' : 'add'}/>
                           {keyword}
                         </Label>
                       );

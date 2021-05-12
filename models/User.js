@@ -38,7 +38,7 @@ const UserSchema = new mongoose.Schema({
         type: String
       },
       summary: {
-        type: String
+        type: [String]
       },
       location: {
         address: {

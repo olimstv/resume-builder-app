@@ -39,6 +39,26 @@ export default function ProfileSelector(props) {
         }
       });
     }
+
+
+    //if any skills keywords from subprofile do not exist in the profile,
+    // add them there, so that they are editable as well.
+    // Example: the user edits an old resume with sills that do not exist
+    // anymore in the profile because it was edited since the creation
+    // of the resume
+    // const skills = subprofile?.skills;
+    //
+    // if (isArray(skills)) {
+    //   const {name: subSkillName, level: subSkillLevel} =
+    //   const profileSkills = profile.skills
+    //   skills.forEach(subprofileSkill => {
+    //     if (subprofileSkill.name === profileSkills)
+    //       if (!profileSkills.includes(subprofileSkill)) {
+    //         profileSkills.push(subprofileSkill)
+    //       }
+    //   })
+    // }
+
     return profile;
   }, propsProfile);
 
@@ -102,6 +122,38 @@ export default function ProfileSelector(props) {
     callOnSubprofileChange(newSubprofile);
   }
 
+
+//   // ABOUT
+//   const handleAddAboutItemClick = (aboutItemIndInProfile) => {
+//     //Extract the about string from the label array by it's index
+//     const aboutItem = profile.basics.summary[aboutItemIndInProfile]
+//     if (!aboutItem) {
+//       throw new Error(`Summary item with index ${aboutItemIndInProfile} not found in array of summaries.`);
+//     }
+// // Clone the subprofile, so that we can update the clone and use it for the new state
+//     const newSubprofile = {...subprofile};
+//
+//     //make sure the summary array exists
+//     if (!newSubprofile.basics.summary) {
+//       newSubprofile.basics.summary = []
+//     }
+//
+//
+//     //Add the about item to the subprofile about section if it's currently not included
+//     const aboutItemInSubprofile = newSubprofile.basics.summary
+//     if (aboutItemInSubprofile === aboutItem) {
+//       //  delete the About item from the subprofile about section
+//       newSubprofile.basics.summary = ''
+//     } else {
+//
+//       newSubprofile.basics.summary = aboutItem
+//     }
+//     // lodashSet(newSubprofile, 'basics.summary', profile.basics.summary);
+//     callOnSubprofileChange(newSubprofile);
+//   };
+//   // Button Icon
+//   const doSubprofileSummaryMatch =
+//     profile?.basics?.summary == subprofile?.basics?.summary;
 
   // ABOUT
   const handleAddAboutClick = () => {
@@ -301,6 +353,16 @@ export default function ProfileSelector(props) {
     return subprofile.skills.includes(profileSkill)
   };
 
+  const isSkillKeywordInSubrofile = (subKeyword) => {
+    let allSubprofileSkillsKeywords = subprofile.skills.map((skilItem) => {
+
+      return skilItem.keywords
+
+    })
+
+    return allSubprofileSkillsKeywords.flat().includes(subKeyword)
+  }
+
   const panes = [
       {
         menuItem: 'About',
@@ -309,11 +371,14 @@ export default function ProfileSelector(props) {
             profile={profile}
             subprofile={subprofile}
             isLabelInSubprofile={isLabelInSubprofile}
+
             handleLabelItemClick={handleLabelItemClick}
             handleAddNameClick={handleAddNameClick}
             doSubprofileNamesMatch={doSubprofileNamesMatch}
             doSubprofileSummaryMatch={doSubprofileSummaryMatch}
-            handleAddAboutClick={handleAddAboutClick}/>
+            
+            handleAddAboutClick={handleAddAboutClick}
+          />
         </Tab.Pane>
       },
       {
@@ -381,6 +446,7 @@ export default function ProfileSelector(props) {
                 handleAddAllSkillsClick={handleAddAllSkillsClick}
                 doSubprofileSkillsMatch={doSubprofileSkillsMatch}
                 handleSkillKeywordClick={handleSkillKeywordClick}
+                isSkillKeywordInSubrofile={isSkillKeywordInSubrofile}
 
               />
             </Tab.Pane>

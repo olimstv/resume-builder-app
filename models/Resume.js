@@ -18,7 +18,7 @@ const ResumeSchema = new mongoose.Schema({
         type: String
       },
       label: {
-        type: [String]
+        type: String
       },
       picture: {data: Buffer, contentType: String},
       email: {

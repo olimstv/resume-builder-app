@@ -33,7 +33,7 @@ const CreateResume = ({user}) => {
 
   return <Layout user={user}>
     <Container className='create-resume-form'>
-      <Form.Group widths='four eight four'>
+      <Form.Group>
         <Form size='large' onSubmit={handleFormSubmit}>
           <Segment stacked>
             <Header as='h2' color='teal' textAlign='center'>Create Resume</Header>

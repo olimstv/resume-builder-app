@@ -1,5 +1,5 @@
 import {
-  Button, Container,
+  Button, Container, Divider,
   Header,
   Icon,
   Label, Segment, Tab
@@ -15,10 +15,11 @@ const About = ({
                  handleAddNameClick,
                  doSubprofileNamesMatch,
                  doSubprofileSummaryMatch,
+                 // handleAddAboutItemClick
                  handleAddAboutClick
                }) => {
   const {basics, work} = subprofile;
-  console.log('labels:>> ', profile.basics.label[0])
+
   return (
 
     <>
@@ -33,50 +34,57 @@ const About = ({
           />
           <Header as='h2'>{profile.basics.name}</Header>
         </Container>
-        {profile.basics.label.map((labelItem, ind) => {
-          const isLabel = isLabelInSubprofile(ind)
+        <Divider/>
+        <Label.Group>
+          {profile.basics.label.map((labelItem, labelItemInd) => {
+            const isLabel = isLabelInSubprofile(labelItemInd)
 
-          return (
-
-            // <Button
-            //   floated='right'
-            //   size='mini'
-            //   onClick={handleAddAllLabelsClick}
-            //   color={isLabelInSubprofile ? 'teal' : null}
-            //   icon={isLabelInSubprofile ? 'check' : 'add'}
-            // />
-
-            <Label as='a'
-                   key={ind}
-                   onClick={handleLabelItemClick.bind(null, ind)}
-                   color={isLabel ? 'teal' : null}
-
-            >
-              <Icon corner='top right' name={isLabel ? 'minus' : 'add'}/>
-              {labelItem}
-            </Label>
-
-          )
-        })}
+            return (
+              <Label as='a'
+                     key={labelItemInd}
+                     onClick={handleLabelItemClick.bind(null, labelItemInd)}
+                     color={isLabel ? 'teal' : 'grey'}
+                     basic
+                // horizizontal
+              >
+                <Icon name={isLabel ? 'minus' : 'add'}/>
+                {labelItem}
+              </Label>
+            )
+          })}
+        </Label.Group>
 
       </Fragment>
       {/* ABOUT ME */
       }
 
       <Segment>
-        <Button
-          onClick={handleAddAboutClick}
-          floated='right'
-          color={doSubprofileSummaryMatch ? 'teal' : null}
-          icon={doSubprofileSummaryMatch ? 'check' : 'add'}
-          size='mini'
-        />
         <Header as='h2'>
           <Icon name='user' size='small'/>
           About
         </Header>
-        <Label ribbon>Summary</Label>
-        {profile.basics.summary}
+        <Divider/>
+        {profile.basics.summary.map((summaryItem, ind) => {
+          return (<>
+              <Container>
+                <Button
+                  // onClick={handleAddAboutItemClick(ind)}
+                  onClick={handleAddAboutClick}
+                  floated='right'
+                  color={doSubprofileSummaryMatch ? 'teal' : null}
+                  icon={doSubprofileSummaryMatch ? 'check' : 'add'}
+                  size='mini'
+                />
+                {/*<Header.Subheader>Summary #1</Header.Subheader>*/}
+                <Label ribbon>Summary #{ind + 1}</Label>
+              </Container>
+              <Divider hidden/>
+              <div key={ind}> {summaryItem}</div>
+            </>
+          )
+
+
+        })}
       </Segment>
     </>
   )
