@@ -3,10 +3,11 @@ import {Button, Header, Icon, Label, ListItem, Segment, Tab, Divider} from "sema
 import {Fragment} from "react";
 
 const Skills = ({
-                  profile, handleAddAllSkillsClick,
+                  profile,
+                  handleAddAllSkillsClick,
                   doSubprofileSkillsMatch,
-                  handleSkillKeywordClick
-
+                  handleSkillKeywordClick,
+                  isSkillItemInSubprofile
                 }) => {
 
   const numSkills = profile?.skills?.length;
@@ -23,17 +24,17 @@ const Skills = ({
         <Icon name='tasks'/> Skills
       </Header>
       <Segment>
-        <Button
-          color={doSubprofileSkillsMatch ? 'green' : undefined}
-          icon={doSubprofileSkillsMatch ? 'check' : 'add'}
-          floated='right'
-          size='mini'
-        />
         {profile.skills.map((skill, skillInd) => {
 
-          const ind2 = 2;
+          // const ind2 = 2;
 
           return <>
+            <Button
+              color={doSubprofileSkillsMatch ? 'green' : undefined}
+              icon={doSubprofileSkillsMatch ? 'check' : 'add'}
+              floated='right'
+              size='mini'
+            />
             <div key={skillInd}>
               <Header as='h3'>{skill.name}</Header>
               <Header.Subheader>{skill.level}</Header.Subheader>
@@ -45,10 +46,12 @@ const Skills = ({
                   <Label.Group circular>
                     <Divider hidden fitted/>
                     {skill.keywords.map((keyword, keywordInd) => {
+                      console.log(isSkillItemInSubprofile(keywordInd))
                       return (
                         <Label as='a'
                                key={keywordInd}
                                onClick={handleSkillKeywordClick.bind(null, skillInd, keywordInd)}
+                               color={isSkillItemInSubprofile(keywordInd) ? 'teal' : null}
                         >
                           <Icon corner='top right' name='add'/>
                           {keyword}
@@ -59,7 +62,7 @@ const Skills = ({
                 </Fragment>
               )}
             </div>
-            {skillInd < numSkills - 1 && <Divider hidden/>}
+            {skillInd < numSkills - 1 && <Divider/>}
           </>;
         })}
       </Segment>

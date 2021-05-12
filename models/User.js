@@ -25,9 +25,9 @@ const UserSchema = new mongoose.Schema({
         type: String
       },
       label: {
-        type: String
+        type: [String]
       },
-      picture: { data: Buffer, contentType: String },
+      picture: {data: Buffer, contentType: String},
       email: {
         type: String
       },
@@ -58,7 +58,8 @@ const UserSchema = new mongoose.Schema({
         }
       },
       profiles: [
-        {_id:false,
+        {
+          _id: false,
           network: {
             type: String
           },
@@ -72,7 +73,8 @@ const UserSchema = new mongoose.Schema({
       ]
     },
     work: [
-      {_id:false,
+      {
+        _id: false,
         company: {
           type: String
         },
@@ -97,7 +99,8 @@ const UserSchema = new mongoose.Schema({
       }
     ],
     volunteer: [
-      {_id:false,
+      {
+        _id: false,
         organization: {
           type: String
         },
@@ -122,7 +125,8 @@ const UserSchema = new mongoose.Schema({
       }
     ],
     education: [
-      {_id:false,
+      {
+        _id: false,
         institution: {
           type: String
         },
@@ -147,7 +151,8 @@ const UserSchema = new mongoose.Schema({
       }
     ],
     awards: [
-      {_id:false,
+      {
+        _id: false,
         title: {
           type: String
         },
@@ -163,41 +168,46 @@ const UserSchema = new mongoose.Schema({
       }
     ],
     publications: [
-      {_id:false,
-        name: { type: String },
-        publisher: { type: String },
-        releaseDate: { type: Date },
-        website: { type: String },
-        summary: { type: String }
+      {
+        _id: false,
+        name: {type: String},
+        publisher: {type: String},
+        releaseDate: {type: Date},
+        website: {type: String},
+        summary: {type: String}
       }
     ],
     skills: [
-      {_id:false,
-        name: { type: String },
-        level: { type: String },
+      {
+        _id: false,
+        name: {type: String},
+        level: {type: String},
         keywords: {
           type: [String]
         }
       }
     ],
     languages: [
-      {_id:false,
-        language: { type: String },
-        fluency: { type: String }
+      {
+        _id: false,
+        language: {type: String},
+        fluency: {type: String}
       }
     ],
     interests: [
-      {_id:false,
-        name: { type: String },
+      {
+        _id: false,
+        name: {type: String},
         keywords: {
           type: [String]
         }
       }
     ],
     references: [
-      {_id:false,
-        name: { type: String },
-        reference: { type: String }
+      {
+        _id: false,
+        name: {type: String},
+        reference: {type: String}
       }
     ]
   }

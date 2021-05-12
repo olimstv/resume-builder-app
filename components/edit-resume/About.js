@@ -1,5 +1,5 @@
 import {
-  Button,
+  Button, Container,
   Header,
   Icon,
   Label, Segment, Tab
@@ -10,25 +10,55 @@ import {Fragment} from "react";
 const About = ({
                  profile,
                  subprofile,
+                 handleLabelItemClick,
+                 isLabelInSubprofile,
                  handleAddNameClick,
                  doSubprofileNamesMatch,
                  doSubprofileSummaryMatch,
                  handleAddAboutClick
                }) => {
   const {basics, work} = subprofile;
+  console.log('labels:>> ', profile.basics.label[0])
   return (
 
     <>
       <Fragment>
-        <Button
-          floated='right'
-          size='mini'
-          onClick={handleAddNameClick}
-          color={doSubprofileNamesMatch ? 'teal' : null}
-          icon={doSubprofileNamesMatch ? 'check' : 'add'}
-        />
-        <Header as='h2'>{profile.basics.name}</Header>
-        <Label>{profile.basics.label}</Label>
+        <Container>
+          <Button
+            floated='right'
+            size='mini'
+            onClick={handleAddNameClick}
+            color={doSubprofileNamesMatch ? 'teal' : null}
+            icon={doSubprofileNamesMatch ? 'check' : 'add'}
+          />
+          <Header as='h2'>{profile.basics.name}</Header>
+        </Container>
+        {profile.basics.label.map((labelItem, ind) => {
+          const isLabel = isLabelInSubprofile(ind)
+
+          return (
+
+            // <Button
+            //   floated='right'
+            //   size='mini'
+            //   onClick={handleAddAllLabelsClick}
+            //   color={isLabelInSubprofile ? 'teal' : null}
+            //   icon={isLabelInSubprofile ? 'check' : 'add'}
+            // />
+
+            <Label as='a'
+                   key={ind}
+                   onClick={handleLabelItemClick.bind(null, ind)}
+                   color={isLabel ? 'teal' : null}
+
+            >
+              <Icon corner='top right' name={isLabel ? 'minus' : 'add'}/>
+              {labelItem}
+            </Label>
+
+          )
+        })}
+
       </Fragment>
       {/* ABOUT ME */
       }

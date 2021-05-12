@@ -1,24 +1,14 @@
 import {
-  Container,
-  Divider,
-  Header,
-  HeaderContent,
-  Icon,
-  Label,
-  List,
-  ListItem,
-  Segment,
-  Link,
-  Button,
-  Reveal,
-  IconGroup,
+
   Tab
 } from 'semantic-ui-react';
 
 import moment from 'moment'
 import * as T from 'prop-types';
-import {default as lodashSet} from 'lodash/set';
-import {Fragment} from 'react';
+import lodashSet from 'lodash/set';
+import cloneDeep from 'lodash/cloneDeep';
+import isArray from 'lodash/isArray';
+import {Fragment, useMemo} from 'react';
 import About from "./edit-resume/About";
 import Work from './edit-resume/Work'
 import Volunteer from "./edit-resume/Volunteer";
@@ -28,22 +18,30 @@ import Skills from "./edit-resume/Skills";
 import Other from "./edit-resume/Other";
 
 export default function ProfileSelector(props) {
-  const {profile, subprofile, onSubprofileChange, mode = 'editor'} = props;
+  const {profile: propsProfile, subprofile, onSubprofileChange, mode = 'editor'} = props;
 
+  // Augment the Profile with missing elements from Subprofile,
+  // so that they are editable.
+  const profile = useMemo(() => {
+    const profile = cloneDeep(propsProfile);
 
-  // const isNetworkProfileFoundInSubprofile = networkName => {
-  //   const profiles = subprofile?.basics?.profiles;
-  //   if (!profiles) {
-  //     return false;
-  //   }
-  //   const numProfiles = profiles.length;
-  //   for (let i = 0; i < numProfiles; i++) {
-  //     if (profiles[i].network === networkName) {
-  //       return true;
-  //     }
-  //   }
-  //   return false;
-  // };
+    // If any labels from subprofile basics do not exist in the profile,
+    // add them there, so that they are editable as well.
+    // Example: the user edits an old resume with labels that do not exist
+    // anymore in the profile because it was edited since the creation
+    // of the resume
+    const labels = subprofile?.basics?.label;
+    if (isArray(labels)) {
+      const profileLabels = profile.basics.label;
+      labels.forEach(subprofileLabel => {
+        if (!profileLabels.includes(subprofileLabel)) {
+          profileLabels.push(subprofileLabel);
+        }
+      });
+    }
+    return profile;
+  }, propsProfile);
+
 
   const callOnSubprofileChange = newSubprofileObject => {
     if (onSubprofileChange) {
@@ -52,14 +50,58 @@ export default function ProfileSelector(props) {
   };
   // NAME
   const handleAddNameClick = () => {
+
     const newSubprofile = {...subprofile};
+
     lodashSet(newSubprofile, 'basics.name', profile.basics.name);
-    lodashSet(newSubprofile, 'basics.label', profile.basics.label);
+    // lodashSet(newSubprofile, 'basics.label', profile.basics.label);
     callOnSubprofileChange(newSubprofile);
   };
   // Button Icon
   const doSubprofileNamesMatch =
     profile?.basics?.name === subprofile?.basics?.name;
+
+
+  const isLabelInSubprofile = (labelIndInProfile) => {
+    let label = profile.basics.label[labelIndInProfile]
+    return subprofile.basics.label.includes(label)
+
+  }
+
+  // LABEL
+  const handleLabelItemClick = (labelIndInProfile) => {
+
+    // Extract the label string from the label array by its index
+    const label = profile.basics.label[labelIndInProfile]
+    if (!label) {
+      throw new Error(`Label with index ${labelIndInProfile} not found in array of labels.`);
+    }
+
+    // Clone the subprofile, so that we can update the clone and use it for the new state
+    const newSubprofile = {...subprofile};
+    // Make sure the label array exists
+    if (!newSubprofile.basics.label) {
+      newSubprofile.basics.label = [];
+    }
+
+    // newSubprofile.basics.label = newLabelArray;
+
+    // Add the label item to the labels
+    const labels = newSubprofile.basics.label
+    if (labels.indexOf(label) === -1) {
+      labels.push(label);
+    } else {
+      let newSubLabelsArr = labels.filter((subLabel) => {
+
+        return subLabel !== label
+      })
+
+      newSubprofile.basics.label = newSubLabelsArr;
+    }
+
+    callOnSubprofileChange(newSubprofile);
+  }
+
 
   // ABOUT
   const handleAddAboutClick = () => {
@@ -171,7 +213,7 @@ export default function ProfileSelector(props) {
         oneSubprofileEducation.area === area
       );
     });
-    console.log('match :>> ', match);
+
     return match;
   };
   //
@@ -197,19 +239,19 @@ export default function ProfileSelector(props) {
   };
   // Button Icon
   const doSubprofileSkillsMatch = profile?.skills === subprofile?.skills;
-
-  const handleAddSkillInstanceClick = index => {
-    const newSubprofile = {...subprofile};
-    const profileWorkArr = profile.work;
-    if (!newSubprofile.work) {
-      newSubprofile.work = [];
-    } else if (newSubprofile.work.some(el => el === profileWorkArr[index])) {
-      return;
-    }
-
-    newSubprofile.work.push(profileWorkArr[index]);
-    callOnSubprofileChange(newSubprofile);
-  };
+  //
+  // const handleAddSkillInstanceClick = index => {
+  //   const newSubprofile = {...subprofile};
+  //   const profileWorkArr = profile.work;
+  //   if (!newSubprofile.work) {
+  //     newSubprofile.work = [];
+  //   } else if (newSubprofile.work.some(el => el === profileWorkArr[index])) {
+  //     return;
+  //   }
+  //
+  //   newSubprofile.work.push(profileWorkArr[index]);
+  //   callOnSubprofileChange(newSubprofile);
+  // };
 
   const handleSkillKeywordClick = (skillInd, keywordInd) => {
 
@@ -254,48 +296,10 @@ export default function ProfileSelector(props) {
     callOnSubprofileChange(newSubprofile);
   }
 
-  const isSkillItemInSubprofile = index => {
-    const {company, position} = profile.work[index];
-    let match = subprofile.work.some(oneSubprofileWork => {
-      return (
-        oneSubprofileWork.company === company &&
-        oneSubprofileWork.position === position
-      );
-    });
-    return match;
+  const isSkillItemInSubprofile = profileSkillInd => {
+    const profileSkill = profile.skills[profileSkillInd]
+    return subprofile.skills.includes(profileSkill)
   };
-  // const ProfileSegment = props => {
-  //   const {network, username, url} = props.networkProfile;
-  //
-  //   const isFoundInSubprofile = isNetworkProfileFoundInSubprofile(network);
-  //   let iconName;
-  //   if (network === 'LinkedIn') {
-  //     iconName = 'linkedin';
-  //   } else if (network === 'gitHub') {
-  //     iconName = 'github';
-  //   }
-  //
-  //   return (
-  //     <ListItem>
-  //       {isEditor && <Button icon='edit' size='mini' floated='right'/>}
-  //       {isSelector && (
-  //         <Button
-  //           icon={isFoundInSubprofile ? 'check' : 'add'}
-  //           floated='right'
-  //           size='mini'
-  //         />
-  //       )}
-  //
-  //       {iconName && <List.Icon name={iconName}/>}
-  //
-  //       <List.Content>
-  //         <a href={url} target={network}>
-  //           {username}
-  //         </a>
-  //       </List.Content>
-  //     </ListItem>
-  //   );
-  // };
 
   const panes = [
       {
@@ -304,6 +308,8 @@ export default function ProfileSelector(props) {
           <About
             profile={profile}
             subprofile={subprofile}
+            isLabelInSubprofile={isLabelInSubprofile}
+            handleLabelItemClick={handleLabelItemClick}
             handleAddNameClick={handleAddNameClick}
             doSubprofileNamesMatch={doSubprofileNamesMatch}
             doSubprofileSummaryMatch={doSubprofileSummaryMatch}
@@ -361,6 +367,7 @@ export default function ProfileSelector(props) {
                 isEducationItemInSubprofile={isEducationItemInSubprofile}
                 handleAddEducationInstanceClick={handleAddEducationInstanceClick}
               />
+
             </Tab.Pane>
       },
       {
@@ -370,6 +377,7 @@ export default function ProfileSelector(props) {
             <Tab.Pane attached={false}>
               <Skills
                 profile={profile}
+                isSkillItemInSubprofile={isSkillItemInSubprofile}
                 handleAddAllSkillsClick={handleAddAllSkillsClick}
                 doSubprofileSkillsMatch={doSubprofileSkillsMatch}
                 handleSkillKeywordClick={handleSkillKeywordClick}
@@ -385,85 +393,6 @@ export default function ProfileSelector(props) {
               <Other
                 profile={profile}
               />
-              {/*<Fragment>*/}
-              {/*  <Button floated='right' icon='add' size='mini'/>*/}
-              {/*  <Header as='h2'>*/}
-              {/*    <Icon name='language'/> Languages*/}
-              {/*  </Header>*/}
-              {/*  <Divider/>*/}
-              {/*  {profile.languages.map((language, index) => {*/}
-              {/*    return (*/}
-              {/*      <Fragment>*/}
-              {/*        <Header as='h3' key={index}>*/}
-              {/*          {language.language}*/}
-              {/*        </Header>*/}
-              {/*        <Label>{language.fluency}</Label>*/}
-              {/*      </Fragment>*/}
-              {/*    );*/}
-              {/*  })}*/}
-              {/*</Fragment>*/}
-
-              {/*<Fragment>*/}
-              {/*  {profile.interests && (*/}
-              {/*    <Segment>*/}
-              {/*      <Button floated='right' icon='add' size='mini'/>*/}
-              {/*      <Header as='h2'>*/}
-              {/*        <Icon name='heart'/> Interests*/}
-              {/*      </Header>*/}
-              {/*      <Segment>*/}
-              {/*        <Button floated='right' icon='add' size='mini'/>*/}
-              {/*        {profile.interests.map((interest, index) => {*/}
-              {/*          return (*/}
-              {/*            <div key={index}>*/}
-              {/*              <Header as='h3'>{interest.name}</Header>*/}
-              {/*              <Label.Group circular>*/}
-              {/*                {interest.keywords &&*/}
-              {/*                interest.keywords.map((keyword, index) => {*/}
-              {/*                  return (*/}
-              {/*                    <Label as='a' key={index}>*/}
-              {/*                      <Icon corner='top right' name='add'/>*/}
-              {/*                      {keyword}*/}
-              {/*                    </Label>*/}
-              {/*                  );*/}
-              {/*                })}*/}
-              {/*              </Label.Group>*/}
-              {/*              <Divider hidden/>*/}
-              {/*            </div>*/}
-              {/*          );*/}
-              {/*        })}*/}
-              {/*      </Segment>*/}
-              {/*    </Segment>*/}
-              {/*  )}*/}
-              {/*</Fragment>*/}
-
-              {/*<Fragment>*/}
-              {/*  {profile.references && (*/}
-              {/*    <Segment>*/}
-              {/*      <Button floated='right' icon='add' size='mini'/>*/}
-              {/*      <Header as='h2'>*/}
-              {/*        <Icon name='check square'/> References*/}
-              {/*      </Header>*/}
-              {/*      <Segment>*/}
-              {/*        /!* <Button floated='right' icon='add'></Button> *!/*/}
-              {/*        {profile.references.map((ref, index) => {*/}
-              {/*          return (*/}
-              {/*            <div key={index}>*/}
-              {/*              <Button floated='right' icon='add' size='mini'/>*/}
-              {/*              <span as='h5'>{ref.reference}</span>*/}
-
-              {/*              <footer>*/}
-              {/*                <blockquote>*/}
-              {/*                  <a target='_blank'>{ref.name}</a>*/}
-              {/*                </blockquote>*/}
-              {/*              </footer>*/}
-              {/*              <Divider hidden/>*/}
-              {/*            </div>*/}
-              {/*          );*/}
-              {/*        })}*/}
-              {/*      </Segment>*/}
-              {/*    </Segment>*/}
-              {/*  )}*/}
-              {/*</Fragment>*/}
             </Tab.Pane>
           )
       }
@@ -474,10 +403,6 @@ export default function ProfileSelector(props) {
 
   return (
     <Fragment>
-      {/* <Header as='h2' block color='grey' textAlign='center'>
-      {' '}
-      Profile
-    </Header> */}
       <Tab menu={{secondary: true, pointing: true}} panes={panes}/>
     </Fragment>
   );

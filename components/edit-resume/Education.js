@@ -2,7 +2,8 @@ import moment from 'moment'
 import {Button, Header, Icon, List, ListItem, Segment, Tab} from "semantic-ui-react";
 
 const Education = ({
-                     profile, handleAddEducationClick,
+                     profile,
+                     handleAddEducationClick,
                      doSubprofileEducationMatch,
                      isEducationItemInSubprofile,
                      handleAddEducationInstanceClick
