@@ -376,7 +376,7 @@ export default function ProfileSelector(props) {
             handleAddNameClick={handleAddNameClick}
             doSubprofileNamesMatch={doSubprofileNamesMatch}
             doSubprofileSummaryMatch={doSubprofileSummaryMatch}
-            
+
             handleAddAboutClick={handleAddAboutClick}
           />
         </Tab.Pane>
@@ -413,6 +413,7 @@ export default function ProfileSelector(props) {
         render: () =>
           <Tab.Pane attached={false}>
             <Contact
+              callOnSubprofileChange={callOnSubprofileChange}
               subprofile={subprofile}
               profile={profile}
               mode={mode}

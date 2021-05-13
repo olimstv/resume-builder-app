@@ -1,60 +1,140 @@
-const Contact = ({ basics }) => {
-  const { email, phone, website, location, profiles } = basics;
+import {Button, Container, Divider, Header, Icon, List, ListItem} from "semantic-ui-react";
+
+
+const Contact = ({basics}) => {
+  const {email, phone, website, location, profiles} = basics;
+
+  // const isEditor = mode === 'editor';
+  // const isSelector = mode === 'selector';
+  const isLocation = (location.city !== "" && location.countryCode !== "")
 
   const getProfile = (title, arr) => {
     return arr.filter(el => el.network === title);
   };
-  const linkedIn = getProfile('LinkedIn', profiles);
-  const gitHub = getProfile('gitHub', profiles);
+  // const linkedIn = getProfile('LinkedIn', profiles);
+  // const gitHub = getProfile('gitHub', profiles);
+  // const twitter = getProfile('Twitter', profiles);
 
-  // console.log('basics :>> ', basics);
+
+  // const handleAddContactsClick = () => {
+  //   const newSubprofile = {...subprofile}
+  //   newSubprofile.basics.location = location
+  //   newSubprofile.basics.email = email
+  //   newSubprofile.basics.phone = phone
+  //   newSubprofile.basics.website = website
+  //   callOnSubprofileChange(newSubprofile)
+  // }
+  //
+  //
+  const isNetworkProfileFoundInSubprofile = networkName => {
+    const profiles = basics?.profiles;
+    if (!profiles) {
+      return false;
+    }
+    const numProfiles = profiles.length;
+    for (let i = 0; i < numProfiles; i++) {
+      if (profiles[i].network === networkName) {
+        return true;
+      }
+    }
+    return false;
+  };
+  const isEmailInSubprofile = () => {
+
+  }
+
+  const ProfileSegment = ({networkProfile}) => {
+    const {network, username, url} = networkProfile;
+
+    const isFoundInSubprofile = isNetworkProfileFoundInSubprofile(network);
+    let iconName;
+    if (network === 'LinkedIn') {
+      iconName = 'linkedin';
+    } else if (network === 'gitHub') {
+      iconName = 'github';
+    } else if (network === 'Twitter') {
+      iconName = 'twitter'
+    }
+
+    return (
+      <ListItem>
+        {/*{isEditor && <Button icon='edit' size='mini' floated='right'/>}*/}
+        {/*{isSelector && (*/}
+        {/*  <Button*/}
+        {/*    icon={isFoundInSubprofile ? 'check' : 'add'}*/}
+        {/*    color={isFoundInSubprofile ? 'teal' : null}*/}
+        {/*    floated='right'*/}
+        {/*    size='mini'*/}
+        {/*  />*/}
+        {/*)}*/}
+
+        {/*{iconName && <List.Icon name={iconName}/>}*/}
+
+        <List.Content>
+          <Icon name={iconName}/>
+          <a href={url} target={network}>
+            {username}
+          </a>
+        </List.Content>
+      </ListItem>
+    );
+  };
+
+
   return (
-    <div className='col-xs-12 col-sm-5'>
-      <div className='box clearfix'>
-        <h2>
-          <i className='fas fa-bullseye ico'></i> Contact
-        </h2>
-        <div className='contact-item'>
-          <div className='icon pull-left text-center'>
-            <span className='fas fa-map-marker fa-fw'></span>
-          </div>
-          <div className='title only  pull-right'>
-            {location.city}, {location.region} {location.countryCode}
-          </div>
-        </div>
-        <div className='contact-item'>
-          <div className='icon pull-left text-center'>
-            <span className='fas fa-phone fa-fw'></span>
-          </div>
-          <div className='title only pull-right'>{phone}</div>
-        </div>
-        <div className='contact-item'>
-          <div className='icon pull-left text-center'>
-            <span className='fas fa-envelope fa-fw'></span>
+    <>
 
-            {/* <FontAwesomeIcon icon={['far', 'envelope']} /> */}
-          </div>
-          <div className='title only pull-right'>
-            <a href={email} target='_blank'>
+
+      <Header as='h2'>
+      </Header>
+      <Icon name='bullseye'/> Contact
+
+      <Divider/>
+      <List>
+        {isLocation && <ListItem>
+
+          <List.Icon name='location arrow'/>
+          <List.Content>
+            {location.city}, {location.region}{' '}
+            {location.countryCode}
+          </List.Content>
+        </ListItem>}
+        <Divider hidden fitted/>
+
+        {email &&
+        <ListItem>
+
+          <List.Icon name='mail'/>
+          <List.Content>
+            <a href={`mailto:{email}`} target='_blank'>
               {email}
             </a>
-          </div>
-        </div>
-        <div className='contact-item'>
-          <div className='icon pull-left text-center'>
-            <span className='fab fa-linkedin fa-fw'></span>
-            <a href={linkedIn.url}></a>
-          </div>
-          <div className='title pull-right'>{linkedIn.network}</div>
-          <div className='description pull-right'>
-            <a href='https://www.linkedin.com/in/olimstv' target='_blank'>
-              {linkedIn.username}
+          </List.Content>
+        </ListItem>}
+        {phone &&
+        <ListItem>
+          <List.Icon name='phone'/>
+          <List.Content>{phone}</List.Content>
+        </ListItem>}
+        {website &&
+        <ListItem>
+          <List.Icon name='globe'/>
+          <List.Content>
+            <a href={`https://www.${website}`} target='_blank'>
+              {website}
             </a>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
+          </List.Content>
+        </ListItem>}
+        {profiles && profiles.map((networkProfile, ind) => {
+          return (
+            <ProfileSegment key={ind} networkProfile={networkProfile}/>
+          )
+        })}
+
+
+      </List>
+      <Divider hidden fitted/>
+    </>)
 };
 
 export default Contact;

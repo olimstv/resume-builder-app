@@ -1,10 +1,12 @@
-import {Button, Divider, Header, Icon, List, ListItem} from "semantic-ui-react";
+import {Button, Container, Divider, Header, Icon, List, ListItem} from "semantic-ui-react";
 
 
-const Contact = ({profile, subprofile, mode}) => {
+const Contact = ({callOnSubprofileChange, profile, subprofile, mode}) => {
+  const subprofileData = subprofile.basics
   const {email, phone, website, location, profiles} = profile.basics;
   const isEditor = mode === 'editor';
   const isSelector = mode === 'selector';
+  const isLocation = (location.city !== "" && location.countryCode !== "")
 
   const getProfile = (title, arr) => {
     return arr.filter(el => el.network === title);
@@ -13,6 +15,40 @@ const Contact = ({profile, subprofile, mode}) => {
   const gitHub = getProfile('gitHub', profiles);
 
 
+  const handleAddContactsClick = () => {
+    const newSubprofile = {...subprofile}
+    newSubprofile.basics.location = location
+    newSubprofile.basics.email = email
+    newSubprofile.basics.phone = phone
+    newSubprofile.basics.website = website
+    newSubprofile.basics.profiles = profiles
+
+    callOnSubprofileChange(newSubprofile)
+
+  }
+  const isAllProfileContactDataInSubprofile = () => {
+    // const subprofileData = subprofile.basics
+    return subprofileData.location === location &&
+      subprofileData.email === email &&
+      subprofileData.phone === phone &&
+      subprofileData.website === website &&
+      subprofileData.profiles === profiles
+  }
+  const handleAddLocationClick = () => {
+    const newSubprofile = {...subprofile}
+    newSubprofile.basics.location = location
+
+    callOnSubprofileChange(newSubprofile)
+  }
+
+  const isProfileLocationInSubprofile = () => {
+    const profileLocationData = location
+    const subprofileLocationData = subprofile.basics.location
+
+    return profileLocationData.city === subprofileLocationData.city &&
+      profileLocationData.countryCode === subprofileLocationData.countryCode &&
+      profileLocationData.region === subprofileLocationData.region
+  }
   const isNetworkProfileFoundInSubprofile = networkName => {
     const profiles = subprofile?.basics?.profiles;
     if (!profiles) {
@@ -26,6 +62,24 @@ const Contact = ({profile, subprofile, mode}) => {
     }
     return false;
   };
+  const handleAddEmailClick = () => {
+    const newSubprofile = {...subprofile}
+
+    newSubprofile.basics.email = email
+
+    callOnSubprofileChange(newSubprofile)
+  }
+
+  const isProfileEmailInSubprofile = () => {
+    return subprofileData.email === email
+  }
+
+  const isProfilePhoneInSubprofile = () => {
+    return subprofileData.phone === phone
+  }
+  const isProfileWebsiteInSubprofile = () => {
+    return subprofileData.website === website
+  }
 
   const ProfileSegment = props => {
     const {network, username, url} = props.networkProfile;
@@ -44,6 +98,7 @@ const Contact = ({profile, subprofile, mode}) => {
         {isSelector && (
           <Button
             icon={isFoundInSubprofile ? 'check' : 'add'}
+            color={isFoundInSubprofile ? 'teal' : null}
             floated='right'
             size='mini'
           />
@@ -59,44 +114,83 @@ const Contact = ({profile, subprofile, mode}) => {
       </ListItem>
     );
   };
+  const LocationSegment = ({location}) => {
 
+    const isLocation = isProfileLocationInSubprofile()
+    return (
+      <ListItem>
+        <Button
+          onClick={handleAddLocationClick}
+          floated='right'
+          icon={isLocation ? 'check' : 'add'}
+          color={isLocation ? 'teal' : null}
+          size='mini'/>
+        <List.Icon name='location arrow'/>
+        <List.Content>
+          {location.city}, {location.region}{' '}
+          {location.countryCode}
+        </List.Content>
+      </ListItem>
+    )
+  }
+
+  const ContactDetailsSegment = ({email, phone, website}) => {
+    const isProfileEmail = isProfileEmailInSubprofile()
+    return (<>
+        {email &&
+        <ListItem>
+          <Button
+            onClick={handleAddEmailClick}
+            floated='right'
+            icon={isProfileEmail ? 'check' : 'add'}
+            color={isProfileEmail ? 'teal' : null}
+            size='mini'/>
+          <List.Icon name='mail'/>
+          <List.Content>
+            <a href={`mailto:{email}`} target='_blank'>
+              {email}
+            </a>
+          </List.Content>
+        </ListItem>}
+        {phone && <ListItem>
+          <Button floated='right' icon='add' size='mini'/>
+          <List.Icon name='phone'/>
+          <List.Content>{phone}</List.Content>
+        </ListItem>}
+        {website && <ListItem>
+          <Button floated='right' icon='add' size='mini'/>
+          <List.Icon name='globe'/>
+          <List.Content>
+            <a href={`https://www.${website}`} target='_blank'>
+              {website}
+            </a>
+          </List.Content>
+        </ListItem>}
+
+        <Divider hidden fitted/>
+
+      </>
+    )
+  }
+  const isAllContactsData = isAllProfileContactDataInSubprofile()
   return (
-    <>
+    <><Container>
       <Button
-        // TODO:handleAddContactClick
+        onClick={handleAddContactsClick}
         floated='right'
-        icon='add'
+        icon={isAllContactsData ? 'check' : 'add'}
+        color={isAllContactsData ? 'teal' : null}
         size='mini'
       />
       <Header as='h2'>
         <Icon name='bullseye'/> Contact
       </Header>
+    </Container>
       <Divider/>
       <List>
-        <ListItem>
-          <Button floated='right' icon='add' size='mini'/>
-          <List.Icon name='location arrow'/>
-          <List.Content>
-            {profile.basics.location.city}, {profile.basics.location.region}{' '}
-            {profile.basics.location.countryCode}
-          </List.Content>
-        </ListItem>
+        {isLocation && <LocationSegment location={location}/>}
         <Divider hidden fitted/>
-        <ListItem>
-          <Button floated='right' icon='add' size='mini'/>
-          <List.Icon name='phone'/>
-          <List.Content>{profile.basics.phone}</List.Content>
-        </ListItem>
-        <Divider hidden fitted/>
-        <ListItem>
-          <Button floated='right' icon='add' size='mini'/>
-          <List.Icon name='mail'/>
-          <List.Content>
-            <a href={`mailto:{profile.basics.email}`} target='_blank'>
-              {profile.basics.email}
-            </a>
-          </List.Content>
-        </ListItem>
+        <ContactDetailsSegment email={email} phone={phone} website={website}/>
 
         {profile.basics.profiles.map((networkProfile, ind) => {
           return (
