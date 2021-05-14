@@ -63,16 +63,17 @@ const About = ({
           <Icon name='user' size='small'/>
           About
         </Header>
-        <Divider/>
+        {/*<Divider/>*/}
         {profile.basics.summary.map((summaryItem, ind) => {
           return (<>
               <Container>
+                <Divider/>
                 <Button
-                  // onClick={handleAddAboutItemClick(ind)}
-                  onClick={handleAddAboutClick}
+
+                  onClick={handleAddAboutClick.bind(null, ind)}
                   floated='right'
-                  color={doSubprofileSummaryMatch ? 'teal' : null}
-                  icon={doSubprofileSummaryMatch ? 'check' : 'add'}
+                  color={doSubprofileSummaryMatch(ind) ? 'teal' : null}
+                  icon={doSubprofileSummaryMatch(ind) ? 'check' : 'add'}
                   size='mini'
                 />
                 {/*<Header.Subheader>Summary #1</Header.Subheader>*/}
@@ -82,8 +83,6 @@ const About = ({
               <div key={ind}> {summaryItem}</div>
             </>
           )
-
-
         })}
       </Segment>
     </>

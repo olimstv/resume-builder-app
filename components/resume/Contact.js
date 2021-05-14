@@ -48,12 +48,19 @@ const Contact = ({basics}) => {
 
     const isFoundInSubprofile = isNetworkProfileFoundInSubprofile(network);
     let iconName;
-    if (network === 'LinkedIn') {
-      iconName = 'linkedin';
-    } else if (network === 'gitHub') {
-      iconName = 'github';
-    } else if (network === 'Twitter') {
-      iconName = 'twitter'
+    switch (network) {
+      case 'LinkedIn':
+        iconName = 'linkedin';
+        break;
+      case 'gitHub':
+        iconName = 'github'
+        break;
+      case 'Twitter':
+        iconName = 'twitter'
+        break;
+      default:
+        iconName = null
+        break;
     }
 
     return (

@@ -8,7 +8,7 @@ import * as T from 'prop-types';
 import lodashSet from 'lodash/set';
 import cloneDeep from 'lodash/cloneDeep';
 import isArray from 'lodash/isArray';
-import {Fragment, useMemo} from 'react';
+import {Fragment, useEffect, useMemo} from 'react';
 import About from "./edit-resume/About";
 import Work from './edit-resume/Work'
 import Volunteer from "./edit-resume/Volunteer";
@@ -40,24 +40,31 @@ export default function ProfileSelector(props) {
       });
     }
 
+    //About
+    const about = subprofile?.basics?.summary;
+    const profileAbouts = profile.basics.summary
+    profileAbouts.forEach(profileAbout => {
+      if (profileAbout !== about) {
+        profileAbouts.push(about)
+      }
+    })
 
     //if any skills keywords from subprofile do not exist in the profile,
     // add them there, so that they are editable as well.
     // Example: the user edits an old resume with sills that do not exist
     // anymore in the profile because it was edited since the creation
     // of the resume
-    // const skills = subprofile?.skills;
-    //
-    // if (isArray(skills)) {
-    //   const {name: subSkillName, level: subSkillLevel} =
-    //   const profileSkills = profile.skills
-    //   skills.forEach(subprofileSkill => {
-    //     if (subprofileSkill.name === profileSkills)
-    //       if (!profileSkills.includes(subprofileSkill)) {
-    //         profileSkills.push(subprofileSkill)
-    //       }
-    //   })
-    // }
+    const subNetworkProfiles = subprofile?.basics?.profiles;
+    if (isArray(subNetworkProfiles)) {
+      // const {network: profileNetwork, username: profileNetworkUsername} = profile.basics.profiles
+      const profileNtworks = profile.basics.profiles
+      subNetworkProfiles.forEach(subNetworkProfile => {
+
+        if (!profileNtworks.includes(subNetworkProfile)) {
+          profileNtworks.push(subNetworkProfile)
+        }
+      })
+    }
 
     return profile;
   }, propsProfile);
@@ -72,6 +79,7 @@ export default function ProfileSelector(props) {
   const handleAddNameClick = () => {
 
     const newSubprofile = {...subprofile};
+
 
     lodashSet(newSubprofile, 'basics.name', profile.basics.name);
     // lodashSet(newSubprofile, 'basics.label', profile.basics.label);
@@ -156,14 +164,27 @@ export default function ProfileSelector(props) {
 //     profile?.basics?.summary == subprofile?.basics?.summary;
 
   // ABOUT
-  const handleAddAboutClick = () => {
-    const newSubprofile = {...subprofile};
-    lodashSet(newSubprofile, 'basics.summary', profile.basics.summary);
+  const handleAddAboutClick = (ind) => {
+    const profileAboutData = profile.basics.summary;
+    const newSubprofile = {...subprofile}
+
+    // let subprofileAbout = newSubprofile.basics.summary
+    if (newSubprofile.basics.summary === profileAboutData[ind]) {
+      newSubprofile.basics.summary = ''
+    } else {
+      newSubprofile.basics.summary = profileAboutData[ind]
+    }
+
+    // lodashSet(newSubprofile, 'basics.summary', profile.basics.summary);
+
+
     callOnSubprofileChange(newSubprofile);
+
   };
   // Button Icon
-  const doSubprofileSummaryMatch =
-    profile?.basics?.summary == subprofile?.basics?.summary;
+  const doSubprofileSummaryMatch = ind => {
+    return profile?.basics?.summary[ind] == subprofile?.basics?.summary;
+  }
 
   // WORK EXP (ALL)
   const handleAddWorkExperienceClick = () => {
@@ -233,18 +254,6 @@ export default function ProfileSelector(props) {
     callOnSubprofileChange(newSubprofile);
   };
 
-  // CONTACTS (ALL)
-  const handleAddContactsClick = () => {
-    const newSubprofile = {...subprofile};
-
-  };
-
-  // Button Icon
-  const doSubprofileContactsMatch = profile?.volunteer === subprofile?.volunteer;
-
-  const handleAddContactClick = () => {
-    const newSubprofile = {...subprofile};
-  };
 
   // EDUCATION (ALL)
   const handleAddEducationClick = () => {
