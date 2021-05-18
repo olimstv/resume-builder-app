@@ -1,26 +1,37 @@
-## Example app using MongoDB
+# lets.Get(IT).work - Resume Builder App
+<a href="">
+<img src='https://img.shields.io/github/checks-status/olimstv/resume-builder-app/6f2b9d02a4319f7152423ff746958230c8097f19'/></a>
+<a><img src='https://img.shields.io/github/issues/olimstv/resume-builder-app'></a> <a><img src="https://img.shields.io/website?down_color=red&down_message=orange&up_color=green&up_message=up&url=https%3A%2F%2Fletsmakeit.com"/></a><a><img src='' /></a> <a><img src='https://www.codefactor.io/repository/github/olimstv/resume-builder-app/badge' /> </a>
 
-[MongoDB](https://www.mongodb.com/) is a general purpose, document-based, distributed database built for modern application developers and for the cloud era. This example will show you how to connect to and use MongoDB as your backend for your Next.js app.
+#### An open-source web application for fast and easy creation and publishing (with unique public URL) of resumes "tailored" for each particular vacancy.
 
-If you want to learn more about MongoDB, visit the following pages:
+## Main idea behind
+Sometimes job application process might be daunting. To get the dream job, developers (especially novice ones) need to apply hundreds of times. And each time, the resume must be "tailored" for each particular position. This application aimed to give developers the ability to spend their time improving their skills instead of composing dozens of resumes daily.
+Once filling in all relevant information about qualification, work experience, etc., to the personal profile, the user
+can combine each resume according to the ad's requirements. 
 
-- [MongoDB Atlas](https://mongodb.com/atlas)
-- [MongoDB Documentation](https://docs.mongodb.com/)
+## Key features
+User can:
+- create/edit profile
+- compose/edit resume
+- set custom resume title (to be displayed on the dashboard)
+- set custom slug (slug will be a part of the public URL)
+- publish and/or save each created resume
+- published resume has unique URL (containing it's slug)
+- everyone (read potential employer) can visit resume's url to read and/or download resume
 
-## Deploy your own
+Besides publishing resume, user can download it as a PDF or JSON document. The JSON output is compatible with [JSONResume](https://jsonresume.org).
 
-Once you have access to the environment variables you'll need, deploy the example using [Vercel](https://vercel.com?utm_source=github&utm_medium=readme&utm_campaign=next-example):
-
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/git/external?repository-url=https://github.com/vercel/next.js/tree/canary/examples/with-mongodb&project-name=with-mongodb&repository-name=with-mongodb&env=MONGODB_URI,MONGODB_DB&envDescription=Required%20to%20connect%20the%20app%20with%20MongoDB)
-
-## How to use
-
-Execute [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app) with [npm](https://docs.npmjs.com/cli/init) or [Yarn](https://yarnpkg.com/lang/en/docs/cli/create/) to bootstrap the example:
+## Contributors
+Thanks very much to my dear friend and mentor, who's inspired me to build the app <br>
+[<img src="https://avatars.githubusercontent.com/u/282177?v=4" width="100px;"/><br /><b>Anton A.</b>](https://github.com/meglio)<br/>
+## Contributing
+Contributions are very welcome, and I am always happy to help out first-timers contributors with any questions you may have. Please check out the [Installation](#installation) and [Configuration](#configuration) instructions below for a guide on how to get started on working on the app.
+## Installation
+Clone repository
 
 ```bash
-npx create-next-app --example with-mongodb with-mongodb-app
-# or
-yarn create next-app --example with-mongodb with-mongodb-app
+git clone https://github.com/olimstv/resume-builder-app.git
 ```
 
 ## Configuration
@@ -39,7 +50,8 @@ cp .env.local.example .env.local
 
 Set each variable on `.env.local`:
 
-- `MONGODB_URI` - Your MongoDB connection string. If you are using [MongoDB Atlas](https://mongodb.com/atlas) you can find this by clicking the "Connect" button for your cluster.
+- `MONGODB_URI` - Your MongoDB connection string. If you are using [MongoDB Atlas](https://mongodb.com/atlas) you can
+  find this by clicking the "Connect" button for your cluster.
 - `MONGODB_DB` - The name of the MongoDB database you want to use.
 
 ### Run Next.js in development mode
@@ -54,24 +66,13 @@ yarn install
 yarn dev
 ```
 
-Your app should be up and running on [http://localhost:3000](http://localhost:3000)! If it doesn't work, post on [GitHub discussions](https://github.com/vercel/next.js/discussions).
+The app should be up and running on [http://localhost:3000](http://localhost:3000)! If it doesn't work, log an issue on
+[GitHub issues](https://github.com/olimstv/resume-builder-app/issues).
 
-You will either see a message stating "You are connected to MongoDB" or "You are NOT connected to MongoDB". Ensure that you have provided the correct `MONGODB_URI` and `MONGODB_DB` environment variables.
+You will either see a message stating "You are connected to MongoDB" or "You are NOT connected to MongoDB". Ensure that
+you have provided the correct `MONGODB_URI` and `MONGODB_DB` environment variables.
 
-When you are successfully connected, you can refer to the [MongoDB Node.js Driver docs](https://mongodb.github.io/node-mongodb-native/3.4/tutorials/collections/) for further instructions on how to query your database.
+When you are successfully connected, you can refer to
+the [MongoDB Node.js Driver docs](https://mongodb.github.io/node-mongodb-native/3.4/tutorials/collections/) for further
+instructions on how to query your database.
 
-## Deploy on Vercel
-
-You can deploy this app to the cloud with [Vercel](https://vercel.com?utm_source=github&utm_medium=readme&utm_campaign=next-example) ([Documentation](https://nextjs.org/docs/deployment)).
-
-#### Deploy Your Local Project
-
-To deploy your local project to Vercel, push it to GitHub/GitLab/Bitbucket and [import to Vercel](https://vercel.com/new?utm_source=github&utm_medium=readme&utm_campaign=next-example).
-
-**Important**: When you import your project on Vercel, make sure to click on **Environment Variables** and set them to match your `.env.local` file.
-
-#### Deploy from Our Template
-
-Alternatively, you can deploy using our template by clicking on the Deploy button below.
-
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/git/external?repository-url=https://github.com/vercel/next.js/tree/canary/examples/with-mongodb&project-name=with-mongodb&repository-name=with-mongodb&env=MONGODB_URI,MONGODB_DB&envDescription=Required%20to%20connect%20the%20app%20with%20MongoDB)
