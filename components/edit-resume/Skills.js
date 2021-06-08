@@ -15,8 +15,8 @@ const Skills = ({
   return (
     <>
       <Button
-        onClick={handleAddAllSkillsClick}
-        color={doSubprofileSkillsMatch ? 'green' : undefined}
+        onClick={handleAddAllWorkExperienceClick}
+        color={doSubprofileSkillsMatch ? 'teal' : undefined}
         icon={doSubprofileSkillsMatch ? 'check' : 'add'}
         floated='right'
         size='mini'
@@ -31,7 +31,7 @@ const Skills = ({
 
           return <>
             <Button
-              color={doSubprofileSkillsMatch ? 'green' : undefined}
+              color={doSubprofileSkillsMatch ? 'teal' : undefined}
               icon={doSubprofileSkillsMatch ? 'check' : 'add'}
               floated='right'
               size='mini'

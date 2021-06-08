@@ -187,14 +187,56 @@ export default function ProfileSelector(props) {
   }
 
   // WORK EXP (ALL)
-  const handleAddWorkExperienceClick = () => {
+  const handleAddAllWorkExperienceClick = () => {
+    const profileWorkExperience = profile.work
     const newSubprofile = {...subprofile};
-    lodashSet(newSubprofile, 'work', profile.work);
+    let doWorkExpMatch = doSubprofileWorkMatch()
+    if (doWorkExpMatch) {
+      newSubprofile.work = []
+    } else {
+      newSubprofile.work = profileWorkExperience
+    }
+    // lodashSet(newSubprofile, 'work', profile.work);
     callOnSubprofileChange(newSubprofile);
   };
   // Button Icon
-  const doSubprofileWorkMatch = profile?.work === subprofile?.work;
+  const doSubprofileWorkMatch = () => {
+    const profileWork = profile.work
+    const subprofileWork = subprofile.work
 
+    if (profileWork.length !== subprofileWork.length) {
+      return false;
+    }
+
+    // @TODO: Make the comparison not sensitive to the order of items in both arrays
+    const len = profileWork.length;
+    for (let i = 0; i < len; i++) {
+      const work1 = profileWork[i];
+      const work2 = subprofileWork[i];
+      if (work1.company !== work2.company) {
+        return false;
+      }
+      if (work1.position !== work2.position) {
+        return false;
+      }
+
+      const highlights1 = work1.highlights;
+      const highlights2 = work2.highlights;
+      if (highlights1.length !== highlights2.length) {
+        return false;
+      }
+
+      const hLen = highlights1.length;
+      for (let hInd = 0; hInd < hLen; hInd++) {
+        if (highlights2.indexOf(highlights1[hInd]) === -1) {
+          return false;
+        }
+      }
+    }
+
+    return true;
+  }
+// Work experience instance
   const handleAddWorkExperienceInstanceClick = index => {
     const newSubprofile = {...subprofile};
     const profileWorkArr = profile.work;
@@ -394,7 +436,9 @@ export default function ProfileSelector(props) {
         menuItem: 'Work Experience',
         render:
           () => <Tab.Pane attached={false}>
-            <Work profile={profile} handleAddWorkExperienceClick={handleAddWorkExperienceClick}
+            <Work profile={profile}
+                  doWorkMatch={doSubprofileWorkMatch()}
+                  handleAddAllWorkExperienceClick={handleAddAllWorkExperienceClick}
                   doSubprofileWorkMatch={doSubprofileWorkMatch}
                   handleAddWorkExperienceInstanceClick={handleAddWorkExperienceInstanceClick}
                   isWorkItemInSubprofile={isWorkItemInSubprofile}

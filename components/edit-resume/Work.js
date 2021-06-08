@@ -5,19 +5,21 @@ import {Fragment} from "react";
 
 const Work = ({
                 profile,
-                handleAddWorkExperienceClick,
-                doSubprofileWorkMatch,
+                handleAddAllWorkExperienceClick,
+                doWorkMatch,
+                //TODO: change jhandle to on...
                 handleAddWorkExperienceInstanceClick,
                 isWorkItemInSubprofile
               }) => {
+
   return (
     <>
 
       <Button
-        onClick={handleAddWorkExperienceClick}
+        onClick={handleAddAllWorkExperienceClick}
         floated='right'
-        color={doSubprofileWorkMatch ? 'teal' : null}
-        icon={doSubprofileWorkMatch ? 'check' : 'add'}
+        color={doWorkMatch ? 'teal' : null}
+        icon={doWorkMatch ? 'check' : 'add'}
         size='mini'
       />{' '}
       <Header as='h2'>
@@ -26,7 +28,6 @@ const Work = ({
       {/* <Divider /> */}
       {profile.work.map((exp, index) => {
         const isInSubprofile = isWorkItemInSubprofile(index);
-        console.log(moment(exp.startDate).format('DD-MM-YYYY'));
         return (
           <Segment key={index}>
             <Button
@@ -86,7 +87,7 @@ const Work = ({
           </Segment>
         );
       })}
-      
+
     </>
   )
 }
