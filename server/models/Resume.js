@@ -1,194 +1,202 @@
-const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
+import mongoose from 'mongoose';
 
-const ResumeSchema = new Schema({
+const ResumeSchema = new mongoose.Schema({
   user: {
-    type: Schema.Types.ObjectId,
+    type: mongoose.Schema.Types.ObjectId,
     ref: 'user'
   },
   vacancy: {
-    type: Schema.Types.ObjectId,
+    type: mongoose.Schema.Types.ObjectId,
     ref: 'vacancy'
   },
-  basics: {
-    name: {
-      type: String
-    },
-    label: {
-      type: String
-    },
-    picture: { data: Buffer, contentType: String },
-    email: {
-      type: String
-    },
-    phone: {
-      type: String
-    },
-    website: {
-      type: String
-    },
-    summary: {
-      type: Schema.Types.ObjectId,
-      ref: 'objective'
-    },
-    location: {
-      address: {
+  slug: {
+    type: String
+  },
+  title: {
+    type: String
+  },
+  subprofile: {
+    basics: {
+      name: {
         type: String
       },
-      postalCode: {
+      label: {
         type: String
       },
-      city: {
+      picture: { data: Buffer, contentType: String },
+      email: {
         type: String
       },
-      countryCode: {
+      phone: {
         type: String
       },
-      region: {
+      website: {
         type: String
-      }
-    },
-    profiles: [
-      {
-        network: {
+      },
+      summary: {
+        type: String
+      },
+      location: {
+        address: {
           type: String
         },
-        username: {
+        postalCode: {
           type: String
         },
-        url: {
-          type: String
-        }
-      }
-    ],
-    work: [
-      {
-        company: {
+        city: {
           type: String
         },
-        position: {
+        countryCode: {
           type: String
         },
-        website: {
-          type: String
-        },
-        startDate: {
-          type: Date
-        },
-        endDate: {
-          type: Date
-        },
-        summary: {
-          type: String
-        },
-        highlights: {
-          type: [String]
-        }
-      }
-    ],
-    volunteer: [
-      {
-        organization: {
-          type: String
-        },
-        position: {
-          type: String
-        },
-        website: {
-          type: String
-        },
-        startDate: {
-          type: Date
-        },
-        endDate: {
-          type: Date
-        },
-        summary: {
-          type: String
-        },
-        highlights: {
-          type: [String]
-        }
-      }
-    ],
-    education: [
-      {
-        institution: {
-          type: String
-        },
-        area: {
-          type: String
-        },
-        studyType: {
-          type: String
-        },
-        startDate: {
-          type: Date
-        },
-        endDate: {
-          type: Date
-        },
-        gpa: {
-          type: String
-        },
-        courses: {
-          type: [String]
-        }
-      }
-    ],
-    awards: [
-      {
-        title: {
-          type: String
-        },
-        date: {
-          type: Date
-        },
-        awarder: {
-          type: String
-        },
-        summary: {
+        region: {
           type: String
         }
-      }
-    ],
-    publications: [
-      {
-        name: { type: String },
-        publisher: { type: String },
-        releaseDate: { type: Date },
-        website: { type: String },
-        summary: { type: String }
-      }
-    ],
-    skills: [
-      {
-        name: { type: String },
-        level: { type: String },
-        keywords: {
-          type: [String]
+      },
+      profiles: [
+        {
+          network: {
+            type: String
+          },
+          username: {
+            type: String
+          },
+          url: {
+            type: String
+          }
         }
-      }
-    ],
-    languages: [
-      {
-        language: { type: String },
-        fluency: { type: String }
-      }
-    ],
-    interests: [
-      {
-        name: { type: String },
-        keywords: {
-          type: [String]
+      ],
+      work: [
+        {
+          company: {
+            type: String
+          },
+          position: {
+            type: String
+          },
+          website: {
+            type: String
+          },
+          startDate: {
+            type: Date
+          },
+          endDate: {
+            type: Date
+          },
+          summary: {
+            type: String
+          },
+          highlights: {
+            type: [String]
+          }
         }
-      }
-    ],
-    references: [
-      {
-        name: { type: String },
-        reference: { type: String }
-      }
-    ]
+      ],
+      volunteer: [
+        {
+          organization: {
+            type: String
+          },
+          position: {
+            type: String
+          },
+          website: {
+            type: String
+          },
+          startDate: {
+            type: Date
+          },
+          endDate: {
+            type: Date
+          },
+          summary: {
+            type: String
+          },
+          highlights: {
+            type: [String]
+          }
+        }
+      ],
+      education: [
+        {
+          institution: {
+            type: String
+          },
+          area: {
+            type: String
+          },
+          studyType: {
+            type: String
+          },
+          startDate: {
+            type: Date
+          },
+          endDate: {
+            type: Date
+          },
+          gpa: {
+            type: String
+          },
+          courses: {
+            type: [String]
+          }
+        }
+      ],
+      awards: [
+        {
+          title: {
+            type: String
+          },
+          date: {
+            type: Date
+          },
+          awarder: {
+            type: String
+          },
+          summary: {
+            type: String
+          }
+        }
+      ],
+      publications: [
+        {
+          name: { type: String },
+          publisher: { type: String },
+          releaseDate: { type: Date },
+          website: { type: String },
+          summary: { type: String }
+        }
+      ],
+      skills: [
+        {
+          name: { type: String },
+          level: { type: String },
+          keywords: {
+            type: [String]
+          }
+        }
+      ],
+      languages: [
+        {
+          language: { type: String },
+          fluency: { type: String }
+        }
+      ],
+      interests: [
+        {
+          name: { type: String },
+          keywords: {
+            type: [String]
+          }
+        }
+      ],
+      references: [
+        {
+          name: { type: String },
+          reference: { type: String }
+        }
+      ]
+    }
   }
 });
+
+export default mongoose.models.Resume || mongoose.model('Resume', ResumeSchema);

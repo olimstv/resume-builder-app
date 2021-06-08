@@ -1,13 +1,21 @@
 {
+<<<<<<< HEAD
   "name": "client",
   "version": "0.1.0",
   "private": true,
   "scripts": {
     "dev": "nodemon server/server.js",
+=======
+  "name": "resume-builder-app",
+  "version": "0.1.0",
+  "scripts": {
+    "dev": "next dev",
+>>>>>>> 8daeca45a4b3e4938beb40ab9d7858c91469d38a
     "build": "next build",
     "start": "next start"
   },
   "dependencies": {
+<<<<<<< HEAD
     "@material-ui/core": "^4.11.3",
     "@material-ui/icons": "^4.11.2",
     "@material-ui/lab": "*",
@@ -27,4 +35,15 @@
     "react-dom": "17.0.2",
     "react-router-dom": "^5.2.0"
   }
+=======
+    "bcrypt": "^5.0.1",
+    "jsonwebtoken": "^8.5.1",
+    "mongodb": "^3.5.9",
+    "mongoose": "^5.12.6",
+    "next": "latest",
+    "normalize.css": "^8.0.1",
+    "react": "^16.13.1"
+  },
+  "license": "MIT"
+>>>>>>> 8daeca45a4b3e4938beb40ab9d7858c91469d38a
 }
