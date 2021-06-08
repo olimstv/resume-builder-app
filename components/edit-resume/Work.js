@@ -7,7 +7,7 @@ const Work = ({
                 profile,
                 handleAddAllWorkExperienceClick,
                 doWorkMatch,
-                //TODO: change jhandle to on...
+                //TODO: change handle to on...
                 handleAddWorkExperienceInstanceClick,
                 isWorkItemInSubprofile
               }) => {
