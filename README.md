@@ -1,7 +1,6 @@
 # lets.Get(IT).work - Resume Builder App
-<a href="">
-<img src='https://img.shields.io/github/checks-status/olimstv/resume-builder-app/6f2b9d02a4319f7152423ff746958230c8097f19'/></a>
-<a><img src='https://img.shields.io/github/issues/olimstv/resume-builder-app'></a> <a><img src="https://img.shields.io/website?down_color=red&down_message=orange&up_color=green&up_message=up&url=https%3A%2F%2Fletsmakeit.com"/></a><a><img src='' /></a> <a><img src='https://www.codefactor.io/repository/github/olimstv/resume-builder-app/badge' /> </a>
+
+<img src='https://img.shields.io/github/checks-status/olimstv/resume-builder-app/6f2b9d02a4319f7152423ff746958230c8097f19'/> <img src='https://img.shields.io/github/issues/olimstv/resume-builder-app'> <img src="https://img.shields.io/website?down_color=red&down_message=orange&up_color=green&up_message=up&url=https%3A%2F%2Fletsmakeit.com"/> <img src='https://www.codefactor.io/repository/github/olimstv/resume-builder-app/badge' />
 
 #### An open-source web application for fast and easy creation and publishing (with unique public URL) of resumes "tailored" for each particular vacancy.
 
