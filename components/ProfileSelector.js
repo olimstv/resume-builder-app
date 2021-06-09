@@ -315,16 +315,27 @@ export default function ProfileSelector(props) {
   // ADD VOLUNTEER INSTANCE
   const handleAddVolunteerInstanceClick = index => {
     const newSubprofile = {...subprofile};
-    const profileVolunteerkArr = profile.volunteer;
-    if (!newSubprofile.volunteer) {
-      newSubprofile.volunteer = [];
-    } else if (
-      newSubprofile.volunteer.some(el => el === profileVolunteerkArr[index])
-    ) {
-      return;
+    const profileVolunteerItem = profile.volunteer[index];
+
+    let subProfileVolunteerItemIdx = null
+    let doVolunteerItemMatch = isVolunteerItemInSubprofile(index)
+    console.log('doVolunteerItemMatch:', doVolunteerItemMatch)
+
+    if (doVolunteerItemMatch) {
+      
+      subProfileVolunteerItemIdx = newSubprofile.volunteer.findIndex((subVolunteerItem) => {
+        return profileVolunteerItem.organization === subVolunteerItem.company &&
+               profileVolunteerItem.position === subVolunteerItem.position &&
+               profileVolunteerItem.startDate === subVolunteerItem.startDate
+      })
+      
+      newSubprofile.volunteer.splice(subProfileVolunteerItemIdx,1)
+    } else {
+      newSubprofile.volunteer.push(profileVolunteerItem);
     }
-    newSubprofile.volunteer.push(profileVolunteerkArr[index]);
+
     callOnSubprofileChange(newSubprofile);
+
   };
 
 
