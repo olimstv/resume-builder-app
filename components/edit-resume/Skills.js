@@ -15,7 +15,7 @@ const Skills = ({
   return (
     <>
       <Button
-        onClick={handleAddAllWorkExperienceClick}
+        onClick={handleAddAllSkillsClick}
         color={doSubprofileSkillsMatch ? 'teal' : undefined}
         icon={doSubprofileSkillsMatch ? 'check' : 'add'}
         floated='right'

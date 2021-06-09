@@ -23,6 +23,7 @@ export default function ProfileSelector(props) {
   // Augment the Profile with missing elements from Subprofile,
   // so that they are editable.
   const profile = useMemo(() => {
+    
     const profile = cloneDeep(propsProfile);
 
     // If any labels from subprofile basics do not exist in the profile,
@@ -130,39 +131,6 @@ export default function ProfileSelector(props) {
     callOnSubprofileChange(newSubprofile);
   }
 
-
-//   // ABOUT
-//   const handleAddAboutItemClick = (aboutItemIndInProfile) => {
-//     //Extract the about string from the label array by it's index
-//     const aboutItem = profile.basics.summary[aboutItemIndInProfile]
-//     if (!aboutItem) {
-//       throw new Error(`Summary item with index ${aboutItemIndInProfile} not found in array of summaries.`);
-//     }
-// // Clone the subprofile, so that we can update the clone and use it for the new state
-//     const newSubprofile = {...subprofile};
-//
-//     //make sure the summary array exists
-//     if (!newSubprofile.basics.summary) {
-//       newSubprofile.basics.summary = []
-//     }
-//
-//
-//     //Add the about item to the subprofile about section if it's currently not included
-//     const aboutItemInSubprofile = newSubprofile.basics.summary
-//     if (aboutItemInSubprofile === aboutItem) {
-//       //  delete the About item from the subprofile about section
-//       newSubprofile.basics.summary = ''
-//     } else {
-//
-//       newSubprofile.basics.summary = aboutItem
-//     }
-//     // lodashSet(newSubprofile, 'basics.summary', profile.basics.summary);
-//     callOnSubprofileChange(newSubprofile);
-//   };
-//   // Button Icon
-//   const doSubprofileSummaryMatch =
-//     profile?.basics?.summary == subprofile?.basics?.summary;
-
   // ABOUT
   const handleAddAboutClick = (ind) => {
     const profileAboutData = profile.basics.summary;
@@ -194,7 +162,7 @@ export default function ProfileSelector(props) {
     if (doWorkExpMatch) {
       newSubprofile.work = []
     } else {
-      newSubprofile.work = profileWorkExperience
+      newSubprofile.work = [...profileWorkExperience]
     }
     // lodashSet(newSubprofile, 'work', profile.work);
     callOnSubprofileChange(newSubprofile);
@@ -237,26 +205,42 @@ export default function ProfileSelector(props) {
     return true;
   }
 // Work experience instance
-  const handleAddWorkExperienceInstanceClick = index => {
+  const onAddWorkExperienceInstanceClick = index => {
     const newSubprofile = {...subprofile};
-    const profileWorkArr = profile.work;
-    if (!newSubprofile.work) {
-      newSubprofile.work = [];
-    } else if (newSubprofile.work.some(el => el === profileWorkArr[index])) {
-      return;
+    const profileWorkItem = profile.work[index];
+    
+    let subProfileWorkItemIdx = null
+    let doWorkItemMatch = isWorkItemInSubprofile(index)
+    console.log('doWorkItemMatch:', doWorkItemMatch)
+
+    if (doWorkItemMatch) {
+      debugger
+      subProfileWorkItemIdx = newSubprofile.work.findIndex((subWorkItem) => {
+        return profileWorkItem.company === subWorkItem.company &&
+               profileWorkItem.position === subWorkItem.position &&
+               profileWorkItem.startDate === subWorkItem.startDate
+      })
+      
+      newSubprofile.work.splice(subProfileWorkItemIdx,1)
+      console.log('subProfileWorkItemIdx :>> ', subProfileWorkItemIdx);
+      console.log('profile.work after :>> ', profile.work);
+    } else {
+      newSubprofile.work.push(profileWorkItem);
     }
 
-    newSubprofile.work.push(profileWorkArr[index]);
     callOnSubprofileChange(newSubprofile);
   };
+
   const isWorkItemInSubprofile = index => {
-    const {company, position} = profile.work[index];
-    let match = subprofile.work.some(oneSubprofileWork => {
+    const { company: profileWorkItemCompany, position: profileWorkItemPosition, startDate: profileWorkItemStartDate } = profile.work[index];
+    let match = subprofile.work.some((oneSubprofileWork) => {
       return (
-        oneSubprofileWork.company === company &&
-        oneSubprofileWork.position === position
+        oneSubprofileWork.company === profileWorkItemCompany &&
+        oneSubprofileWork.position === profileWorkItemPosition &&
+        oneSubprofileWork.startDate === profileWorkItemStartDate
       );
     });
+    console.log('match :>> ', match);
     return match;
   };
   // VOLUNTEER (ALL)
@@ -440,7 +424,7 @@ export default function ProfileSelector(props) {
                   doWorkMatch={doSubprofileWorkMatch()}
                   handleAddAllWorkExperienceClick={handleAddAllWorkExperienceClick}
                   doSubprofileWorkMatch={doSubprofileWorkMatch}
-                  handleAddWorkExperienceInstanceClick={handleAddWorkExperienceInstanceClick}
+                  onAddWorkExperienceInstanceClick={onAddWorkExperienceInstanceClick}
                   isWorkItemInSubprofile={isWorkItemInSubprofile}
             />
           </Tab.Pane>

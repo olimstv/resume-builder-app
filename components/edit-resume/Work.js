@@ -8,7 +8,7 @@ const Work = ({
                 handleAddAllWorkExperienceClick,
                 doWorkMatch,
                 //TODO: change handle to on...
-                handleAddWorkExperienceInstanceClick,
+                onAddWorkExperienceInstanceClick,
                 isWorkItemInSubprofile
               }) => {
 
@@ -31,7 +31,7 @@ const Work = ({
         return (
           <Segment key={index}>
             <Button
-              onClick={handleAddWorkExperienceInstanceClick.bind(
+              onClick={onAddWorkExperienceInstanceClick.bind(
                 this,
                 index
               )}
