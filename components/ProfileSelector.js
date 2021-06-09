@@ -244,15 +244,62 @@ export default function ProfileSelector(props) {
     return match;
   };
   // VOLUNTEER (ALL)
-  const handleAddVolunteerExperienceClick = () => {
-    const newSubprofile = {...subprofile};
-    lodashSet(newSubprofile, 'volunteer', profile.volunteer);
+  const handleAddAllVolunteerExperienceClick = () => {
+    const newSubprofile = { ...subprofile };
+    const profileVolunteerExperience = profile.volunteer
+    const doVolunteerExpMatch = doSubprofileVolunteerMatch();
+    console.log('doVolunteerExpMatch :>> ', doVolunteerExpMatch);
+    if (doVolunteerExpMatch) {
+      newSubprofile.volunteer = []
+    } else {
+      // lodashSet(newSubprofile, 'volunteer', profile.volunteer);
+      newSubprofile.volunteer = [...profileVolunteerExperience]
+    }
+
+    // if (profileVolunteerExperience.length !== newSubprofile.volunteer.length) {
+    //   return false
+    // }
+
     callOnSubprofileChange(newSubprofile);
   };
 
   // Button Icon
-  const doSubprofileVolunteerMatch =
-    profile?.volunteer === subprofile?.volunteer;
+  const doSubprofileVolunteerMatch = () => {
+    const profileVolunteer = profile.volunteer
+    const subprofileVolunteer = subprofile.volunteer
+
+    if (profileVolunteer.length !== subprofileVolunteer.length) {
+      return false;
+    }
+
+    // @TODO: Make the comparison not sensitive to the order of items in both arrays
+    const len = profileVolunteer.length;
+    for (let i = 0; i < len; i++) {
+      const volunteer1 = profileVolunteer[i];
+      const volunteer2 = subprofileVolunteer[i];
+      if (volunteer1.company !== volunteer2.company) {
+        return false;
+      }
+      if (volunteer1.position !== volunteer2.position) {
+        return false;
+      }
+
+      const highlights1 = volunteer1.highlights;
+      const highlights2 = volunteer2.highlights;
+      if (highlights1.length !== highlights2.length) {
+        return false;
+      }
+
+      const hLen = highlights1.length;
+      for (let hInd = 0; hInd < hLen; hInd++) {
+        if (highlights2.indexOf(highlights1[hInd]) === -1) {
+          return false;
+        }
+      }
+    }
+
+    return true;
+  }
 
   const isVolunteerItemInSubprofile = index => {
     const {organization, position} = profile.volunteer[index];
@@ -435,7 +482,7 @@ export default function ProfileSelector(props) {
         render: () => <Tab.Pane attached={false}>
           <Volunteer
             profile={profile}
-            handleAddVolunteerExperienceClick={handleAddVolunteerExperienceClick}
+            handleAddAllVolunteerExperienceClick={handleAddAllVolunteerExperienceClick}
             doSubprofileVolunteerMatch={doSubprofileVolunteerMatch}
             isVolunteerItemInSubprofile={isVolunteerItemInSubprofile}
             handleAddVolunteerInstanceClick={handleAddVolunteerInstanceClick}

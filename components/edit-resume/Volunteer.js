@@ -5,22 +5,22 @@ import moment from "moment";
 
 const Volunteer = ({
                      subprofile, profile,
-                     handleAddVolunteerExperienceClick,
+                     handleAddAllVolunteerExperienceClick,
                      doSubprofileVolunteerMatch,
                      isVolunteerItemInSubprofile,
                      handleAddVolunteerInstanceClick
                    }) => {
-// const {volunteer} = subprofile;
+let doSubVolunteerMatch = doSubprofileVolunteerMatch()
   return (<>
       {!profile.volunteer ? (
         <Label>Volunteer section doesn't filled yet...</Label>
       ) : (
         <Segment>
           <Button
-            onClick={handleAddVolunteerExperienceClick}
+            onClick={handleAddAllVolunteerExperienceClick}
             floated='right'
-            color={doSubprofileVolunteerMatch ? 'teal' : null}
-            icon={doSubprofileVolunteerMatch ? 'check' : 'add'}
+            color={doSubVolunteerMatch ? 'teal' : null}
+            icon={doSubVolunteerMatch ? 'check' : 'add'}
             size='mini'
           />
           <Header as='h2'>
