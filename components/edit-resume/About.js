@@ -36,16 +36,16 @@ const About = ({
         </Container>
         <Divider/>
         <Label.Group>
-          {profile.basics.label.map((labelItem, labelItemInd) => {
-            const isLabel = isLabelInSubprofile(labelItemInd)
+          {profile.basics.label.map((labelItem, idx) => {
+            const isLabel = isLabelInSubprofile(idx)
 
             return (
               <Label as='a'
-                     key={labelItemInd}
-                     onClick={handleLabelItemClick.bind(null, labelItemInd)}
+                     key={idx}
+                     onClick={handleLabelItemClick.bind(null, idx)}
                      color={isLabel ? 'teal' : 'grey'}
                      basic
-                // horizizontal
+
               >
                 <Icon name={isLabel ? 'minus' : 'add'}/>
                 {labelItem}
@@ -65,7 +65,7 @@ const About = ({
         </Header>
         {/*<Divider/>*/}
         {profile.basics.summary.map((summaryItem, ind) => {
-          return (<>
+          return (<div key={ind}>
               <Container>
                 <Divider/>
                 <Button
@@ -80,8 +80,8 @@ const About = ({
                 <Label ribbon>Summary #{ind + 1}</Label>
               </Container>
               <Divider hidden/>
-              <div key={ind}> {summaryItem}</div>
-            </>
+              <div> {summaryItem}</div>
+            </div>
           )
         })}
       </Segment>

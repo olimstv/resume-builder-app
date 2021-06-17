@@ -5,10 +5,10 @@ import {Fragment} from "react";
 
 const Work = ({
                 profile,
-                handleAddAllWorkExperienceClick,
+                  onAddAllWorkExperience,
                 doWorkMatch,
-                //TODO: change handle to on...
                 onAddWorkExperienceInstanceClick,
+                  onAddWorkExpHighlight,
                 isWorkItemInSubprofile
               }) => {
 
@@ -16,7 +16,7 @@ const Work = ({
     <>
 
       <Button
-        onClick={handleAddAllWorkExperienceClick}
+        onClick={onAddAllWorkExperience}
         floated='right'
         color={doWorkMatch ? 'teal' : null}
         icon={doWorkMatch ? 'check' : 'add'}
@@ -26,14 +26,14 @@ const Work = ({
         <Icon name='suitcase'/>
         Work Experience </Header>
       {/* <Divider /> */}
-      {profile.work.map((exp, index) => {
-        const isInSubprofile = isWorkItemInSubprofile(index);
+      {profile.work.map((exp, expIdx) => {
+        const isInSubprofile = isWorkItemInSubprofile(expIdx);
         return (
-          <Segment key={index}>
+          <Segment key={expIdx}>
             <Button
               onClick={onAddWorkExperienceInstanceClick.bind(
                 this,
-                index
+                  expIdx
               )}
               floated='right'
               color={isInSubprofile ? 'teal' : null}
@@ -65,11 +65,12 @@ const Work = ({
                   return (
                     <Fragment key={index}>
                       <Button
-                        floated='right'
-                        color={isInSubprofile ? 'teal' : null}
-                        icon={isInSubprofile ? 'check' : 'add'}
-                        size='mini'
-                      ></Button>
+    onClick={onAddWorkExpHighlight.bind(exp, item, expIdx)}
+    floated='right'
+    color={isInSubprofile ? 'teal' : null}
+    icon={isInSubprofile ? 'check' : 'add'}
+    size='mini'
+    />
                       <ListItem key={index}>
                         <List.Icon name='check'/>
                         <List.Content

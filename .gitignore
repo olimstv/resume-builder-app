@@ -1,6 +1,7 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
 .idea
+.prettierrc
 
 # dependencies
 /node_modules
@@ -20,7 +21,7 @@ package-lock.json
 # misc
 .DS_Store
 
-# debug
+# debugs
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
